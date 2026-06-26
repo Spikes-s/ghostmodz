@@ -185,7 +185,8 @@ function ProjectWorkspace() {
           }
         }
       }
-      const parsed = parseCodeBlocks(fullText);
+      const { files: parsed, warnings } = parseCodeBlocks(fullText);
+      for (const w of warnings) toast.message("Builder", { description: w });
       if (parsed.length === 0) {
         toast.message("AI replied with no code blocks", { description: "Try a more specific prompt." });
       } else {
