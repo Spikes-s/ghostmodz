@@ -17,6 +17,7 @@ import { Route as ApiTtsRouteImport } from './routes/api/tts'
 import { Route as ApiTranscribeRouteImport } from './routes/api/transcribe'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AuthenticatedSpikesIndexRouteImport } from './routes/_authenticated/spikes.index'
+import { Route as AuthenticatedSpikesConversationIdRouteImport } from './routes/_authenticated/spikes.$conversationId'
 
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
@@ -58,6 +59,12 @@ const AuthenticatedSpikesIndexRoute =
     path: '/spikes/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedSpikesConversationIdRoute =
+  AuthenticatedSpikesConversationIdRouteImport.update({
+    id: '/spikes/$conversationId',
+    path: '/spikes/$conversationId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
@@ -66,6 +73,7 @@ export interface FileRoutesByFullPath {
   '/api/chat': typeof ApiChatRoute
   '/api/transcribe': typeof ApiTranscribeRoute
   '/api/tts': typeof ApiTtsRoute
+  '/spikes/$conversationId': typeof AuthenticatedSpikesConversationIdRoute
   '/spikes/': typeof AuthenticatedSpikesIndexRoute
 }
 export interface FileRoutesByTo {
@@ -75,6 +83,7 @@ export interface FileRoutesByTo {
   '/api/transcribe': typeof ApiTranscribeRoute
   '/api/tts': typeof ApiTtsRoute
   '/': typeof AuthenticatedIndexRoute
+  '/spikes/$conversationId': typeof AuthenticatedSpikesConversationIdRoute
   '/spikes': typeof AuthenticatedSpikesIndexRoute
 }
 export interface FileRoutesById {
@@ -86,6 +95,7 @@ export interface FileRoutesById {
   '/api/transcribe': typeof ApiTranscribeRoute
   '/api/tts': typeof ApiTtsRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/spikes/$conversationId': typeof AuthenticatedSpikesConversationIdRoute
   '/_authenticated/spikes/': typeof AuthenticatedSpikesIndexRoute
 }
 export interface FileRouteTypes {
@@ -97,6 +107,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/api/transcribe'
     | '/api/tts'
+    | '/spikes/$conversationId'
     | '/spikes/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -106,6 +117,7 @@ export interface FileRouteTypes {
     | '/api/transcribe'
     | '/api/tts'
     | '/'
+    | '/spikes/$conversationId'
     | '/spikes'
   id:
     | '__root__'
@@ -116,6 +128,7 @@ export interface FileRouteTypes {
     | '/api/transcribe'
     | '/api/tts'
     | '/_authenticated/'
+    | '/_authenticated/spikes/$conversationId'
     | '/_authenticated/spikes/'
   fileRoutesById: FileRoutesById
 }
@@ -186,16 +199,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSpikesIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/spikes/$conversationId': {
+      id: '/_authenticated/spikes/$conversationId'
+      path: '/spikes/$conversationId'
+      fullPath: '/spikes/$conversationId'
+      preLoaderRoute: typeof AuthenticatedSpikesConversationIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+  AuthenticatedSpikesConversationIdRoute: typeof AuthenticatedSpikesConversationIdRoute
   AuthenticatedSpikesIndexRoute: typeof AuthenticatedSpikesIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+  AuthenticatedSpikesConversationIdRoute:
+    AuthenticatedSpikesConversationIdRoute,
   AuthenticatedSpikesIndexRoute: AuthenticatedSpikesIndexRoute,
 }
 
