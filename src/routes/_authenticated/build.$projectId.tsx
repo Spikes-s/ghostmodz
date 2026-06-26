@@ -262,6 +262,78 @@ function ProjectWorkspace() {
     toast.success(`Imported ${entries.length} files`);
   }
 
+  // ---------- Drag & drop ----------
+  const [dragOver, setDragOver] = useState(false);
+
+  async function ingestDroppedItems(items: DataTransferItemList | null, fallback: FileList | null) {
+    const collected: Array<{ path: string; file: File }> = [];
+
+    async function walk(entry: FileSystemEntry, prefix: string) {
+      if (entry.isFile) {
+        const file: File = await new Promise((res, rej) =>
+          (entry as FileSystemFileEntry).file(res, rej),
+        );
+        collected.push({ path: prefix + entry.name, file });
+      } else if (entry.isDirectory) {
+        const reader = (entry as FileSystemDirectoryEntry).createReader();
+        const all: FileSystemEntry[] = [];
+        // readEntries returns batches until empty
+        while (true) {
+          const batch: FileSystemEntry[] = await new Promise((res, rej) =>
+            reader.readEntries(res, rej),
+          );
+          if (batch.length === 0) break;
+          all.push(...batch);
+        }
+        for (const child of all) await walk(child, prefix + entry.name + "/");
+      }
+    }
+
+    if (items && items.length > 0 && typeof items[0].webkitGetAsEntry === "function") {
+      const entries: FileSystemEntry[] = [];
+      for (let i = 0; i < items.length; i++) {
+        const e = items[i].webkitGetAsEntry();
+        if (e) entries.push(e);
+      }
+      for (const e of entries) await walk(e, "");
+    } else if (fallback) {
+      for (let i = 0; i < fallback.length; i++) {
+        const f = fallback[i];
+        collected.push({ path: f.name, file: f });
+      }
+    }
+
+    if (collected.length === 0) return;
+
+    let ok = 0;
+    for (const { path, file } of collected) {
+      const safe = sanitizePath(path);
+      if (!safe) continue;
+      if (/\.zip$/i.test(safe)) {
+        await importZip(file);
+        continue;
+      }
+      const isText =
+        file.type.startsWith("text/") ||
+        /\.(html?|css|js|mjs|cjs|jsx|ts|tsx|json|md|txt|svg|xml|yaml|yml|py|go|rs|java|sql|sh|env)$/i.test(safe);
+      let content: string;
+      if (isText) {
+        content = await file.text();
+      } else {
+        const buf = await file.arrayBuffer();
+        const bytes = new Uint8Array(buf);
+        let bin = "";
+        for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+        content = `data:${file.type || "application/octet-stream"};base64,${btoa(bin)}`;
+      }
+      await upsertFn({
+        data: { projectId, path: safe, content, language: inferLanguage(safe) },
+      });
+      ok++;
+    }
+    qc.invalidateQueries({ queryKey: ["project-files", projectId] });
+    if (ok > 0) toast.success(`Added ${ok} file${ok === 1 ? "" : "s"}`);
+
   // ---------- Terminal ----------
   function runShell(cmd: string) {
     setTerminalLines((l) => [...l, `> ${cmd}`]);
