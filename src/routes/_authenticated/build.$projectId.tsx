@@ -401,7 +401,25 @@ function ProjectWorkspace() {
       {/* Body grid */}
       <div className="grid flex-1 grid-cols-1 md:grid-cols-[220px_1fr_1fr] overflow-hidden">
         {/* Explorer */}
-        <aside className="hidden md:flex flex-col border-r border-border/40 glass overflow-hidden">
+        <aside
+          className={`hidden md:flex flex-col border-r border-border/40 glass overflow-hidden relative transition-colors ${
+            dragOver ? "bg-primary/10 ring-2 ring-inset ring-primary/60" : ""
+          }`}
+          onDragOver={(e) => {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = "copy";
+            if (!dragOver) setDragOver(true);
+          }}
+          onDragLeave={(e) => {
+            if (e.currentTarget.contains(e.relatedTarget as Node)) return;
+            setDragOver(false);
+          }}
+          onDrop={(e) => {
+            e.preventDefault();
+            setDragOver(false);
+            void ingestDroppedItems(e.dataTransfer.items, e.dataTransfer.files);
+          }}
+        >
           <div className="flex items-center justify-between px-3 py-2 border-b border-border/40">
             <span className="text-[10px] font-mono tracking-widest text-muted-foreground">EXPLORER</span>
             <div className="flex gap-1">
