@@ -10,6 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { CodeEditor } from "@/components/ghost/CodeEditor";
 import { toast } from "sonner";
 import {
   deleteProjectFile, listProjectFiles, renameProjectFile, upsertProjectFile, listProjects,
@@ -412,12 +413,14 @@ function ProjectWorkspace() {
             )}
           </div>
           {activePath ? (
-            <Textarea
-              value={activeContent}
-              onChange={(e) => setDrafts((d) => ({ ...d, [activePath]: e.target.value }))}
-              spellCheck={false}
-              className="flex-1 resize-none rounded-none border-0 bg-black/40 font-mono text-xs leading-relaxed focus-visible:ring-0"
-            />
+            <div className="flex-1 min-h-0 bg-[#0a0a18]">
+              <CodeEditor
+                value={activeContent}
+                language={inferLanguage(activePath)}
+                onChange={(v) => setDrafts((d) => ({ ...d, [activePath]: v }))}
+                onSave={save}
+              />
+            </div>
           ) : (
             <div className="flex flex-1 items-center justify-center text-sm text-muted-foreground">
               <div className="text-center">
