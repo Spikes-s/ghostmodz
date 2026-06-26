@@ -60,14 +60,14 @@ function Home() {
             </p>
 
             <div className="flex flex-wrap items-center justify-center gap-3 animate-fade-up" style={{ animationDelay: "220ms" }}>
-              <Button size="lg" className="glow-purple gap-2 font-medium">
-                <Rocket className="h-4 w-4" /> Explore Services
+              <Button asChild size="lg" className="glow-purple gap-2 font-medium">
+                <a href="#services"><Rocket className="h-4 w-4" /> Explore Services</a>
               </Button>
-              <Button size="lg" variant="outline" className="glass border-secondary/60 gap-2 hover-glow">
-                <Terminal className="h-4 w-4" /> Launch Terminal
+              <Button asChild size="lg" variant="outline" className="glass border-secondary/60 gap-2 hover-glow">
+                <Link to="/build"><Hammer className="h-4 w-4" /> Build Mode</Link>
               </Button>
-              <Button size="lg" variant="ghost" className="gap-2 glass">
-                <Sparkles className="h-4 w-4" /> Talk to Spikes
+              <Button asChild size="lg" variant="ghost" className="gap-2 glass">
+                <Link to="/spikes"><Sparkles className="h-4 w-4" /> Talk to Spikes</Link>
               </Button>
             </div>
           </div>
