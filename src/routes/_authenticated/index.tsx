@@ -148,11 +148,11 @@ function Home() {
               Talk to Spikes, our in-platform AI agent, or open the terminal to start building.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-3 relative">
-              <Button size="lg" className="glow-purple gap-2">
-                <Sparkles className="h-4 w-4" /> Talk to Spikes
+              <Button asChild size="lg" className="glow-purple gap-2">
+                <Link to="/spikes"><Sparkles className="h-4 w-4" /> Talk to Spikes</Link>
               </Button>
-              <Button size="lg" variant="outline" className="glass gap-2 hover-glow">
-                <Terminal className="h-4 w-4" /> Launch Terminal
+              <Button asChild size="lg" variant="outline" className="glass gap-2 hover-glow">
+                <Link to="/build"><Hammer className="h-4 w-4" /> Open Build Mode</Link>
               </Button>
             </div>
           </div>
