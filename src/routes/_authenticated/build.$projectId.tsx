@@ -11,10 +11,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { CodeEditor } from "@/components/ghost/CodeEditor";
+import { Terminal } from "@/components/ghost/Terminal";
 import { toast } from "sonner";
 import {
   deleteProjectFile, listProjectFiles, renameProjectFile, upsertProjectFile, listProjects,
 } from "@/lib/spikes.functions";
+import { parseCodeBlocks, sanitizePath } from "@/lib/code-blocks";
+import { buildPreviewDoc } from "@/lib/preview-builder";
 
 export const Route = createFileRoute("/_authenticated/build/$projectId")({
   head: () => ({ meta: [{ title: "Project — Build Mode" }] }),
@@ -123,26 +126,12 @@ function ProjectWorkspace() {
 
   // ---------- Preview ----------
   const previewSrcDoc = useMemo(() => {
-    const indexFile = files.find((f) => f.path === "index.html");
-    if (!indexFile) return "<html><body style='background:#0a0a18;color:#fff;font-family:sans-serif;display:grid;place-items:center;height:100vh'>No index.html</body></html>";
-    let html = drafts["index.html"] ?? indexFile.content;
-    // Inline local css/js references
-    for (const f of files) {
-      if (f.path === "index.html") continue;
-      const content = drafts[f.path] ?? f.content;
-      if (f.path.endsWith(".css")) {
-        html = html.replace(
-          new RegExp(`<link[^>]*href=["']${f.path}["'][^>]*>`, "g"),
-          `<style>${content}</style>`,
-        );
-      } else if (f.path.endsWith(".js")) {
-        html = html.replace(
-          new RegExp(`<script[^>]*src=["']${f.path}["'][^>]*></script>`, "g"),
-          `<script>${content}</script>`,
-        );
-      }
-    }
-    return html;
+    const merged = files.map((f) => ({
+      path: f.path,
+      content: drafts[f.path] ?? f.content,
+      language: f.language,
+    }));
+    return buildPreviewDoc(merged);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [files, drafts, previewKey]);
 
@@ -196,7 +185,8 @@ function ProjectWorkspace() {
           }
         }
       }
-      const parsed = parseCodeBlocks(fullText);
+      const { files: parsed, warnings } = parseCodeBlocks(fullText);
+      for (const w of warnings) toast.message("Builder", { description: w });
       if (parsed.length === 0) {
         toast.message("AI replied with no code blocks", { description: "Try a more specific prompt." });
       } else {
@@ -272,6 +262,81 @@ function ProjectWorkspace() {
     toast.success(`Imported ${entries.length} files`);
   }
 
+  // ---------- Drag & drop ----------
+  const [dragOver, setDragOver] = useState(false);
+
+  async function ingestDroppedItems(items: DataTransferItemList | null, fallback: FileList | null) {
+    const collected: Array<{ path: string; file: File }> = [];
+
+    async function walk(entry: FileSystemEntry, prefix: string) {
+      if (entry.isFile) {
+        const file: File = await new Promise((res, rej) =>
+          (entry as FileSystemFileEntry).file(res, rej),
+        );
+        collected.push({ path: prefix + entry.name, file });
+      } else if (entry.isDirectory) {
+        const reader = (entry as FileSystemDirectoryEntry).createReader();
+        const all: FileSystemEntry[] = [];
+        // readEntries returns batches until empty
+        while (true) {
+          const batch: FileSystemEntry[] = await new Promise((res, rej) =>
+            reader.readEntries(res, rej),
+          );
+          if (batch.length === 0) break;
+          all.push(...batch);
+        }
+        for (const child of all) await walk(child, prefix + entry.name + "/");
+      }
+    }
+
+    if (items && items.length > 0 && typeof items[0].webkitGetAsEntry === "function") {
+      const entries: FileSystemEntry[] = [];
+      for (let i = 0; i < items.length; i++) {
+        const e = items[i].webkitGetAsEntry();
+        if (e) entries.push(e);
+      }
+      for (const e of entries) await walk(e, "");
+    } else if (fallback) {
+      for (let i = 0; i < fallback.length; i++) {
+        const f = fallback[i];
+        collected.push({ path: f.name, file: f });
+      }
+    }
+
+    if (collected.length === 0) return;
+
+    let ok = 0;
+    for (const { path, file } of collected) {
+      const safe = sanitizePath(path);
+      if (!safe) continue;
+      if (/\.zip$/i.test(safe)) {
+        await importZip(file);
+        continue;
+      }
+      const isText =
+        file.type.startsWith("text/") ||
+        /\.(html?|css|js|mjs|cjs|jsx|ts|tsx|json|md|txt|svg|xml|yaml|yml|py|go|rs|java|sql|sh|env)$/i.test(safe);
+      let content: string;
+      if (isText) {
+        content = await file.text();
+      } else {
+        const buf = await file.arrayBuffer();
+        const bytes = new Uint8Array(buf);
+        let bin = "";
+        for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+        content = `data:${file.type || "application/octet-stream"};base64,${btoa(bin)}`;
+      }
+      await upsertFn({
+        data: { projectId, path: safe, content, language: inferLanguage(safe) },
+      });
+      ok++;
+    }
+    qc.invalidateQueries({ queryKey: ["project-files", projectId] });
+    if (ok > 0) toast.success(`Added ${ok} file${ok === 1 ? "" : "s"}`);
+  }
+
+
+
   // ---------- Terminal ----------
   function runShell(cmd: string) {
     setTerminalLines((l) => [...l, `> ${cmd}`]);
@@ -336,7 +401,25 @@ function ProjectWorkspace() {
       {/* Body grid */}
       <div className="grid flex-1 grid-cols-1 md:grid-cols-[220px_1fr_1fr] overflow-hidden">
         {/* Explorer */}
-        <aside className="hidden md:flex flex-col border-r border-border/40 glass overflow-hidden">
+        <aside
+          className={`hidden md:flex flex-col border-r border-border/40 glass overflow-hidden relative transition-colors ${
+            dragOver ? "bg-primary/10 ring-2 ring-inset ring-primary/60" : ""
+          }`}
+          onDragOver={(e) => {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = "copy";
+            if (!dragOver) setDragOver(true);
+          }}
+          onDragLeave={(e) => {
+            if (e.currentTarget.contains(e.relatedTarget as Node)) return;
+            setDragOver(false);
+          }}
+          onDrop={(e) => {
+            e.preventDefault();
+            setDragOver(false);
+            void ingestDroppedItems(e.dataTransfer.items, e.dataTransfer.files);
+          }}
+        >
           <div className="flex items-center justify-between px-3 py-2 border-b border-border/40">
             <span className="text-[10px] font-mono tracking-widest text-muted-foreground">EXPLORER</span>
             <div className="flex gap-1">
@@ -430,7 +513,7 @@ function ProjectWorkspace() {
             </div>
           )}
           {showTerminal && (
-            <TerminalPanel lines={terminalLines} onRun={runShell} onClose={() => setShowTerminal(false)} />
+            <Terminal lines={terminalLines} onRun={runShell} onClose={() => setShowTerminal(false)} />
           )}
         </section>
 
@@ -560,65 +643,3 @@ function FileTree({
   );
 }
 
-function TerminalPanel({
-  lines, onRun, onClose,
-}: { lines: string[]; onRun: (c: string) => void; onClose: () => void }) {
-  const [input, setInput] = useState("");
-  const scrollRef = useRef<HTMLDivElement | null>(null);
-  useEffect(() => {
-    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight });
-  }, [lines]);
-  return (
-    <div className="h-48 border-t border-border/40 bg-black/80 flex flex-col">
-      <div className="flex items-center justify-between border-b border-border/40 px-2 py-1">
-        <span className="text-[10px] font-mono text-secondary">GHOST SHELL</span>
-        <button onClick={onClose} className="text-muted-foreground hover:text-destructive">
-          <X className="h-3 w-3" />
-        </button>
-      </div>
-      <div ref={scrollRef} className="flex-1 overflow-y-auto px-2 py-1 font-mono text-[11px] text-secondary whitespace-pre-wrap">
-        {lines.map((l, i) => (
-          <div key={i}>{l}</div>
-        ))}
-      </div>
-      <div className="flex items-center border-t border-border/40 px-2 py-1 font-mono text-xs">
-        <span className="text-primary">$</span>
-        <input
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              onRun(input);
-              setInput("");
-            }
-          }}
-          className="flex-1 bg-transparent px-2 outline-none text-secondary"
-        />
-      </div>
-    </div>
-  );
-}
-
-// ---------- AI code-block parser ----------
-function parseCodeBlocks(text: string): Array<{ path: string; content: string; language: string }> {
-  const out: Array<{ path: string; content: string; language: string }> = [];
-  const re = /```([a-zA-Z0-9_+-]+)?(?:\s+file=([^\s`]+))?\s*\n([\s\S]*?)```/g;
-  let m: RegExpExecArray | null;
-  let i = 0;
-  while ((m = re.exec(text))) {
-    const lang = m[1] ?? "text";
-    const explicitPath = m[2];
-    const content = m[3];
-    const path = explicitPath ?? defaultPathFor(lang, i++);
-    out.push({ path, content, language: lang });
-  }
-  return out;
-}
-function defaultPathFor(lang: string, i: number): string {
-  const map: Record<string, string> = {
-    html: "index.html", css: "styles.css", js: "script.js", javascript: "script.js",
-    ts: "script.ts", typescript: "script.ts", jsx: "App.jsx", tsx: "App.tsx",
-    py: "main.py", python: "main.py", md: "README.md", markdown: "README.md",
-  };
-  return map[lang] ?? `file-${i}.${lang}`;
-}
