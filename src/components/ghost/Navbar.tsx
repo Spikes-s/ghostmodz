@@ -6,13 +6,13 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 
 const NAV = [
-  { to: "/", label: "Home" },
-  { to: "/services", label: "Services" },
-  { to: "/projects", label: "Projects" },
-  { to: "/spikes", label: "Spikes Bot" },
-  { to: "/build", label: "Build Mode" },
-  { to: "/terminal", label: "Terminal" },
-  { to: "/contact", label: "Contact" },
+  { href: "/", label: "Home" },
+  { href: "/#services", label: "Services" },
+  { href: "/#projects", label: "Projects" },
+  { href: "/#spikes", label: "Spikes Bot" },
+  { href: "/#build", label: "Build Mode" },
+  { href: "/#terminal", label: "Terminal" },
+  { href: "/#contact", label: "Contact" },
 ] as const;
 
 export function Navbar() {
