@@ -66,10 +66,6 @@ function ProjectWorkspace() {
   const [aiBusy, setAiBusy] = useState(false);
   const [aiPrompt, setAiPrompt] = useState("");
   const [showTerminal, setShowTerminal] = useState(false);
-  const [terminalLines, setTerminalLines] = useState<string[]>([
-    "Ghost Shell v1.0 — read-only project shell",
-    "Type 'help' for commands",
-  ]);
 
   // Open index.html by default
   useEffect(() => {
@@ -337,29 +333,23 @@ function ProjectWorkspace() {
 
 
 
-  // ---------- Terminal ----------
-  function runShell(cmd: string) {
-    setTerminalLines((l) => [...l, `> ${cmd}`]);
-    const c = cmd.trim();
-    if (c === "help") {
-      setTerminalLines((l) => [
-        ...l,
-        "Commands: ls, cat <path>, clear, help, build, preview",
-      ]);
-    } else if (c === "ls") {
-      setTerminalLines((l) => [...l, ...files.map((f) => f.path)]);
-    } else if (c.startsWith("cat ")) {
-      const p = c.slice(4).trim();
-      const f = files.find((x) => x.path === p);
-      setTerminalLines((l) => [...l, f ? (drafts[p] ?? f.content) : `not found: ${p}`]);
-    } else if (c === "clear") {
-      setTerminalLines([]);
-    } else if (c === "preview" || c === "build") {
-      setPreviewKey((k) => k + 1);
-      setTerminalLines((l) => [...l, "✓ Preview refreshed"]);
-    } else {
-      setTerminalLines((l) => [...l, `unknown: ${c}`]);
-    }
+  // ---------- Terminal file ops bridge ----------
+  async function shellUpsert(path: string, content: string) {
+    await upsertFn({ data: { projectId, path, content, language: inferLanguage(path) } });
+    qc.invalidateQueries({ queryKey: ["project-files", projectId] });
+  }
+  async function shellDelete(path: string) {
+    const f = files.find((x) => x.path === path);
+    if (!f) return;
+    await deleteFileFn({ data: { id: f.id } });
+    qc.invalidateQueries({ queryKey: ["project-files", projectId] });
+    closeTab(path);
+  }
+  async function shellRename(from: string, to: string) {
+    const f = files.find((x) => x.path === from);
+    if (!f) return;
+    await renameFileFn({ data: { id: f.id, path: to } });
+    qc.invalidateQueries({ queryKey: ["project-files", projectId] });
   }
 
   // ---------- Folder tree ----------
@@ -513,7 +503,16 @@ function ProjectWorkspace() {
             </div>
           )}
           {showTerminal && (
-            <Terminal lines={terminalLines} onRun={runShell} onClose={() => setShowTerminal(false)} />
+            <Terminal
+              files={files.map((f) => ({ path: f.path, content: drafts[f.path] ?? f.content }))}
+              projectName={project?.name}
+              onClose={() => setShowTerminal(false)}
+              onUpsert={shellUpsert}
+              onDelete={shellDelete}
+              onRename={shellRename}
+              onPreviewRefresh={() => setPreviewKey((k) => k + 1)}
+              onOpenFile={openFile}
+            />
           )}
         </section>
 
