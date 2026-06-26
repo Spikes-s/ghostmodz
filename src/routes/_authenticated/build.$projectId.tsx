@@ -126,26 +126,12 @@ function ProjectWorkspace() {
 
   // ---------- Preview ----------
   const previewSrcDoc = useMemo(() => {
-    const indexFile = files.find((f) => f.path === "index.html");
-    if (!indexFile) return "<html><body style='background:#0a0a18;color:#fff;font-family:sans-serif;display:grid;place-items:center;height:100vh'>No index.html</body></html>";
-    let html = drafts["index.html"] ?? indexFile.content;
-    // Inline local css/js references
-    for (const f of files) {
-      if (f.path === "index.html") continue;
-      const content = drafts[f.path] ?? f.content;
-      if (f.path.endsWith(".css")) {
-        html = html.replace(
-          new RegExp(`<link[^>]*href=["']${f.path}["'][^>]*>`, "g"),
-          `<style>${content}</style>`,
-        );
-      } else if (f.path.endsWith(".js")) {
-        html = html.replace(
-          new RegExp(`<script[^>]*src=["']${f.path}["'][^>]*></script>`, "g"),
-          `<script>${content}</script>`,
-        );
-      }
-    }
-    return html;
+    const merged = files.map((f) => ({
+      path: f.path,
+      content: drafts[f.path] ?? f.content,
+      language: f.language,
+    }));
+    return buildPreviewDoc(merged);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [files, drafts, previewKey]);
 
