@@ -33,15 +33,13 @@ export function Navbar() {
 
         <nav className="hidden lg:flex items-center gap-1">
           {NAV.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
+            <a
+              key={item.href}
+              href={item.href}
               className="px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground rounded-md"
-              activeProps={{ className: "text-foreground neon-text" }}
-              activeOptions={{ exact: item.to === "/" }}
             >
               {item.label}
-            </Link>
+            </a>
           ))}
         </nav>
 
@@ -63,16 +61,14 @@ export function Navbar() {
       {open && (
         <div className="lg:hidden glass border-t border-border/40 px-6 py-4 space-y-1 animate-fade-up">
           {NAV.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
+            <a
+              key={item.href}
+              href={item.href}
               onClick={() => setOpen(false)}
               className="block px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground rounded-md"
-              activeProps={{ className: "text-foreground neon-text" }}
-              activeOptions={{ exact: item.to === "/" }}
             >
               {item.label}
-            </Link>
+            </a>
           ))}
           <Button variant="ghost" size="sm" onClick={signOut} className="w-full justify-start gap-2 mt-2">
             <LogOut className="h-4 w-4" /> Sign out
