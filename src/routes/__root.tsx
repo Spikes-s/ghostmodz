@@ -86,6 +86,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:description", content: "Premium futuristic hackademic platform for AI, automation, and cyber-engineered software." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Ghost Mods Tech" },
+      { name: "twitter:description", content: "Premium futuristic hackademic platform for AI, automation, and cyber-engineered software." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/377a50a2-a4f4-4f6a-ba7f-4c9ac07a6272" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/377a50a2-a4f4-4f6a-ba7f-4c9ac07a6272" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
