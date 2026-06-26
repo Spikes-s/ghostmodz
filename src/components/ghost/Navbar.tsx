@@ -7,11 +7,9 @@ import { supabase } from "@/integrations/supabase/client";
 
 const NAV = [
   { href: "/", label: "Home" },
+  { href: "/spikes", label: "Spikes Bot" },
+  { href: "/build", label: "Build Mode" },
   { href: "/#services", label: "Services" },
-  { href: "/#projects", label: "Projects" },
-  { href: "/#spikes", label: "Spikes Bot" },
-  { href: "/#build", label: "Build Mode" },
-  { href: "/#terminal", label: "Terminal" },
   { href: "/#contact", label: "Contact" },
 ] as const;
 

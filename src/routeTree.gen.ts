@@ -13,6 +13,13 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
+import { Route as ApiTtsRouteImport } from './routes/api/tts'
+import { Route as ApiTranscribeRouteImport } from './routes/api/transcribe'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as AuthenticatedSpikesIndexRouteImport } from './routes/_authenticated/spikes.index'
+import { Route as AuthenticatedBuildIndexRouteImport } from './routes/_authenticated/build.index'
+import { Route as AuthenticatedSpikesConversationIdRouteImport } from './routes/_authenticated/spikes.$conversationId'
+import { Route as AuthenticatedBuildProjectIdRouteImport } from './routes/_authenticated/build.$projectId'
 
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
@@ -33,41 +40,130 @@ const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ApiTtsRoute = ApiTtsRouteImport.update({
+  id: '/api/tts',
+  path: '/api/tts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiTranscribeRoute = ApiTranscribeRouteImport.update({
+  id: '/api/transcribe',
+  path: '/api/transcribe',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedSpikesIndexRoute =
+  AuthenticatedSpikesIndexRouteImport.update({
+    id: '/spikes/',
+    path: '/spikes/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedBuildIndexRoute = AuthenticatedBuildIndexRouteImport.update({
+  id: '/build/',
+  path: '/build/',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedSpikesConversationIdRoute =
+  AuthenticatedSpikesConversationIdRouteImport.update({
+    id: '/spikes/$conversationId',
+    path: '/spikes/$conversationId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedBuildProjectIdRoute =
+  AuthenticatedBuildProjectIdRouteImport.update({
+    id: '/build/$projectId',
+    path: '/build/$projectId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/api/chat': typeof ApiChatRoute
+  '/api/transcribe': typeof ApiTranscribeRoute
+  '/api/tts': typeof ApiTtsRoute
+  '/build/$projectId': typeof AuthenticatedBuildProjectIdRoute
+  '/spikes/$conversationId': typeof AuthenticatedSpikesConversationIdRoute
+  '/build/': typeof AuthenticatedBuildIndexRoute
+  '/spikes/': typeof AuthenticatedSpikesIndexRoute
 }
 export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/api/chat': typeof ApiChatRoute
+  '/api/transcribe': typeof ApiTranscribeRoute
+  '/api/tts': typeof ApiTtsRoute
   '/': typeof AuthenticatedIndexRoute
+  '/build/$projectId': typeof AuthenticatedBuildProjectIdRoute
+  '/spikes/$conversationId': typeof AuthenticatedSpikesConversationIdRoute
+  '/build': typeof AuthenticatedBuildIndexRoute
+  '/spikes': typeof AuthenticatedSpikesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/api/chat': typeof ApiChatRoute
+  '/api/transcribe': typeof ApiTranscribeRoute
+  '/api/tts': typeof ApiTtsRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/build/$projectId': typeof AuthenticatedBuildProjectIdRoute
+  '/_authenticated/spikes/$conversationId': typeof AuthenticatedSpikesConversationIdRoute
+  '/_authenticated/build/': typeof AuthenticatedBuildIndexRoute
+  '/_authenticated/spikes/': typeof AuthenticatedSpikesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/reset-password'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/reset-password'
+    | '/api/chat'
+    | '/api/transcribe'
+    | '/api/tts'
+    | '/build/$projectId'
+    | '/spikes/$conversationId'
+    | '/build/'
+    | '/spikes/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/auth' | '/reset-password' | '/'
+  to:
+    | '/auth'
+    | '/reset-password'
+    | '/api/chat'
+    | '/api/transcribe'
+    | '/api/tts'
+    | '/'
+    | '/build/$projectId'
+    | '/spikes/$conversationId'
+    | '/build'
+    | '/spikes'
   id:
     | '__root__'
     | '/_authenticated'
     | '/auth'
     | '/reset-password'
+    | '/api/chat'
+    | '/api/transcribe'
+    | '/api/tts'
     | '/_authenticated/'
+    | '/_authenticated/build/$projectId'
+    | '/_authenticated/spikes/$conversationId'
+    | '/_authenticated/build/'
+    | '/_authenticated/spikes/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  ApiChatRoute: typeof ApiChatRoute
+  ApiTranscribeRoute: typeof ApiTranscribeRoute
+  ApiTtsRoute: typeof ApiTtsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -100,15 +196,73 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/tts': {
+      id: '/api/tts'
+      path: '/api/tts'
+      fullPath: '/api/tts'
+      preLoaderRoute: typeof ApiTtsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/transcribe': {
+      id: '/api/transcribe'
+      path: '/api/transcribe'
+      fullPath: '/api/transcribe'
+      preLoaderRoute: typeof ApiTranscribeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/spikes/': {
+      id: '/_authenticated/spikes/'
+      path: '/spikes'
+      fullPath: '/spikes/'
+      preLoaderRoute: typeof AuthenticatedSpikesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/build/': {
+      id: '/_authenticated/build/'
+      path: '/build'
+      fullPath: '/build/'
+      preLoaderRoute: typeof AuthenticatedBuildIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/spikes/$conversationId': {
+      id: '/_authenticated/spikes/$conversationId'
+      path: '/spikes/$conversationId'
+      fullPath: '/spikes/$conversationId'
+      preLoaderRoute: typeof AuthenticatedSpikesConversationIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/build/$projectId': {
+      id: '/_authenticated/build/$projectId'
+      path: '/build/$projectId'
+      fullPath: '/build/$projectId'
+      preLoaderRoute: typeof AuthenticatedBuildProjectIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+  AuthenticatedBuildProjectIdRoute: typeof AuthenticatedBuildProjectIdRoute
+  AuthenticatedSpikesConversationIdRoute: typeof AuthenticatedSpikesConversationIdRoute
+  AuthenticatedBuildIndexRoute: typeof AuthenticatedBuildIndexRoute
+  AuthenticatedSpikesIndexRoute: typeof AuthenticatedSpikesIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+  AuthenticatedBuildProjectIdRoute: AuthenticatedBuildProjectIdRoute,
+  AuthenticatedSpikesConversationIdRoute:
+    AuthenticatedSpikesConversationIdRoute,
+  AuthenticatedBuildIndexRoute: AuthenticatedBuildIndexRoute,
+  AuthenticatedSpikesIndexRoute: AuthenticatedSpikesIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
@@ -118,17 +272,10 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  ApiChatRoute: ApiChatRoute,
+  ApiTranscribeRoute: ApiTranscribeRoute,
+  ApiTtsRoute: ApiTtsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
