@@ -333,6 +333,9 @@ function ProjectWorkspace() {
     }
     qc.invalidateQueries({ queryKey: ["project-files", projectId] });
     if (ok > 0) toast.success(`Added ${ok} file${ok === 1 ? "" : "s"}`);
+  }
+
+
 
   // ---------- Terminal ----------
   function runShell(cmd: string) {
