@@ -19,6 +19,7 @@ import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AuthenticatedSpikesIndexRouteImport } from './routes/_authenticated/spikes.index'
 import { Route as AuthenticatedBuildIndexRouteImport } from './routes/_authenticated/build.index'
 import { Route as AuthenticatedSpikesConversationIdRouteImport } from './routes/_authenticated/spikes.$conversationId'
+import { Route as AuthenticatedBuildProjectIdRouteImport } from './routes/_authenticated/build.$projectId'
 
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
@@ -71,6 +72,12 @@ const AuthenticatedSpikesConversationIdRoute =
     path: '/spikes/$conversationId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedBuildProjectIdRoute =
+  AuthenticatedBuildProjectIdRouteImport.update({
+    id: '/build/$projectId',
+    path: '/build/$projectId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
@@ -79,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/api/chat': typeof ApiChatRoute
   '/api/transcribe': typeof ApiTranscribeRoute
   '/api/tts': typeof ApiTtsRoute
+  '/build/$projectId': typeof AuthenticatedBuildProjectIdRoute
   '/spikes/$conversationId': typeof AuthenticatedSpikesConversationIdRoute
   '/build/': typeof AuthenticatedBuildIndexRoute
   '/spikes/': typeof AuthenticatedSpikesIndexRoute
@@ -90,6 +98,7 @@ export interface FileRoutesByTo {
   '/api/transcribe': typeof ApiTranscribeRoute
   '/api/tts': typeof ApiTtsRoute
   '/': typeof AuthenticatedIndexRoute
+  '/build/$projectId': typeof AuthenticatedBuildProjectIdRoute
   '/spikes/$conversationId': typeof AuthenticatedSpikesConversationIdRoute
   '/build': typeof AuthenticatedBuildIndexRoute
   '/spikes': typeof AuthenticatedSpikesIndexRoute
@@ -103,6 +112,7 @@ export interface FileRoutesById {
   '/api/transcribe': typeof ApiTranscribeRoute
   '/api/tts': typeof ApiTtsRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/build/$projectId': typeof AuthenticatedBuildProjectIdRoute
   '/_authenticated/spikes/$conversationId': typeof AuthenticatedSpikesConversationIdRoute
   '/_authenticated/build/': typeof AuthenticatedBuildIndexRoute
   '/_authenticated/spikes/': typeof AuthenticatedSpikesIndexRoute
@@ -116,6 +126,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/api/transcribe'
     | '/api/tts'
+    | '/build/$projectId'
     | '/spikes/$conversationId'
     | '/build/'
     | '/spikes/'
@@ -127,6 +138,7 @@ export interface FileRouteTypes {
     | '/api/transcribe'
     | '/api/tts'
     | '/'
+    | '/build/$projectId'
     | '/spikes/$conversationId'
     | '/build'
     | '/spikes'
@@ -139,6 +151,7 @@ export interface FileRouteTypes {
     | '/api/transcribe'
     | '/api/tts'
     | '/_authenticated/'
+    | '/_authenticated/build/$projectId'
     | '/_authenticated/spikes/$conversationId'
     | '/_authenticated/build/'
     | '/_authenticated/spikes/'
@@ -225,11 +238,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSpikesConversationIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/build/$projectId': {
+      id: '/_authenticated/build/$projectId'
+      path: '/build/$projectId'
+      fullPath: '/build/$projectId'
+      preLoaderRoute: typeof AuthenticatedBuildProjectIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+  AuthenticatedBuildProjectIdRoute: typeof AuthenticatedBuildProjectIdRoute
   AuthenticatedSpikesConversationIdRoute: typeof AuthenticatedSpikesConversationIdRoute
   AuthenticatedBuildIndexRoute: typeof AuthenticatedBuildIndexRoute
   AuthenticatedSpikesIndexRoute: typeof AuthenticatedSpikesIndexRoute
@@ -237,6 +258,7 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+  AuthenticatedBuildProjectIdRoute: AuthenticatedBuildProjectIdRoute,
   AuthenticatedSpikesConversationIdRoute:
     AuthenticatedSpikesConversationIdRoute,
   AuthenticatedBuildIndexRoute: AuthenticatedBuildIndexRoute,

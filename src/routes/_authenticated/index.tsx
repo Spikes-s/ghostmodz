@@ -1,8 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Code2, MessageSquare, Send, Bot, Palette, Cpu,
   GraduationCap, Shield, Cloud, Lock, Plug, Server,
-  Terminal, Sparkles, Rocket, Target, Eye, Zap,
+  Hammer, Sparkles, Rocket, Target, Eye, Zap,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ServiceCard, type Service } from "@/components/ghost/ServiceCard";
