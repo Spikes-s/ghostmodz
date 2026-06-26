@@ -420,7 +420,7 @@ function ProjectWorkspace() {
             </div>
           )}
           {showTerminal && (
-            <TerminalPanel lines={terminalLines} onRun={runShell} onClose={() => setShowTerminal(false)} />
+            <Terminal lines={terminalLines} onRun={runShell} onClose={() => setShowTerminal(false)} />
           )}
         </section>
 
