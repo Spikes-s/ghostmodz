@@ -11,10 +11,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { CodeEditor } from "@/components/ghost/CodeEditor";
+import { Terminal } from "@/components/ghost/Terminal";
 import { toast } from "sonner";
 import {
   deleteProjectFile, listProjectFiles, renameProjectFile, upsertProjectFile, listProjects,
 } from "@/lib/spikes.functions";
+import { parseCodeBlocks, sanitizePath } from "@/lib/code-blocks";
+import { buildPreviewDoc } from "@/lib/preview-builder";
 
 export const Route = createFileRoute("/_authenticated/build/$projectId")({
   head: () => ({ meta: [{ title: "Project — Build Mode" }] }),
