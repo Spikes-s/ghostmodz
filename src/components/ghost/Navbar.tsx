@@ -1,9 +1,10 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { Menu, X, LogOut } from "lucide-react";
+import { Menu, X, LogOut, Shield } from "lucide-react";
 import { Logo } from "./Logo";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
+import { useIsAdmin } from "@/lib/use-is-admin";
 
 const NAV = [
   { href: "/", label: "Home" },
@@ -16,6 +17,7 @@ const NAV = [
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const isAdmin = useIsAdmin();
 
   async function signOut() {
     await supabase.auth.signOut();
