@@ -44,6 +44,11 @@ export function Navbar() {
         </nav>
 
         <div className="hidden lg:flex items-center gap-2">
+          {isAdmin && (
+            <Link to="/admin" className="inline-flex items-center gap-1 px-3 py-2 text-sm font-medium text-primary hover:text-primary/80 neon-border rounded-md">
+              <Shield className="h-4 w-4" /> Admin
+            </Link>
+          )}
           <Button variant="ghost" size="sm" onClick={signOut} className="gap-2">
             <LogOut className="h-4 w-4" /> Sign out
           </Button>
@@ -70,6 +75,11 @@ export function Navbar() {
               {item.label}
             </a>
           ))}
+          {isAdmin && (
+            <Link to="/admin" onClick={() => setOpen(false)} className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-primary rounded-md">
+              <Shield className="h-4 w-4" /> Admin Console
+            </Link>
+          )}
           <Button variant="ghost" size="sm" onClick={signOut} className="w-full justify-start gap-2 mt-2">
             <LogOut className="h-4 w-4" /> Sign out
           </Button>
