@@ -238,7 +238,7 @@ function UsersPage() {
                   <div><span className="text-muted-foreground">Email:</span> {detailQuery.data.profile?.email}</div>
                   <div><span className="text-muted-foreground">Username:</span> {detailQuery.data.profile?.username || "—"}</div>
                   <div><span className="text-muted-foreground">Name:</span> {detailQuery.data.profile?.full_name || "—"}</div>
-                  <div><span className="text-muted-foreground">Joined:</span> {new Date(detailQuery.data.profile?.created_at).toLocaleString()}</div>
+                  <div><span className="text-muted-foreground">Joined:</span> {detailQuery.data.profile?.created_at ? new Date(detailQuery.data.profile.created_at).toLocaleString() : "—"}</div>
                 </div>
               </div>
 
