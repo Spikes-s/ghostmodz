@@ -1,4 +1,5 @@
-import { createFileRoute, useServerFn } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -92,7 +93,7 @@ function AdminDashboard() {
             <p className="text-sm text-muted-foreground">No recent sign-ins yet.</p>
           ) : (
             <div className="divide-y divide-border/40">
-              {data.recentActivity.map((r) => (
+              {data.recentActivity.map((r: any) => (
                 <div key={r.id} className="flex items-center justify-between py-2 text-sm">
                   <div className="flex items-center gap-3">
                     <LogIn className="h-4 w-4 text-primary" />
