@@ -16,10 +16,13 @@ import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/
 import { Route as ApiTtsRouteImport } from './routes/api/tts'
 import { Route as ApiTranscribeRouteImport } from './routes/api/transcribe'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedSpikesIndexRouteImport } from './routes/_authenticated/spikes.index'
 import { Route as AuthenticatedBuildIndexRouteImport } from './routes/_authenticated/build.index'
+import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedSpikesConversationIdRouteImport } from './routes/_authenticated/spikes.$conversationId'
 import { Route as AuthenticatedBuildProjectIdRouteImport } from './routes/_authenticated/build.$projectId'
+import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
 
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
@@ -55,6 +58,11 @@ const ApiChatRoute = ApiChatRouteImport.update({
   path: '/api/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedSpikesIndexRoute =
   AuthenticatedSpikesIndexRouteImport.update({
     id: '/spikes/',
@@ -65,6 +73,11 @@ const AuthenticatedBuildIndexRoute = AuthenticatedBuildIndexRouteImport.update({
   id: '/build/',
   path: '/build/',
   getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
 const AuthenticatedSpikesConversationIdRoute =
   AuthenticatedSpikesConversationIdRouteImport.update({
@@ -78,16 +91,24 @@ const AuthenticatedBuildProjectIdRoute =
     path: '/build/$projectId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminUsersRoute = AuthenticatedAdminUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/api/chat': typeof ApiChatRoute
   '/api/transcribe': typeof ApiTranscribeRoute
   '/api/tts': typeof ApiTtsRoute
+  '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/build/$projectId': typeof AuthenticatedBuildProjectIdRoute
   '/spikes/$conversationId': typeof AuthenticatedSpikesConversationIdRoute
+  '/admin/': typeof AuthenticatedAdminIndexRoute
   '/build/': typeof AuthenticatedBuildIndexRoute
   '/spikes/': typeof AuthenticatedSpikesIndexRoute
 }
@@ -98,8 +119,10 @@ export interface FileRoutesByTo {
   '/api/transcribe': typeof ApiTranscribeRoute
   '/api/tts': typeof ApiTtsRoute
   '/': typeof AuthenticatedIndexRoute
+  '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/build/$projectId': typeof AuthenticatedBuildProjectIdRoute
   '/spikes/$conversationId': typeof AuthenticatedSpikesConversationIdRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
   '/build': typeof AuthenticatedBuildIndexRoute
   '/spikes': typeof AuthenticatedSpikesIndexRoute
 }
@@ -108,12 +131,15 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/api/chat': typeof ApiChatRoute
   '/api/transcribe': typeof ApiTranscribeRoute
   '/api/tts': typeof ApiTtsRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/_authenticated/build/$projectId': typeof AuthenticatedBuildProjectIdRoute
   '/_authenticated/spikes/$conversationId': typeof AuthenticatedSpikesConversationIdRoute
+  '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/build/': typeof AuthenticatedBuildIndexRoute
   '/_authenticated/spikes/': typeof AuthenticatedSpikesIndexRoute
 }
@@ -123,11 +149,14 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/reset-password'
+    | '/admin'
     | '/api/chat'
     | '/api/transcribe'
     | '/api/tts'
+    | '/admin/users'
     | '/build/$projectId'
     | '/spikes/$conversationId'
+    | '/admin/'
     | '/build/'
     | '/spikes/'
   fileRoutesByTo: FileRoutesByTo
@@ -138,8 +167,10 @@ export interface FileRouteTypes {
     | '/api/transcribe'
     | '/api/tts'
     | '/'
+    | '/admin/users'
     | '/build/$projectId'
     | '/spikes/$conversationId'
+    | '/admin'
     | '/build'
     | '/spikes'
   id:
@@ -147,12 +178,15 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/reset-password'
+    | '/_authenticated/admin'
     | '/api/chat'
     | '/api/transcribe'
     | '/api/tts'
     | '/_authenticated/'
+    | '/_authenticated/admin/users'
     | '/_authenticated/build/$projectId'
     | '/_authenticated/spikes/$conversationId'
+    | '/_authenticated/admin/'
     | '/_authenticated/build/'
     | '/_authenticated/spikes/'
   fileRoutesById: FileRoutesById
@@ -217,6 +251,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/spikes/': {
       id: '/_authenticated/spikes/'
       path: '/spikes'
@@ -230,6 +271,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/build/'
       preLoaderRoute: typeof AuthenticatedBuildIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/spikes/$conversationId': {
       id: '/_authenticated/spikes/$conversationId'
@@ -245,10 +293,31 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBuildProjectIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/users': {
+      id: '/_authenticated/admin/users'
+      path: '/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AuthenticatedAdminUsersRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
   }
 }
 
+interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+}
+
+const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
+  AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+}
+
+const AuthenticatedAdminRouteWithChildren =
+  AuthenticatedAdminRoute._addFileChildren(AuthenticatedAdminRouteChildren)
+
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedBuildProjectIdRoute: typeof AuthenticatedBuildProjectIdRoute
   AuthenticatedSpikesConversationIdRoute: typeof AuthenticatedSpikesConversationIdRoute
@@ -257,6 +326,7 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedBuildProjectIdRoute: AuthenticatedBuildProjectIdRoute,
   AuthenticatedSpikesConversationIdRoute:
