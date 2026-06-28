@@ -221,9 +221,9 @@ function SpikesChat() {
 
   // ---------- Sidebar search ----------
   const [search, setSearch] = useState("");
-  const filtered = (conversations as Array<{ id: string; title: string }>).filter((c) =>
-    c.title.toLowerCase().includes(search.toLowerCase()),
-  );
+  const filtered = (conversations as Array<{ id: string; title: string; mode?: string }>)
+    .filter((c) => (c.mode ?? "talk") === "talk")
+    .filter((c) => c.title.toLowerCase().includes(search.toLowerCase()));
 
   const isLoading = status === "submitted" || status === "streaming";
 
