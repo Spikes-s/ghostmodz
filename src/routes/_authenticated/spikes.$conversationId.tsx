@@ -14,7 +14,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { Markdown } from "@/components/ghost/Markdown";
 import { SpikesIntro } from "@/components/ghost/SpikesIntro";
-import { useVoiceRecorder } from "@/lib/voice-recorder";
+import { useVoiceRecorder, getMicPermission, micErrorMessage } from "@/lib/voice-recorder";
 import {
   createConversation, deleteConversation, getMessages, listConversations,
   renameConversation, saveMessages,
