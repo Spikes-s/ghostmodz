@@ -12,10 +12,12 @@ export function useIsAdmin() {
         if (!cancelled) setIsAdmin(false);
         return;
       }
-      const { data } = await supabase.rpc("has_role", {
-        _user_id: u.user.id,
-        _role: "administrator",
-      });
+      const { data } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", u.user.id)
+        .eq("role", "administrator")
+        .maybeSingle();
       if (!cancelled) setIsAdmin(!!data);
     })();
     return () => {
