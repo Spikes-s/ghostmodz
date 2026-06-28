@@ -54,11 +54,10 @@ export function micErrorMessage(e: unknown): { title: string; hint: string; kind
 /** Returns 'granted' | 'denied' | 'prompt' | 'unknown' without prompting (when supported). */
 export async function getMicPermission(): Promise<"granted" | "denied" | "prompt" | "unknown"> {
   if (typeof navigator === "undefined") return "unknown";
-  // @ts-expect-error - permissions.query 'microphone' isn't in lib.dom for all targets
-  if (!navigator.permissions?.query) return "unknown";
+  const perms = (navigator as Navigator & { permissions?: { query?: (d: { name: string }) => Promise<{ state: string }> } }).permissions;
+  if (!perms?.query) return "unknown";
   try {
-    // @ts-expect-error - 'microphone' descriptor
-    const res = await navigator.permissions.query({ name: "microphone" });
+    const res = await perms.query({ name: "microphone" });
     return res.state as "granted" | "denied" | "prompt";
   } catch {
     return "unknown";
