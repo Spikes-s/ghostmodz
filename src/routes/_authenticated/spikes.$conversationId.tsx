@@ -14,7 +14,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { Markdown } from "@/components/ghost/Markdown";
 import { SpikesIntro } from "@/components/ghost/SpikesIntro";
-import { useVoiceRecorder } from "@/lib/voice-recorder";
+import { useVoiceRecorder, getMicPermission, micErrorMessage } from "@/lib/voice-recorder";
 import {
   createConversation, deleteConversation, getMessages, listConversations,
   renameConversation, saveMessages,
@@ -166,32 +166,41 @@ function SpikesChat() {
   }
 
   async function toggleRecording() {
-    if (!recording) {
+    if (recording) {
+      const blob = await stopRec();
+      if (!blob || blob.size < 2048) {
+        toast.error("Recording too short", { description: "Hold the mic and speak for at least a second." });
+        return;
+      }
+      setTranscribing(true);
       try {
-        await startRec();
-      } catch {
-        toast.error("Microphone access required");
+        const fd = new FormData();
+        fd.append("file", blob, "recording.wav");
+        const res = await fetch("/api/transcribe", { method: "POST", body: fd });
+        if (!res.ok) throw new Error(await res.text());
+        const json = (await res.json()) as { text?: string };
+        if (json.text) setInput((p) => (p ? p + " " + json.text : json.text!));
+      } catch (e) {
+        toast.error("Transcription failed");
+        console.error(e);
+      } finally {
+        setTranscribing(false);
       }
       return;
     }
-    const blob = await stopRec();
-    if (!blob || blob.size < 2048) {
-      toast.error("Recording too short");
+
+    // Pre-check permission so we don't show the prompt twice or mislabel denial
+    const perm = await getMicPermission();
+    if (perm === "denied") {
+      const m = micErrorMessage(new (await import("@/lib/voice-recorder")).MicError("denied", "denied"));
+      toast.error(m.title, { description: m.hint });
       return;
     }
-    setTranscribing(true);
     try {
-      const fd = new FormData();
-      fd.append("file", blob, "recording.wav");
-      const res = await fetch("/api/transcribe", { method: "POST", body: fd });
-      if (!res.ok) throw new Error(await res.text());
-      const json = (await res.json()) as { text?: string };
-      if (json.text) setInput((p) => (p ? p + " " + json.text : json.text!));
-    } catch (e) {
-      toast.error("Transcription failed");
-      console.error(e);
-    } finally {
-      setTranscribing(false);
+      await startRec();
+    } catch (err) {
+      const m = micErrorMessage(err);
+      toast.error(m.title, { description: m.hint });
     }
   }
 
@@ -212,9 +221,9 @@ function SpikesChat() {
 
   // ---------- Sidebar search ----------
   const [search, setSearch] = useState("");
-  const filtered = (conversations as Array<{ id: string; title: string }>).filter((c) =>
-    c.title.toLowerCase().includes(search.toLowerCase()),
-  );
+  const filtered = (conversations as Array<{ id: string; title: string; mode?: string }>)
+    .filter((c) => (c.mode ?? "talk") === "talk")
+    .filter((c) => c.title.toLowerCase().includes(search.toLowerCase()));
 
   const isLoading = status === "submitted" || status === "streaming";
 

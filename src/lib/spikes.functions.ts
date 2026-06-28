@@ -51,6 +51,41 @@ export const deleteConversation = createServerFn({ method: "POST" })
     return { ok: true };
   });
 
+/**
+ * Get-or-create the persistent "build" conversation for a project so Spikes
+ * keeps a continuous coding chat tied to that project.
+ * The conversation title is stored as `[BUILD:<projectId>] <projectName>` so
+ * we can look it up without a schema change.
+ */
+export const getOrCreateBuildConversation = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) =>
+    z.object({ projectId: z.string().uuid(), projectName: z.string().min(1) }).parse(d),
+  )
+  .handler(async ({ data, context }) => {
+    const tag = `[BUILD:${data.projectId}]`;
+    const { data: existing } = await context.supabase
+      .from("conversations")
+      .select("id,title,mode")
+      .eq("user_id", context.userId)
+      .eq("mode", "build")
+      .like("title", `${tag}%`)
+      .limit(1)
+      .maybeSingle();
+    if (existing) return existing;
+    const { data: row, error } = await context.supabase
+      .from("conversations")
+      .insert({
+        user_id: context.userId,
+        mode: "build",
+        title: `${tag} ${data.projectName}`,
+      })
+      .select("id,title,mode")
+      .single();
+    if (error) throw new Error(error.message);
+    return row;
+  });
+
 // ---------- Messages ----------
 
 export const getMessages = createServerFn({ method: "GET" })

@@ -1,6 +1,70 @@
 import { useCallback, useRef, useState } from "react";
 
-/** Captures mic audio as a complete WAV blob (16kHz mono). */
+export type MicErrorKind =
+  | "denied"
+  | "no-device"
+  | "insecure-context"
+  | "unsupported"
+  | "in-use"
+  | "unknown";
+
+export class MicError extends Error {
+  kind: MicErrorKind;
+  constructor(kind: MicErrorKind, message: string) {
+    super(message);
+    this.kind = kind;
+  }
+}
+
+/** Friendly, copyable message for a mic error. */
+export function micErrorMessage(e: unknown): { title: string; hint: string; kind: MicErrorKind } {
+  const kind: MicErrorKind = e instanceof MicError ? e.kind : "unknown";
+  switch (kind) {
+    case "denied":
+      return {
+        kind,
+        title: "Microphone blocked",
+        hint: "Click the lock/permissions icon in your browser's address bar and allow microphone access, then try again.",
+      };
+    case "no-device":
+      return { kind, title: "No microphone found", hint: "Connect a microphone or check your input device." };
+    case "insecure-context":
+      return {
+        kind,
+        title: "Microphone needs HTTPS",
+        hint: "Voice input requires a secure (https) connection.",
+      };
+    case "unsupported":
+      return {
+        kind,
+        title: "Voice not supported here",
+        hint: "Your browser doesn't expose microphone APIs. Try Chrome, Edge, Firefox, or Safari.",
+      };
+    case "in-use":
+      return {
+        kind,
+        title: "Microphone in use",
+        hint: "Another tab or app is using your microphone. Close it and try again.",
+      };
+    default:
+      return { kind, title: "Couldn't start microphone", hint: "Try again in a moment." };
+  }
+}
+
+/** Returns 'granted' | 'denied' | 'prompt' | 'unknown' without prompting (when supported). */
+export async function getMicPermission(): Promise<"granted" | "denied" | "prompt" | "unknown"> {
+  if (typeof navigator === "undefined") return "unknown";
+  const perms = (navigator as Navigator & { permissions?: { query?: (d: { name: string }) => Promise<{ state: string }> } }).permissions;
+  if (!perms?.query) return "unknown";
+  try {
+    const res = await perms.query({ name: "microphone" });
+    return res.state as "granted" | "denied" | "prompt";
+  } catch {
+    return "unknown";
+  }
+}
+
+/** Captures mic audio as a complete WAV blob (16kHz mono) with browser-safe error handling. */
 export function useVoiceRecorder() {
   const [recording, setRecording] = useState(false);
   const ctxRef = useRef<AudioContext | null>(null);
@@ -11,8 +75,47 @@ export function useVoiceRecorder() {
   const sampleRateRef = useRef<number>(48000);
 
   const start = useCallback(async () => {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    const ctx = new AudioContext();
+    if (typeof window === "undefined") throw new MicError("unsupported", "No window");
+    if (!window.isSecureContext && location.hostname !== "localhost") {
+      throw new MicError("insecure-context", "HTTPS required");
+    }
+    if (!navigator.mediaDevices?.getUserMedia) {
+      throw new MicError("unsupported", "getUserMedia missing");
+    }
+
+    let stream: MediaStream;
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          echoCancellation: true,
+          noiseSuppression: true,
+          autoGainControl: true,
+        },
+      });
+    } catch (err) {
+      const name = (err as DOMException)?.name ?? "";
+      if (name === "NotAllowedError" || name === "SecurityError") throw new MicError("denied", String(err));
+      if (name === "NotFoundError" || name === "OverconstrainedError") throw new MicError("no-device", String(err));
+      if (name === "NotReadableError" || name === "AbortError") throw new MicError("in-use", String(err));
+      throw new MicError("unknown", String(err));
+    }
+
+    const AudioCtx: typeof AudioContext =
+      (window.AudioContext as typeof AudioContext) ??
+      // @ts-expect-error vendor prefix for older Safari
+      window.webkitAudioContext;
+    if (!AudioCtx) {
+      stream.getTracks().forEach((t) => t.stop());
+      throw new MicError("unsupported", "AudioContext missing");
+    }
+    const ctx = new AudioCtx();
+    if (ctx.state === "suspended") {
+      try {
+        await ctx.resume();
+      } catch {
+        /* ignore — will still capture once user gesture lets it run */
+      }
+    }
     const source = ctx.createMediaStreamSource(stream);
     const node = ctx.createScriptProcessor(4096, 1, 1);
     chunksRef.current = [];
@@ -48,11 +151,23 @@ export function useVoiceRecorder() {
     return blob;
   }, []);
 
-  return { recording, start, stop };
+  const cancel = useCallback(() => {
+    setRecording(false);
+    streamRef.current?.getTracks().forEach((t) => t.stop());
+    nodeRef.current?.disconnect();
+    sourceRef.current?.disconnect();
+    ctxRef.current?.close().catch(() => undefined);
+    ctxRef.current = null;
+    streamRef.current = null;
+    nodeRef.current = null;
+    sourceRef.current = null;
+    chunksRef.current = [];
+  }, []);
+
+  return { recording, start, stop, cancel };
 }
 
 function encodeWav(chunks: Float32Array[], inputRate: number, targetRate: number): Blob {
-  // concat
   const total = chunks.reduce((s, c) => s + c.length, 0);
   const merged = new Float32Array(total);
   let o = 0;
@@ -60,13 +175,11 @@ function encodeWav(chunks: Float32Array[], inputRate: number, targetRate: number
     merged.set(c, o);
     o += c.length;
   }
-  // downsample
   const ratio = inputRate / targetRate;
   const newLen = Math.floor(merged.length / ratio);
   const down = new Float32Array(newLen);
   for (let i = 0; i < newLen; i++) down[i] = merged[Math.floor(i * ratio)] || 0;
 
-  // PCM 16-bit
   const buffer = new ArrayBuffer(44 + down.length * 2);
   const view = new DataView(buffer);
   const writeStr = (off: number, s: string) => {
