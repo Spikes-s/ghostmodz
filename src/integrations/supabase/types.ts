@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      access_tokens: {
+        Row: {
+          consumed_at: string | null
+          consumed_by: string | null
+          created_at: string
+          created_by: string | null
+          expires_at: string | null
+          id: string
+          label: string | null
+          revoked: boolean
+          token: string
+          updated_at: string
+        }
+        Insert: {
+          consumed_at?: string | null
+          consumed_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          expires_at?: string | null
+          id?: string
+          label?: string | null
+          revoked?: boolean
+          token: string
+          updated_at?: string
+        }
+        Update: {
+          consumed_at?: string | null
+          consumed_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          expires_at?: string | null
+          id?: string
+          label?: string | null
+          revoked?: boolean
+          token?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       conversations: {
         Row: {
           created_at: string
@@ -206,6 +245,149 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      services: {
+        Row: {
+          created_at: string
+          description: string | null
+          icon: string | null
+          id: string
+          image_url: string | null
+          link_type: string
+          link_url: string | null
+          published: boolean
+          slug: string
+          sort_order: number
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          image_url?: string | null
+          link_type?: string
+          link_url?: string | null
+          published?: boolean
+          slug: string
+          sort_order?: number
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          image_url?: string | null
+          link_type?: string
+          link_url?: string | null
+          published?: boolean
+          slug?: string
+          sort_order?: number
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      site_settings: {
+        Row: {
+          contact_email: string | null
+          contact_phone: string | null
+          description: string | null
+          favicon_url: string | null
+          footer_text: string | null
+          homepage_banner: string | null
+          id: number
+          logo_url: string | null
+          maintenance_mode: boolean
+          seo_description: string | null
+          seo_title: string | null
+          site_name: string
+          socials: Json
+          theme: Json
+          updated_at: string
+        }
+        Insert: {
+          contact_email?: string | null
+          contact_phone?: string | null
+          description?: string | null
+          favicon_url?: string | null
+          footer_text?: string | null
+          homepage_banner?: string | null
+          id?: number
+          logo_url?: string | null
+          maintenance_mode?: boolean
+          seo_description?: string | null
+          seo_title?: string | null
+          site_name?: string
+          socials?: Json
+          theme?: Json
+          updated_at?: string
+        }
+        Update: {
+          contact_email?: string | null
+          contact_phone?: string | null
+          description?: string | null
+          favicon_url?: string | null
+          footer_text?: string | null
+          homepage_banner?: string | null
+          id?: number
+          logo_url?: string | null
+          maintenance_mode?: boolean
+          seo_description?: string | null
+          seo_title?: string | null
+          site_name?: string
+          socials?: Json
+          theme?: Json
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      token_requests: {
+        Row: {
+          created_at: string
+          id: string
+          issued_token_id: string | null
+          reason: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          issued_token_id?: string | null
+          reason?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          issued_token_id?: string | null
+          reason?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "token_requests_issued_token_id_fkey"
+            columns: ["issued_token_id"]
+            isOneToOne: false
+            referencedRelation: "access_tokens"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {
