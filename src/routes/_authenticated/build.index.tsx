@@ -7,10 +7,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { createProject, deleteProject, listProjects, renameProject } from "@/lib/spikes.functions";
+import { BuildAccessGate } from "@/components/ghost/BuildAccessGate";
 
 export const Route = createFileRoute("/_authenticated/build/")({
   head: () => ({ meta: [{ title: "Build Mode — Ghost Mods Tech" }] }),
-  component: BuildIndex,
+  component: () => (
+    <BuildAccessGate>
+      <BuildIndex />
+    </BuildAccessGate>
+  ),
 });
 
 function BuildIndex() {

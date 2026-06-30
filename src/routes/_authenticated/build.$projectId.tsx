@@ -24,10 +24,15 @@ import {
 import { parseCodeBlocks, sanitizePath } from "@/lib/code-blocks";
 import { buildPreviewDoc } from "@/lib/preview-builder";
 import { useVoiceRecorder, getMicPermission, micErrorMessage, MicError } from "@/lib/voice-recorder";
+import { BuildAccessGate } from "@/components/ghost/BuildAccessGate";
 
 export const Route = createFileRoute("/_authenticated/build/$projectId")({
   head: () => ({ meta: [{ title: "Project — Build Mode" }] }),
-  component: ProjectWorkspace,
+  component: () => (
+    <BuildAccessGate>
+      <ProjectWorkspace />
+    </BuildAccessGate>
+  ),
 });
 
 type RightTab = "files" | "preview" | "terminal";

@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet, Link, redirect, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, Users } from "lucide-react";
+import { LayoutDashboard, Users, KeyRound, Inbox, Settings, Wrench, CreditCard } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
 
@@ -24,6 +24,11 @@ function AdminLayout() {
   const tabs = [
     { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
     { to: "/admin/users", label: "Users", icon: Users, exact: false },
+    { to: "/admin/tokens", label: "Access Tokens", icon: KeyRound, exact: false },
+    { to: "/admin/requests", label: "Requests", icon: Inbox, exact: false },
+    { to: "/admin/settings", label: "Settings", icon: Settings, exact: false },
+    { to: "/admin/services", label: "Services", icon: Wrench, exact: false },
+    { to: "/admin/payments", label: "Payments", icon: CreditCard, exact: false },
   ];
   return (
     <div className="mx-auto max-w-7xl px-6 py-8">
@@ -33,7 +38,7 @@ function AdminLayout() {
           <p className="text-sm text-muted-foreground">Ghost Mods Tech — Operator Panel</p>
         </div>
       </div>
-      <nav className="glass rounded-lg p-1 inline-flex gap-1 mb-6">
+      <nav className="glass rounded-lg p-1 inline-flex gap-1 mb-6 flex-wrap">
         {tabs.map((t) => {
           const active = t.exact ? path === t.to : path.startsWith(t.to);
           const Icon = t.icon;
