@@ -27,14 +27,21 @@ export const Route = createFileRoute("/_authenticated/admin/services")({
 const EMPTY = {
   slug: "",
   title: "",
+  tagline: "",
   description: "",
+  body_md: "",
   icon: "",
   image_url: "",
+  hero_image_url: "",
   link_type: "internal" as const,
   link_url: "",
   sort_order: 0,
   published: true,
+  features: [] as any[],
+  pricing: [] as any[],
+  faqs: [] as any[],
 };
+
 
 function ServicesPage() {
   const qc = useQueryClient();
