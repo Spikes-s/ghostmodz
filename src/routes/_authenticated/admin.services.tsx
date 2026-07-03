@@ -122,7 +122,7 @@ function ServicesPage() {
       </Card>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="glass-card max-w-lg">
+        <DialogContent className="glass-card max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>{form.id ? "Edit Service" : "New Service"}</DialogTitle>
           </DialogHeader>
@@ -130,7 +130,7 @@ function ServicesPage() {
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <Label>Slug</Label>
-                <Input value={form.slug} onChange={(e) => set("slug", e.target.value)} />
+                <Input value={form.slug} onChange={(e) => set("slug", e.target.value)} placeholder="ai-automation" />
               </div>
               <div>
                 <Label>Icon (emoji)</Label>
@@ -142,16 +142,26 @@ function ServicesPage() {
               <Input value={form.title} onChange={(e) => set("title", e.target.value)} />
             </div>
             <div>
-              <Label>Description</Label>
-              <Textarea
-                rows={3}
-                value={form.description || ""}
-                onChange={(e) => set("description", e.target.value)}
-              />
+              <Label>Tagline (small caps line above hero title)</Label>
+              <Input value={form.tagline || ""} onChange={(e) => set("tagline", e.target.value)} placeholder="Agentic workflows" />
             </div>
             <div>
-              <Label>Image URL</Label>
-              <Input value={form.image_url || ""} onChange={(e) => set("image_url", e.target.value)} />
+              <Label>Short description</Label>
+              <Textarea rows={2} value={form.description || ""} onChange={(e) => set("description", e.target.value)} />
+            </div>
+            <div>
+              <Label>Body (Markdown)</Label>
+              <Textarea rows={5} value={form.body_md || ""} onChange={(e) => set("body_md", e.target.value)} placeholder="## Overview&#10;Long-form description in markdown…" />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <Label>Card image URL</Label>
+                <Input value={form.image_url || ""} onChange={(e) => set("image_url", e.target.value)} />
+              </div>
+              <div>
+                <Label>Hero image URL</Label>
+                <Input value={form.hero_image_url || ""} onChange={(e) => set("hero_image_url", e.target.value)} />
+              </div>
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
@@ -166,11 +176,7 @@ function ServicesPage() {
               </div>
               <div>
                 <Label>Sort order</Label>
-                <Input
-                  type="number"
-                  value={form.sort_order ?? 0}
-                  onChange={(e) => set("sort_order", parseInt(e.target.value) || 0)}
-                />
+                <Input type="number" value={form.sort_order ?? 0} onChange={(e) => set("sort_order", parseInt(e.target.value) || 0)} />
               </div>
             </div>
             <div>
@@ -178,15 +184,32 @@ function ServicesPage() {
               <Input
                 value={form.link_url || ""}
                 onChange={(e) => set("link_url", e.target.value)}
-                placeholder={form.link_type === "external" ? "https://…" : "/portfolio (leave blank for /services/slug)"}
+                placeholder={form.link_type === "external" ? "https://…" : "leave blank for /services/slug"}
               />
             </div>
+
+            <JsonField
+              label="Features (JSON array of {title, description, icon})"
+              value={form.features}
+              onChange={(v) => set("features", v)}
+              placeholder='[{"title":"24/7 uptime","description":"Autonomous agents","icon":"⚡"}]'
+            />
+            <JsonField
+              label="Pricing tiers (JSON: {name, price, period, highlight, features:[], cta_label, cta_url})"
+              value={form.pricing}
+              onChange={(v) => set("pricing", v)}
+              placeholder='[{"name":"Starter","price":"$49","period":"mo","features":["1 bot"],"cta_label":"Buy","cta_url":"/checkout"}]'
+            />
+            <JsonField
+              label="FAQs (JSON array of {q, a})"
+              value={form.faqs}
+              onChange={(v) => set("faqs", v)}
+              placeholder='[{"q":"How fast?","a":"Ships in 2 weeks."}]'
+            />
+
             <div className="flex items-center justify-between">
               <Label>Published</Label>
-              <Switch
-                checked={!!form.published}
-                onCheckedChange={(v) => set("published", v)}
-              />
+              <Switch checked={!!form.published} onCheckedChange={(v) => set("published", v)} />
             </div>
             <Button onClick={save} className="glow-purple gap-2 mt-2">
               <Save className="h-4 w-4" /> Save
@@ -194,6 +217,7 @@ function ServicesPage() {
           </div>
         </DialogContent>
       </Dialog>
+
     </div>
   );
 }
