@@ -2,8 +2,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Code2, MessageSquare, Send, Bot, Palette, Cpu,
   GraduationCap, Shield, Cloud, Lock, Plug, Server,
-  Hammer, Sparkles, Rocket, Target, Eye, Zap,
+  Hammer, Sparkles, Rocket, Target, Eye, Zap, ArrowRight,
 } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { ServiceCard, type Service } from "@/components/ghost/ServiceCard";
 
@@ -92,8 +93,16 @@ function Home() {
               <ServiceCard key={s.title} service={s} index={i} />
             ))}
           </div>
+          <div className="mt-10 text-center">
+            <Button asChild size="lg" variant="outline" className="glass hover-glow gap-2">
+              <Link to="/services">
+                Browse all services <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
         </div>
       </section>
+
 
       {/* ABOUT */}
       <section className="relative py-24">
