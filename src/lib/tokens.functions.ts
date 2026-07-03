@@ -270,17 +270,42 @@ export const updateSiteSettings = createServerFn({ method: "POST" })
 
 /* -------------------- SERVICES CMS -------------------- */
 
+const FeatureSchema = z.object({
+  title: z.string().max(120),
+  description: z.string().max(600).optional().default(""),
+  icon: z.string().max(80).optional().nullable(),
+});
+const PricingSchema = z.object({
+  name: z.string().max(80),
+  price: z.string().max(80),
+  period: z.string().max(40).optional().default(""),
+  highlight: z.boolean().optional().default(false),
+  features: z.array(z.string().max(200)).default([]),
+  cta_label: z.string().max(80).optional().default("Get started"),
+  cta_url: z.string().max(500).optional().default(""),
+});
+const FaqSchema = z.object({
+  q: z.string().max(300),
+  a: z.string().max(2000),
+});
+
 const ServiceSchema = z.object({
   id: z.string().uuid().optional(),
-  slug: z.string().min(1).max(120),
+  slug: z.string().min(1).max(120).regex(/^[a-z0-9-]+$/, "lowercase, digits, hyphens"),
   title: z.string().min(1).max(200),
+  tagline: z.string().max(300).nullable().optional(),
   description: z.string().max(2000).nullable().optional(),
+  body_md: z.string().max(20000).nullable().optional(),
   icon: z.string().max(80).nullable().optional(),
   image_url: z.string().max(500).nullable().optional(),
+  hero_image_url: z.string().max(500).nullable().optional(),
   link_type: z.enum(["internal", "external"]),
   link_url: z.string().max(500).nullable().optional(),
   sort_order: z.number().int().optional(),
   published: z.boolean().optional(),
+  features: z.array(FeatureSchema).optional().default([]),
+  pricing: z.array(PricingSchema).optional().default([]),
+  faqs: z.array(FaqSchema).optional().default([]),
 });
 
 export const listServices = createServerFn({ method: "GET" }).handler(async () => {
@@ -292,6 +317,32 @@ export const listServices = createServerFn({ method: "GET" }).handler(async () =
     .order("created_at", { ascending: true });
   return data ?? [];
 });
+
+export const listPublishedServices = createServerFn({ method: "GET" }).handler(async () => {
+  const admin = await getAdmin();
+  const { data } = await admin
+    .from("services")
+    .select("*")
+    .eq("published", true)
+    .order("sort_order", { ascending: true })
+    .order("created_at", { ascending: true });
+  return data ?? [];
+});
+
+export const getServiceBySlug = createServerFn({ method: "GET" })
+  .inputValidator((d: unknown) =>
+    z.object({ slug: z.string().min(1).max(120) }).parse(d),
+  )
+  .handler(async ({ data }) => {
+    const admin = await getAdmin();
+    const { data: row } = await admin
+      .from("services")
+      .select("*")
+      .eq("slug", data.slug)
+      .eq("published", true)
+      .maybeSingle();
+    return row;
+  });
 
 export const upsertService = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -319,3 +370,4 @@ export const deleteService = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     return { ok: true };
   });
+
