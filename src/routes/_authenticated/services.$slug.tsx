@@ -102,7 +102,7 @@ function ServicePage() {
       {service.body_md && (
         <section className="mx-auto max-w-4xl px-6 py-12">
           <div className="glass-card rounded-2xl p-8">
-            <Markdown content={service.body_md} />
+            <Markdown>{service.body_md}</Markdown>
           </div>
         </section>
       )}
