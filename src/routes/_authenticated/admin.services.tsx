@@ -221,3 +221,45 @@ function ServicesPage() {
     </div>
   );
 }
+
+function JsonField({
+  label,
+  value,
+  onChange,
+  placeholder,
+}: {
+  label: string;
+  value: any;
+  onChange: (v: any) => void;
+  placeholder?: string;
+}) {
+  const [text, setText] = useState(() => JSON.stringify(value ?? [], null, 2));
+  const [err, setErr] = useState<string | null>(null);
+  // sync when parent value changes (e.g. opening dialog on a different row)
+  const jsonStr = JSON.stringify(value ?? [], null, 2);
+  if (jsonStr !== text && err === null) {
+    // no-op; user is editing. keep as-is.
+  }
+  return (
+    <div>
+      <Label className="text-xs">{label}</Label>
+      <Textarea
+        rows={4}
+        value={text}
+        placeholder={placeholder}
+        onChange={(e) => {
+          setText(e.target.value);
+          try {
+            onChange(JSON.parse(e.target.value || "[]"));
+            setErr(null);
+          } catch (ex: any) {
+            setErr(ex.message);
+          }
+        }}
+        className="font-mono text-xs"
+      />
+      {err && <p className="text-xs text-destructive mt-1">Invalid JSON: {err}</p>}
+    </div>
+  );
+}
+
