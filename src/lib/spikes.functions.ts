@@ -2,6 +2,44 @@ import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { z } from "zod";
 
+const PRIMARY_ADMIN_EMAIL = "spikesprimo6625@gmail.com";
+
+/**
+ * Server-side Build Mode access check. A caller may use Build Mode only if:
+ *  - they are the primary admin, OR
+ *  - they hold the 'administrator' role, OR
+ *  - they have redeemed a non-revoked access token (access_tokens.consumed_by = uid).
+ * The client-side sessionStorage gate is UX only; every Build server fn
+ * calls this before touching projects/files/build conversations.
+ */
+async function assertBuildAccess(context: {
+  supabase: any;
+  userId: string;
+  claims: any;
+}): Promise<void> {
+  const email = (context.claims as { email?: string })?.email?.toLowerCase?.();
+  if (email === PRIMARY_ADMIN_EMAIL) return;
+
+  const { data: adminRole } = await context.supabase
+    .from("user_roles")
+    .select("role")
+    .eq("user_id", context.userId)
+    .eq("role", "administrator")
+    .maybeSingle();
+  if (adminRole) return;
+
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const { data: token } = await supabaseAdmin
+    .from("access_tokens")
+    .select("id")
+    .eq("consumed_by", context.userId)
+    .eq("revoked", false)
+    .limit(1)
+    .maybeSingle();
+  if (!token) throw new Error("Forbidden: Build Mode access token required");
+}
+
+
 // ---------- Conversations ----------
 
 export const listConversations = createServerFn({ method: "GET" })
