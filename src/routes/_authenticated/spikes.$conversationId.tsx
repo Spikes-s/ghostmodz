@@ -19,6 +19,7 @@ import {
   createConversation, deleteConversation, getMessages, listConversations,
   renameConversation, saveMessages,
 } from "@/lib/spikes.functions";
+import { authedFetch } from "@/lib/api-fetch";
 
 export const Route = createFileRoute("/_authenticated/spikes/$conversationId")({
   head: () => ({ meta: [{ title: "Spikes Bot — Ghost Mods Tech" }] }),
@@ -73,6 +74,7 @@ function SpikesChat() {
       new DefaultChatTransport({
         api: "/api/chat",
         body: { mode: "talk" },
+        fetch: authedFetch,
       }),
     [],
   );
@@ -176,7 +178,7 @@ function SpikesChat() {
       try {
         const fd = new FormData();
         fd.append("file", blob, "recording.wav");
-        const res = await fetch("/api/transcribe", { method: "POST", body: fd });
+        const res = await authedFetch("/api/transcribe", { method: "POST", body: fd });
         if (!res.ok) throw new Error(await res.text());
         const json = (await res.json()) as { text?: string };
         if (json.text) setInput((p) => (p ? p + " " + json.text : json.text!));
@@ -206,7 +208,7 @@ function SpikesChat() {
 
   async function speak(text: string) {
     try {
-      const res = await fetch("/api/tts", {
+      const res = await authedFetch("/api/tts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text }),
