@@ -139,6 +139,92 @@ export type Database = {
           },
         ]
       }
+      notifications: {
+        Row: {
+          body: string | null
+          created_at: string
+          id: string
+          kind: string
+          link: string | null
+          read_at: string | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          kind: string
+          link?: string | null
+          read_at?: string | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          kind?: string
+          link?: string | null
+          read_at?: string | null
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      payments: {
+        Row: {
+          amount: number
+          confirmed_at: string | null
+          created_at: string
+          currency: string
+          id: string
+          marked_paid_by: string | null
+          method: string
+          reference: string | null
+          request_id: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          confirmed_at?: string | null
+          created_at?: string
+          currency?: string
+          id?: string
+          marked_paid_by?: string | null
+          method?: string
+          reference?: string | null
+          request_id: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          confirmed_at?: string | null
+          created_at?: string
+          currency?: string
+          id?: string
+          marked_paid_by?: string | null
+          method?: string
+          reference?: string | null
+          request_id?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "website_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -311,11 +397,14 @@ export type Database = {
       }
       site_settings: {
         Row: {
+          cloud_solutions_url: string | null
           contact_email: string | null
           contact_phone: string | null
           description: string | null
           favicon_url: string | null
           footer_text: string | null
+          hero_subtitle: string | null
+          hero_title: string | null
           homepage_banner: string | null
           id: number
           logo_url: string | null
@@ -326,13 +415,17 @@ export type Database = {
           socials: Json
           theme: Json
           updated_at: string
+          whatsapp_bot_url: string | null
         }
         Insert: {
+          cloud_solutions_url?: string | null
           contact_email?: string | null
           contact_phone?: string | null
           description?: string | null
           favicon_url?: string | null
           footer_text?: string | null
+          hero_subtitle?: string | null
+          hero_title?: string | null
           homepage_banner?: string | null
           id?: number
           logo_url?: string | null
@@ -343,13 +436,17 @@ export type Database = {
           socials?: Json
           theme?: Json
           updated_at?: string
+          whatsapp_bot_url?: string | null
         }
         Update: {
+          cloud_solutions_url?: string | null
           contact_email?: string | null
           contact_phone?: string | null
           description?: string | null
           favicon_url?: string | null
           footer_text?: string | null
+          hero_subtitle?: string | null
+          hero_title?: string | null
           homepage_banner?: string | null
           id?: number
           logo_url?: string | null
@@ -360,6 +457,78 @@ export type Database = {
           socials?: Json
           theme?: Json
           updated_at?: string
+          whatsapp_bot_url?: string | null
+        }
+        Relationships: []
+      }
+      support_messages: {
+        Row: {
+          body: string
+          created_at: string
+          id: string
+          sender_id: string
+          sender_role: string
+          thread_id: string
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          id?: string
+          sender_id: string
+          sender_role?: string
+          thread_id: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: string
+          sender_id?: string
+          sender_role?: string
+          thread_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "support_messages_thread_id_fkey"
+            columns: ["thread_id"]
+            isOneToOne: false
+            referencedRelation: "support_threads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      support_threads: {
+        Row: {
+          created_at: string
+          id: string
+          last_message_at: string
+          status: string
+          subject: string | null
+          unread_admin: number
+          unread_user: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          last_message_at?: string
+          status?: string
+          subject?: string | null
+          unread_admin?: number
+          unread_user?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          last_message_at?: string
+          status?: string
+          subject?: string | null
+          unread_admin?: number
+          unread_user?: number
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -425,6 +594,72 @@ export type Database = {
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
+        }
+        Relationships: []
+      }
+      website_requests: {
+        Row: {
+          admin_notes: string | null
+          booking_type: string | null
+          contact_email: string | null
+          contact_phone: string | null
+          created_at: string
+          currency: string
+          deposit_percent: number | null
+          details: Json
+          estimated_days: number | null
+          estimated_price: number | null
+          features: Json
+          id: string
+          quote_token: string | null
+          quoted_at: string | null
+          service_kind: string
+          status: string
+          updated_at: string
+          user_id: string
+          website_type: string | null
+        }
+        Insert: {
+          admin_notes?: string | null
+          booking_type?: string | null
+          contact_email?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          currency?: string
+          deposit_percent?: number | null
+          details?: Json
+          estimated_days?: number | null
+          estimated_price?: number | null
+          features?: Json
+          id?: string
+          quote_token?: string | null
+          quoted_at?: string | null
+          service_kind?: string
+          status?: string
+          updated_at?: string
+          user_id: string
+          website_type?: string | null
+        }
+        Update: {
+          admin_notes?: string | null
+          booking_type?: string | null
+          contact_email?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          currency?: string
+          deposit_percent?: number | null
+          details?: Json
+          estimated_days?: number | null
+          estimated_price?: number | null
+          features?: Json
+          id?: string
+          quote_token?: string | null
+          quoted_at?: string | null
+          service_kind?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+          website_type?: string | null
         }
         Relationships: []
       }

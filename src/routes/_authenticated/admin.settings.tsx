@@ -82,6 +82,32 @@ function SettingsPage() {
       </Card>
 
       <Card className="glass-card border-border/40">
+        <CardHeader><CardTitle className="text-lg">Homepage</CardTitle></CardHeader>
+        <CardContent className="grid gap-4 md:grid-cols-2">
+          <div>
+            <Label>Hero title</Label>
+            <Input value={form.hero_title || ""} onChange={(e) => set("hero_title", e.target.value)} />
+          </div>
+          <div>
+            <Label>Hero subtitle</Label>
+            <Textarea rows={2} value={form.hero_subtitle || ""} onChange={(e) => set("hero_subtitle", e.target.value)} />
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="glass-card border-border/40">
+        <CardHeader><CardTitle className="text-lg">Service Links</CardTitle></CardHeader>
+        <CardContent className="grid gap-4 md:grid-cols-2">
+          <div>
+            <Label>WhatsApp Bot URL</Label>
+            <Input placeholder="https://wa.me/…" value={form.whatsapp_bot_url || ""} onChange={(e) => set("whatsapp_bot_url", e.target.value)} />
+          </div>
+          <div>
+            <Label>Cloud Solutions URL</Label>
+            <Input placeholder="https://…" value={form.cloud_solutions_url || ""} onChange={(e) => set("cloud_solutions_url", e.target.value)} />
+          </div>
+
+      <Card className="glass-card border-border/40">
         <CardHeader>
           <CardTitle className="text-lg">Contact</CardTitle>
         </CardHeader>
