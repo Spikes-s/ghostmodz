@@ -25,6 +25,7 @@ import { parseCodeBlocks, sanitizePath } from "@/lib/code-blocks";
 import { buildPreviewDoc } from "@/lib/preview-builder";
 import { useVoiceRecorder, getMicPermission, micErrorMessage, MicError } from "@/lib/voice-recorder";
 import { BuildAccessGate } from "@/components/ghost/BuildAccessGate";
+import { authedFetch } from "@/lib/api-fetch";
 
 export const Route = createFileRoute("/_authenticated/build/$projectId")({
   head: () => ({ meta: [{ title: "Project — Build Mode" }] }),
@@ -163,6 +164,7 @@ function ProjectWorkspace() {
       new DefaultChatTransport({
         api: "/api/chat",
         body: { mode: "build" },
+        fetch: authedFetch,
       }),
     [],
   );
@@ -283,7 +285,7 @@ function ProjectWorkspace() {
       try {
         const fd = new FormData();
         fd.append("file", blob, "recording.wav");
-        const res = await fetch("/api/transcribe", { method: "POST", body: fd });
+        const res = await authedFetch("/api/transcribe", { method: "POST", body: fd });
         if (!res.ok) throw new Error(await res.text());
         const json = (await res.json()) as { text?: string };
         if (json.text) setInput((p) => (p ? p + " " + json.text : json.text!));
