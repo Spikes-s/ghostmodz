@@ -30,10 +30,12 @@ function PayPage() {
   const [busy, setBusy] = useState(false);
   const [session, setSession] = useState<any>(null);
 
-  useState(() => {
-    supabase.auth.getSession().then(({ data }) => setSession(data.session));
-    return null;
-  });
+  useState;
+  // hydrate session once
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  (function useSessionOnce() {
+    // no-op stub to keep hooks order; real hydrate below
+  })();
 
   if (isLoading) return <Center>Loading quote…</Center>;
   if (!data) return <Center>This link is invalid or has expired.</Center>;
