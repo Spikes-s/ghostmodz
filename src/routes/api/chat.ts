@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { convertToModelMessages, streamText, type UIMessage } from "ai";
 import { createLovableAiGatewayProvider } from "@/lib/ai-gateway.server";
+import { requireApiUser } from "@/lib/api-auth.server";
 
 const TALK_SYSTEM = `You are Spikes — the elite AI core of Ghost Mods Tech.
 You are knowledgeable, sharp, slightly futuristic, and never break character.
@@ -28,6 +29,9 @@ export const Route = createFileRoute("/api/chat")({
   server: {
     handlers: {
       POST: async ({ request }) => {
+        const auth = await requireApiUser(request);
+        if (!auth.ok) return auth.response;
+
         const { messages, mode } = (await request.json()) as {
           messages: UIMessage[];
           mode?: "talk" | "build";

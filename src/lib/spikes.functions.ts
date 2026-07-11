@@ -2,6 +2,44 @@ import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { z } from "zod";
 
+const PRIMARY_ADMIN_EMAIL = "spikesprimo6625@gmail.com";
+
+/**
+ * Server-side Build Mode access check. A caller may use Build Mode only if:
+ *  - they are the primary admin, OR
+ *  - they hold the 'administrator' role, OR
+ *  - they have redeemed a non-revoked access token (access_tokens.consumed_by = uid).
+ * The client-side sessionStorage gate is UX only; every Build server fn
+ * calls this before touching projects/files/build conversations.
+ */
+async function assertBuildAccess(context: {
+  supabase: any;
+  userId: string;
+  claims: any;
+}): Promise<void> {
+  const email = (context.claims as { email?: string })?.email?.toLowerCase?.();
+  if (email === PRIMARY_ADMIN_EMAIL) return;
+
+  const { data: adminRole } = await context.supabase
+    .from("user_roles")
+    .select("role")
+    .eq("user_id", context.userId)
+    .eq("role", "administrator")
+    .maybeSingle();
+  if (adminRole) return;
+
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const { data: token } = await supabaseAdmin
+    .from("access_tokens")
+    .select("id")
+    .eq("consumed_by", context.userId)
+    .eq("revoked", false)
+    .limit(1)
+    .maybeSingle();
+  if (!token) throw new Error("Forbidden: Build Mode access token required");
+}
+
+
 // ---------- Conversations ----------
 
 export const listConversations = createServerFn({ method: "GET" })
@@ -63,6 +101,7 @@ export const getOrCreateBuildConversation = createServerFn({ method: "POST" })
     z.object({ projectId: z.string().uuid(), projectName: z.string().min(1) }).parse(d),
   )
   .handler(async ({ data, context }) => {
+    await assertBuildAccess(context);
     const tag = `[BUILD:${data.projectId}]`;
     const { data: existing } = await context.supabase
       .from("conversations")
@@ -140,6 +179,7 @@ export const saveMessages = createServerFn({ method: "POST" })
 export const listProjects = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
+    await assertBuildAccess(context);
     const { data, error } = await context.supabase
       .from("projects")
       .select("id,name,framework,description,created_at,updated_at")
@@ -160,6 +200,7 @@ export const createProject = createServerFn({ method: "POST" })
       .parse(d),
   )
   .handler(async ({ data, context }) => {
+    await assertBuildAccess(context);
     const { data: row, error } = await context.supabase
       .from("projects")
       .insert({
@@ -189,6 +230,7 @@ export const renameProject = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => z.object({ id: z.string().uuid(), name: z.string().min(1) }).parse(d))
   .handler(async ({ data, context }) => {
+    await assertBuildAccess(context);
     const { error } = await context.supabase.from("projects").update({ name: data.name }).eq("id", data.id);
     if (error) throw new Error(error.message);
     return { ok: true };
@@ -198,6 +240,7 @@ export const deleteProject = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => z.object({ id: z.string().uuid() }).parse(d))
   .handler(async ({ data, context }) => {
+    await assertBuildAccess(context);
     const { error } = await context.supabase.from("projects").delete().eq("id", data.id);
     if (error) throw new Error(error.message);
     return { ok: true };
@@ -209,6 +252,7 @@ export const listProjectFiles = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => z.object({ projectId: z.string().uuid() }).parse(d))
   .handler(async ({ data, context }) => {
+    await assertBuildAccess(context);
     const { data: rows, error } = await context.supabase
       .from("project_files")
       .select("id,path,content,language,updated_at")
@@ -231,6 +275,7 @@ export const upsertProjectFile = createServerFn({ method: "POST" })
       .parse(d),
   )
   .handler(async ({ data, context }) => {
+    await assertBuildAccess(context);
     const { data: row, error } = await context.supabase
       .from("project_files")
       .upsert(
@@ -253,6 +298,7 @@ export const deleteProjectFile = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => z.object({ id: z.string().uuid() }).parse(d))
   .handler(async ({ data, context }) => {
+    await assertBuildAccess(context);
     const { error } = await context.supabase.from("project_files").delete().eq("id", data.id);
     if (error) throw new Error(error.message);
     return { ok: true };
@@ -264,6 +310,7 @@ export const renameProjectFile = createServerFn({ method: "POST" })
     z.object({ id: z.string().uuid(), path: z.string().min(1) }).parse(d),
   )
   .handler(async ({ data, context }) => {
+    await assertBuildAccess(context);
     const { error } = await context.supabase
       .from("project_files")
       .update({ path: data.path })
