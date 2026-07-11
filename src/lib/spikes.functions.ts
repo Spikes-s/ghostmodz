@@ -101,6 +101,7 @@ export const getOrCreateBuildConversation = createServerFn({ method: "POST" })
     z.object({ projectId: z.string().uuid(), projectName: z.string().min(1) }).parse(d),
   )
   .handler(async ({ data, context }) => {
+    await assertBuildAccess(context);
     const tag = `[BUILD:${data.projectId}]`;
     const { data: existing } = await context.supabase
       .from("conversations")
@@ -178,6 +179,7 @@ export const saveMessages = createServerFn({ method: "POST" })
 export const listProjects = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
+    await assertBuildAccess(context);
     const { data, error } = await context.supabase
       .from("projects")
       .select("id,name,framework,description,created_at,updated_at")
@@ -198,6 +200,7 @@ export const createProject = createServerFn({ method: "POST" })
       .parse(d),
   )
   .handler(async ({ data, context }) => {
+    await assertBuildAccess(context);
     const { data: row, error } = await context.supabase
       .from("projects")
       .insert({
@@ -227,6 +230,7 @@ export const renameProject = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => z.object({ id: z.string().uuid(), name: z.string().min(1) }).parse(d))
   .handler(async ({ data, context }) => {
+    await assertBuildAccess(context);
     const { error } = await context.supabase.from("projects").update({ name: data.name }).eq("id", data.id);
     if (error) throw new Error(error.message);
     return { ok: true };
@@ -236,6 +240,7 @@ export const deleteProject = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => z.object({ id: z.string().uuid() }).parse(d))
   .handler(async ({ data, context }) => {
+    await assertBuildAccess(context);
     const { error } = await context.supabase.from("projects").delete().eq("id", data.id);
     if (error) throw new Error(error.message);
     return { ok: true };
@@ -247,6 +252,7 @@ export const listProjectFiles = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => z.object({ projectId: z.string().uuid() }).parse(d))
   .handler(async ({ data, context }) => {
+    await assertBuildAccess(context);
     const { data: rows, error } = await context.supabase
       .from("project_files")
       .select("id,path,content,language,updated_at")
@@ -269,6 +275,7 @@ export const upsertProjectFile = createServerFn({ method: "POST" })
       .parse(d),
   )
   .handler(async ({ data, context }) => {
+    await assertBuildAccess(context);
     const { data: row, error } = await context.supabase
       .from("project_files")
       .upsert(
