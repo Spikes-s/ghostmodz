@@ -1,17 +1,18 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { Menu, X, LogOut, Shield } from "lucide-react";
+import { Menu, X, LogOut, Shield, MessageCircle, Inbox } from "lucide-react";
 import { Logo } from "./Logo";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useIsAdmin } from "@/lib/use-is-admin";
+import { NotificationBell } from "./NotificationBell";
 
 const NAV = [
   { href: "/", label: "Home" },
   { href: "/spikes", label: "Spikes Bot" },
   { href: "/build", label: "Build Mode" },
-  { href: "/#services", label: "Services" },
-  { href: "/#contact", label: "Contact" },
+  { href: "/support", label: "Support" },
+  { href: "/account/requests", label: "My Requests" },
 ] as const;
 
 export function Navbar() {
@@ -44,6 +45,7 @@ export function Navbar() {
         </nav>
 
         <div className="hidden lg:flex items-center gap-2">
+          <NotificationBell />
           {isAdmin && (
             <Link to="/admin" className="inline-flex items-center gap-1 px-3 py-2 text-sm font-medium text-primary hover:text-primary/80 neon-border rounded-md">
               <Shield className="h-4 w-4" /> Admin
@@ -54,13 +56,16 @@ export function Navbar() {
           </Button>
         </div>
 
-        <button
-          className="lg:hidden glass p-2 rounded-md"
-          onClick={() => setOpen((o) => !o)}
-          aria-label="Toggle menu"
-        >
-          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+        <div className="lg:hidden flex items-center gap-1">
+          <NotificationBell />
+          <button
+            className="glass p-2 rounded-md"
+            onClick={() => setOpen((o) => !o)}
+            aria-label="Toggle menu"
+          >
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
       </div>
 
       {open && (

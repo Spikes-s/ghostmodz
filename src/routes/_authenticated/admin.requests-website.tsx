@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
@@ -203,13 +203,14 @@ function AdminRequests() {
 function PaymentsList({ requestId, onConfirm }: { requestId: string; onConfirm: (id: string) => void }) {
   // Reuse listAllRequests payload doesn't include payments; simple fetch via supabase client
   const [rows, setRows] = useState<any[]>([]);
-  useState(() => {
+  useEffect(() => {
+    let active = true;
     import("@/integrations/supabase/client").then(({ supabase }) => {
       supabase.from("payments").select("*").eq("request_id", requestId).order("created_at", { ascending: false })
-        .then(({ data }) => setRows(data ?? []));
+        .then(({ data }) => { if (active) setRows(data ?? []); });
     });
-    return null;
-  });
+    return () => { active = false; };
+  }, [requestId]);
   if (rows.length === 0) return null;
   return (
     <div className="space-y-1">

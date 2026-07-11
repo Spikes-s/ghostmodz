@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet, Link, redirect, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, Users, KeyRound, Inbox, Settings, Wrench, CreditCard } from "lucide-react";
+import { LayoutDashboard, Users, KeyRound, Inbox, Settings, Wrench, CreditCard, MessageCircle, ClipboardList } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
 
@@ -23,9 +23,11 @@ function AdminLayout() {
   const path = useRouterState({ select: (s) => s.location.pathname });
   const tabs = [
     { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
+    { to: "/admin/requests-website", label: "Website Requests", icon: ClipboardList, exact: false },
+    { to: "/admin/support", label: "Support Chat", icon: MessageCircle, exact: false },
     { to: "/admin/users", label: "Users", icon: Users, exact: false },
     { to: "/admin/tokens", label: "Access Tokens", icon: KeyRound, exact: false },
-    { to: "/admin/requests", label: "Requests", icon: Inbox, exact: false },
+    { to: "/admin/requests", label: "Token Requests", icon: Inbox, exact: false },
     { to: "/admin/settings", label: "Settings", icon: Settings, exact: false },
     { to: "/admin/services", label: "Services", icon: Wrench, exact: false },
     { to: "/admin/payments", label: "Payments", icon: CreditCard, exact: false },

@@ -249,6 +249,10 @@ const SettingsSchema = z.object({
   seo_description: z.string().max(400).nullable().optional(),
   maintenance_mode: z.boolean().optional(),
   theme: z.record(z.string(), z.any()).optional(),
+  whatsapp_bot_url: z.string().max(500).nullable().optional(),
+  cloud_solutions_url: z.string().max(500).nullable().optional(),
+  hero_title: z.string().max(200).nullable().optional(),
+  hero_subtitle: z.string().max(500).nullable().optional(),
 });
 
 export const getSiteSettings = createServerFn({ method: "GET" }).handler(async () => {

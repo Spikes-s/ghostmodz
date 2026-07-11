@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -28,14 +28,12 @@ function PayPage() {
   const [method, setMethod] = useState<"mpesa" | "bank" | "manual" | "card">("mpesa");
   const [reference, setReference] = useState("");
   const [busy, setBusy] = useState(false);
-  const [session, setSession] = useState<any>(null);
+  const [session, setSession] = useState<{ access_token: string } | null>(null);
 
-  useState;
-  // hydrate session once
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  (function useSessionOnce() {
-    // no-op stub to keep hooks order; real hydrate below
-  })();
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => setSession(data.session as any));
+  }, []);
+
 
   if (isLoading) return <Center>Loading quote…</Center>;
   if (!data) return <Center>This link is invalid or has expired.</Center>;
