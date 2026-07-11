@@ -199,7 +199,7 @@ export const updateRequestStatus = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     await assertAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const patch: Record<string, unknown> = { status: data.status };
+    const patch: { status: string; admin_notes?: string | null } = { status: data.status };
     if (data.admin_notes !== undefined) patch.admin_notes = data.admin_notes;
     const { data: row, error } = await supabaseAdmin
       .from("website_requests")
