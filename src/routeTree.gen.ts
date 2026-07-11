@@ -16,6 +16,7 @@ import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/
 import { Route as ApiTtsRouteImport } from './routes/api/tts'
 import { Route as ApiTranscribeRouteImport } from './routes/api/transcribe'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as AuthenticatedTerminalRouteImport } from './routes/_authenticated/terminal'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedSpikesIndexRouteImport } from './routes/_authenticated/spikes.index'
 import { Route as AuthenticatedServicesIndexRouteImport } from './routes/_authenticated/services.index'
@@ -64,6 +65,11 @@ const ApiChatRoute = ApiChatRouteImport.update({
   id: '/api/chat',
   path: '/api/chat',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedTerminalRoute = AuthenticatedTerminalRouteImport.update({
+  id: '/terminal',
+  path: '/terminal',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   id: '/admin',
@@ -151,6 +157,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/terminal': typeof AuthenticatedTerminalRoute
   '/api/chat': typeof ApiChatRoute
   '/api/transcribe': typeof ApiTranscribeRoute
   '/api/tts': typeof ApiTtsRoute
@@ -171,6 +178,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/terminal': typeof AuthenticatedTerminalRoute
   '/api/chat': typeof ApiChatRoute
   '/api/transcribe': typeof ApiTranscribeRoute
   '/api/tts': typeof ApiTtsRoute
@@ -195,6 +203,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/_authenticated/terminal': typeof AuthenticatedTerminalRoute
   '/api/chat': typeof ApiChatRoute
   '/api/transcribe': typeof ApiTranscribeRoute
   '/api/tts': typeof ApiTtsRoute
@@ -220,6 +229,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/reset-password'
     | '/admin'
+    | '/terminal'
     | '/api/chat'
     | '/api/transcribe'
     | '/api/tts'
@@ -240,6 +250,7 @@ export interface FileRouteTypes {
   to:
     | '/auth'
     | '/reset-password'
+    | '/terminal'
     | '/api/chat'
     | '/api/transcribe'
     | '/api/tts'
@@ -263,6 +274,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/reset-password'
     | '/_authenticated/admin'
+    | '/_authenticated/terminal'
     | '/api/chat'
     | '/api/transcribe'
     | '/api/tts'
@@ -341,6 +353,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/api/chat'
       preLoaderRoute: typeof ApiChatRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/terminal': {
+      id: '/_authenticated/terminal'
+      path: '/terminal'
+      fullPath: '/terminal'
+      preLoaderRoute: typeof AuthenticatedTerminalRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/admin': {
       id: '/_authenticated/admin'
@@ -468,6 +487,7 @@ const AuthenticatedAdminRouteWithChildren =
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
+  AuthenticatedTerminalRoute: typeof AuthenticatedTerminalRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedBuildProjectIdRoute: typeof AuthenticatedBuildProjectIdRoute
   AuthenticatedServicesSlugRoute: typeof AuthenticatedServicesSlugRoute
@@ -479,6 +499,7 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
+  AuthenticatedTerminalRoute: AuthenticatedTerminalRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedBuildProjectIdRoute: AuthenticatedBuildProjectIdRoute,
   AuthenticatedServicesSlugRoute: AuthenticatedServicesSlugRoute,
