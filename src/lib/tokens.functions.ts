@@ -312,15 +312,18 @@ const ServiceSchema = z.object({
   faqs: z.array(FaqSchema).optional().default([]),
 });
 
-export const listServices = createServerFn({ method: "GET" }).handler(async () => {
-  const admin = await getAdmin();
-  const { data } = await admin
-    .from("services")
-    .select("*")
-    .order("sort_order", { ascending: true })
-    .order("created_at", { ascending: true });
-  return data ?? [];
-});
+export const listServices = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertAdmin(context);
+    const admin = await getAdmin();
+    const { data } = await admin
+      .from("services")
+      .select("*")
+      .order("sort_order", { ascending: true })
+      .order("created_at", { ascending: true });
+    return data ?? [];
+  });
 
 export const listPublishedServices = createServerFn({ method: "GET" }).handler(async () => {
   const admin = await getAdmin();
