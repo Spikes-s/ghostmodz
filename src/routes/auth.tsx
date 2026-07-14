@@ -107,6 +107,14 @@ function AuthPage() {
 
   return (
     <div className="relative min-h-screen grid place-items-center px-6 py-12">
+      {showIntro && (
+        <GhostIntro
+          onDone={() => {
+            sessionStorage.setItem("gm_intro_seen", "1");
+            setShowIntro(false);
+          }}
+        />
+      )}
       <CyberBackground />
       <div className="w-full max-w-md glass-card rounded-2xl p-8 animate-fade-up">
         <div className="flex flex-col items-center gap-3 mb-6">
