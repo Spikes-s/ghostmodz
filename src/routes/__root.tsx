@@ -139,6 +139,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <Outlet />
+      <ChatBubble />
       <Toaster theme="dark" position="top-right" />
     </QueryClientProvider>
   );
