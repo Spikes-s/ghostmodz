@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Logo } from "@/components/ghost/Logo";
 import { CyberBackground } from "@/components/ghost/CyberBackground";
+import { GhostIntro } from "@/components/ghost/GhostIntro";
 import { toast } from "sonner";
 import { z } from "zod";
 import { Loader2 } from "lucide-react";
