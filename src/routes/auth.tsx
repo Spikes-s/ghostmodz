@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Logo } from "@/components/ghost/Logo";
 import { CyberBackground } from "@/components/ghost/CyberBackground";
+import { GhostIntro } from "@/components/ghost/GhostIntro";
 import { toast } from "sonner";
 import { z } from "zod";
 import { Loader2 } from "lucide-react";
@@ -28,6 +29,10 @@ const passwordSchema = z.string().min(6, "At least 6 characters").max(72);
 function AuthPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [showIntro, setShowIntro] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return sessionStorage.getItem("gm_intro_seen") !== "1";
+  });
 
   // If already signed in, bounce home
   useEffect(() => {
@@ -102,6 +107,14 @@ function AuthPage() {
 
   return (
     <div className="relative min-h-screen grid place-items-center px-6 py-12">
+      {showIntro && (
+        <GhostIntro
+          onDone={() => {
+            sessionStorage.setItem("gm_intro_seen", "1");
+            setShowIntro(false);
+          }}
+        />
+      )}
       <CyberBackground />
       <div className="w-full max-w-md glass-card rounded-2xl p-8 animate-fade-up">
         <div className="flex flex-col items-center gap-3 mb-6">
