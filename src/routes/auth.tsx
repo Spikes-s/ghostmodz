@@ -29,6 +29,10 @@ const passwordSchema = z.string().min(6, "At least 6 characters").max(72);
 function AuthPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [showIntro, setShowIntro] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return sessionStorage.getItem("gm_intro_seen") !== "1";
+  });
 
   // If already signed in, bounce home
   useEffect(() => {
