@@ -453,6 +453,13 @@ export const markThreadRead = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const admin = await isAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: thread } = await supabaseAdmin
+      .from("support_threads")
+      .select("id,user_id")
+      .eq("id", data.threadId)
+      .maybeSingle();
+    if (!thread) throw new Error("Thread not found");
+    if (!admin && thread.user_id !== context.userId) throw new Error("Forbidden");
     await supabaseAdmin
       .from("support_threads")
       .update(admin ? { unread_admin: 0 } : { unread_user: 0 })
