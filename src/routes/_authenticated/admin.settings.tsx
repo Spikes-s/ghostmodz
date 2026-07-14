@@ -106,12 +106,15 @@ function SettingsPage() {
             <Label>Cloud Solutions URL</Label>
             <Input placeholder="https://…" value={form.cloud_solutions_url || ""} onChange={(e) => set("cloud_solutions_url", e.target.value)} />
           </div>
+        </CardContent>
+      </Card>
 
       <Card className="glass-card border-border/40">
         <CardHeader>
           <CardTitle className="text-lg">Contact</CardTitle>
         </CardHeader>
         <CardContent className="grid gap-4 md:grid-cols-2">
+
           <div>
             <Label>Email</Label>
             <Input
