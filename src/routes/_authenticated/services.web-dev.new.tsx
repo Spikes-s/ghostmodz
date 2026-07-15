@@ -63,12 +63,26 @@ function NewWebRequest() {
     });
   }
 
+  function goNext() {
+    setStep((s) => Math.min(4, (s + 1) as Step) as Step);
+  }
+  function pickWebsiteType(t: string) {
+    setWebsiteType(t);
+    // Auto-advance for straightforward picks. Branching options need extra input first.
+    if (t !== "Other" && t !== "Booking Website") {
+      setTimeout(goNext, 180);
+    }
+  }
+  function pickBookingType(b: string) {
+    setBookingType(b);
+    if (b !== "Other") setTimeout(goNext, 180);
+  }
   function next() {
     if (step === 1 && !resolvedWebsiteType) return toast.error("Pick a website type");
     if (step === 1 && websiteType === "Booking Website" && !resolvedBookingType)
       return toast.error("Pick a booking type");
     if (step === 2 && !gen.website_name) return toast.error("Add a website name");
-    setStep((s) => Math.min(4, (s + 1) as Step) as Step);
+    goNext();
   }
   function prev() {
     setStep((s) => Math.max(1, (s - 1) as Step) as Step);
