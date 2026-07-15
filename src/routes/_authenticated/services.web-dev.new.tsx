@@ -63,12 +63,26 @@ function NewWebRequest() {
     });
   }
 
+  function goNext() {
+    setStep((s) => Math.min(4, (s + 1) as Step) as Step);
+  }
+  function pickWebsiteType(t: string) {
+    setWebsiteType(t);
+    // Auto-advance for straightforward picks. Branching options need extra input first.
+    if (t !== "Other" && t !== "Booking Website") {
+      setTimeout(goNext, 180);
+    }
+  }
+  function pickBookingType(b: string) {
+    setBookingType(b);
+    if (b !== "Other") setTimeout(goNext, 180);
+  }
   function next() {
     if (step === 1 && !resolvedWebsiteType) return toast.error("Pick a website type");
     if (step === 1 && websiteType === "Booking Website" && !resolvedBookingType)
       return toast.error("Pick a booking type");
     if (step === 2 && !gen.website_name) return toast.error("Add a website name");
-    setStep((s) => Math.min(4, (s + 1) as Step) as Step);
+    goNext();
   }
   function prev() {
     setStep((s) => Math.max(1, (s - 1) as Step) as Step);
@@ -125,7 +139,7 @@ function NewWebRequest() {
                 <button
                   key={t}
                   type="button"
-                  onClick={() => setWebsiteType(t)}
+                  onClick={() => pickWebsiteType(t)}
                   className={`text-sm rounded-lg px-3 py-3 text-left transition-all ${
                     websiteType === t
                       ? "border border-primary bg-primary/10 text-primary neon-border"
@@ -150,7 +164,7 @@ function NewWebRequest() {
                     <button
                       key={b}
                       type="button"
-                      onClick={() => setBookingType(b)}
+                      onClick={() => pickBookingType(b)}
                       className={`text-sm rounded-lg px-3 py-2 text-left transition-all ${
                         bookingType === b
                           ? "border border-secondary bg-secondary/10 text-secondary"
@@ -296,7 +310,9 @@ function NewWebRequest() {
         <Button variant="ghost" onClick={prev} disabled={step === 1} className="gap-1">
           <ChevronLeft className="h-4 w-4" /> Back
         </Button>
-        {step < 4 ? (
+        {step === 1 ? (
+          <span className="text-xs text-muted-foreground self-center">Select an option to continue…</span>
+        ) : step < 4 ? (
           <Button onClick={next} className="glow-purple gap-1">
             Next <ChevronRight className="h-4 w-4" />
           </Button>
