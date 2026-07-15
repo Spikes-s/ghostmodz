@@ -139,7 +139,7 @@ function NewWebRequest() {
                 <button
                   key={t}
                   type="button"
-                  onClick={() => setWebsiteType(t)}
+                  onClick={() => pickWebsiteType(t)}
                   className={`text-sm rounded-lg px-3 py-3 text-left transition-all ${
                     websiteType === t
                       ? "border border-primary bg-primary/10 text-primary neon-border"
@@ -164,7 +164,7 @@ function NewWebRequest() {
                     <button
                       key={b}
                       type="button"
-                      onClick={() => setBookingType(b)}
+                      onClick={() => pickBookingType(b)}
                       className={`text-sm rounded-lg px-3 py-2 text-left transition-all ${
                         bookingType === b
                           ? "border border-secondary bg-secondary/10 text-secondary"
