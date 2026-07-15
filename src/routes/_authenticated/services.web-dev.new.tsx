@@ -310,7 +310,9 @@ function NewWebRequest() {
         <Button variant="ghost" onClick={prev} disabled={step === 1} className="gap-1">
           <ChevronLeft className="h-4 w-4" /> Back
         </Button>
-        {step < 4 ? (
+        {step === 1 ? (
+          <span className="text-xs text-muted-foreground self-center">Select an option to continue…</span>
+        ) : step < 4 ? (
           <Button onClick={next} className="glow-purple gap-1">
             Next <ChevronRight className="h-4 w-4" />
           </Button>
