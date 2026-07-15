@@ -145,8 +145,8 @@ export function GhostIntro({ onDone }: { onDone: () => void }) {
   const bottomLines = useTyped(BOTTOM_LINES, 500);
 
   useEffect(() => {
-    const t1 = setTimeout(() => setLeaving(true), 4200);
-    const t2 = setTimeout(() => onDone(), 4900);
+    const t1 = setTimeout(() => setLeaving(true), 8500);
+    const t2 = setTimeout(() => onDone(), 9200);
     return () => {
       clearTimeout(t1);
       clearTimeout(t2);
