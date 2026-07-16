@@ -408,6 +408,7 @@ export const sendMessage = createServerFn({ method: "POST" })
         last_message_at: new Date().toISOString(),
         unread_user: admin ? 1 : 0,
         unread_admin: admin ? 0 : 1,
+        ...(admin ? { admin_active: true, ai_enabled: false, mode: "admin" } : {}),
       })
       .eq("id", data.threadId);
 
