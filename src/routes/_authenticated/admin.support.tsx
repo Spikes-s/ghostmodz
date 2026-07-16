@@ -24,6 +24,7 @@ function AdminSupport() {
   const msgsFn = useServerFn(listThreadMessages);
   const sendFn = useServerFn(sendMessage);
   const readFn = useServerFn(markThreadRead);
+  const toggleAiFn = useServerFn(setThreadAiEnabled);
 
   const { data: threads = [] } = useQuery({ queryKey: ["all-threads"], queryFn: () => listFn() });
   const [activeId, setActiveId] = useState<string | null>(null);
