@@ -41,6 +41,7 @@ import { Route as AuthenticatedAccountRequestsIndexRouteImport } from './routes/
 import { Route as AuthenticatedServicesWebDevNewRouteImport } from './routes/_authenticated/services.web-dev.new'
 import { Route as AuthenticatedServicesGenericKindRouteImport } from './routes/_authenticated/services.generic.$kind'
 import { Route as AuthenticatedServicesCampusApplyRouteImport } from './routes/_authenticated/services.campus.apply'
+import { Route as AuthenticatedServicesApiDevNewRouteImport } from './routes/_authenticated/services.api-dev.new'
 import { Route as AuthenticatedAccountRequestsIdRouteImport } from './routes/_authenticated/account.requests.$id'
 
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -220,6 +221,12 @@ const AuthenticatedServicesCampusApplyRoute =
     path: '/services/campus/apply',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedServicesApiDevNewRoute =
+  AuthenticatedServicesApiDevNewRouteImport.update({
+    id: '/services/api-dev/new',
+    path: '/services/api-dev/new',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAccountRequestsIdRoute =
   AuthenticatedAccountRequestsIdRouteImport.update({
     id: '/account/requests/$id',
@@ -256,6 +263,7 @@ export interface FileRoutesByFullPath {
   '/services/': typeof AuthenticatedServicesIndexRoute
   '/spikes/': typeof AuthenticatedSpikesIndexRoute
   '/account/requests/$id': typeof AuthenticatedAccountRequestsIdRoute
+  '/services/api-dev/new': typeof AuthenticatedServicesApiDevNewRoute
   '/services/campus/apply': typeof AuthenticatedServicesCampusApplyRoute
   '/services/generic/$kind': typeof AuthenticatedServicesGenericKindRoute
   '/services/web-dev/new': typeof AuthenticatedServicesWebDevNewRoute
@@ -289,6 +297,7 @@ export interface FileRoutesByTo {
   '/services': typeof AuthenticatedServicesIndexRoute
   '/spikes': typeof AuthenticatedSpikesIndexRoute
   '/account/requests/$id': typeof AuthenticatedAccountRequestsIdRoute
+  '/services/api-dev/new': typeof AuthenticatedServicesApiDevNewRoute
   '/services/campus/apply': typeof AuthenticatedServicesCampusApplyRoute
   '/services/generic/$kind': typeof AuthenticatedServicesGenericKindRoute
   '/services/web-dev/new': typeof AuthenticatedServicesWebDevNewRoute
@@ -325,6 +334,7 @@ export interface FileRoutesById {
   '/_authenticated/services/': typeof AuthenticatedServicesIndexRoute
   '/_authenticated/spikes/': typeof AuthenticatedSpikesIndexRoute
   '/_authenticated/account/requests/$id': typeof AuthenticatedAccountRequestsIdRoute
+  '/_authenticated/services/api-dev/new': typeof AuthenticatedServicesApiDevNewRoute
   '/_authenticated/services/campus/apply': typeof AuthenticatedServicesCampusApplyRoute
   '/_authenticated/services/generic/$kind': typeof AuthenticatedServicesGenericKindRoute
   '/_authenticated/services/web-dev/new': typeof AuthenticatedServicesWebDevNewRoute
@@ -361,6 +371,7 @@ export interface FileRouteTypes {
     | '/services/'
     | '/spikes/'
     | '/account/requests/$id'
+    | '/services/api-dev/new'
     | '/services/campus/apply'
     | '/services/generic/$kind'
     | '/services/web-dev/new'
@@ -394,6 +405,7 @@ export interface FileRouteTypes {
     | '/services'
     | '/spikes'
     | '/account/requests/$id'
+    | '/services/api-dev/new'
     | '/services/campus/apply'
     | '/services/generic/$kind'
     | '/services/web-dev/new'
@@ -429,6 +441,7 @@ export interface FileRouteTypes {
     | '/_authenticated/services/'
     | '/_authenticated/spikes/'
     | '/_authenticated/account/requests/$id'
+    | '/_authenticated/services/api-dev/new'
     | '/_authenticated/services/campus/apply'
     | '/_authenticated/services/generic/$kind'
     | '/_authenticated/services/web-dev/new'
@@ -671,6 +684,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedServicesCampusApplyRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/services/api-dev/new': {
+      id: '/_authenticated/services/api-dev/new'
+      path: '/services/api-dev/new'
+      fullPath: '/services/api-dev/new'
+      preLoaderRoute: typeof AuthenticatedServicesApiDevNewRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/account/requests/$id': {
       id: '/_authenticated/account/requests/$id'
       path: '/account/requests/$id'
@@ -725,6 +745,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedServicesIndexRoute: typeof AuthenticatedServicesIndexRoute
   AuthenticatedSpikesIndexRoute: typeof AuthenticatedSpikesIndexRoute
   AuthenticatedAccountRequestsIdRoute: typeof AuthenticatedAccountRequestsIdRoute
+  AuthenticatedServicesApiDevNewRoute: typeof AuthenticatedServicesApiDevNewRoute
   AuthenticatedServicesCampusApplyRoute: typeof AuthenticatedServicesCampusApplyRoute
   AuthenticatedServicesGenericKindRoute: typeof AuthenticatedServicesGenericKindRoute
   AuthenticatedServicesWebDevNewRoute: typeof AuthenticatedServicesWebDevNewRoute
@@ -744,6 +765,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedServicesIndexRoute: AuthenticatedServicesIndexRoute,
   AuthenticatedSpikesIndexRoute: AuthenticatedSpikesIndexRoute,
   AuthenticatedAccountRequestsIdRoute: AuthenticatedAccountRequestsIdRoute,
+  AuthenticatedServicesApiDevNewRoute: AuthenticatedServicesApiDevNewRoute,
   AuthenticatedServicesCampusApplyRoute: AuthenticatedServicesCampusApplyRoute,
   AuthenticatedServicesGenericKindRoute: AuthenticatedServicesGenericKindRoute,
   AuthenticatedServicesWebDevNewRoute: AuthenticatedServicesWebDevNewRoute,
