@@ -131,11 +131,11 @@ function AdminSupport() {
                   checked={!!active.ai_enabled && !active.admin_active}
                   onCheckedChange={async (v) => {
                     try {
-                      await (useServerFn as any); // no-op to keep import
-                      const fn = (window as any).__setThreadAi ?? null;
-                      if (fn) await fn({ data: { threadId: active.id, enabled: v } });
-                    } catch {}
-                    qc.invalidateQueries({ queryKey: ["all-threads"] });
+                      await toggleAiFn({ data: { threadId: active.id, enabled: v } });
+                      qc.invalidateQueries({ queryKey: ["all-threads"] });
+                    } catch (e: any) {
+                      toast.error(e?.message || "Failed");
+                    }
                   }}
                 />
               </div>
