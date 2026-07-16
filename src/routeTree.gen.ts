@@ -35,6 +35,7 @@ import { Route as AuthenticatedAdminServicesRouteImport } from './routes/_authen
 import { Route as AuthenticatedAdminRequestsWebsiteRouteImport } from './routes/_authenticated/admin.requests-website'
 import { Route as AuthenticatedAdminRequestsRouteImport } from './routes/_authenticated/admin.requests'
 import { Route as AuthenticatedAdminPaymentsRouteImport } from './routes/_authenticated/admin.payments'
+import { Route as AuthenticatedAdminAiSettingsRouteImport } from './routes/_authenticated/admin.ai-settings'
 import { Route as AuthenticatedAccountRequestsIndexRouteImport } from './routes/_authenticated/account.requests.index'
 import { Route as AuthenticatedServicesWebDevNewRouteImport } from './routes/_authenticated/services.web-dev.new'
 import { Route as AuthenticatedServicesGenericKindRouteImport } from './routes/_authenticated/services.generic.$kind'
@@ -182,6 +183,12 @@ const AuthenticatedAdminPaymentsRoute =
     path: '/payments',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminAiSettingsRoute =
+  AuthenticatedAdminAiSettingsRouteImport.update({
+    id: '/ai-settings',
+    path: '/ai-settings',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAccountRequestsIndexRoute =
   AuthenticatedAccountRequestsIndexRouteImport.update({
     id: '/account/requests/',
@@ -224,6 +231,7 @@ export interface FileRoutesByFullPath {
   '/api/transcribe': typeof ApiTranscribeRoute
   '/api/tts': typeof ApiTtsRoute
   '/pay/$token': typeof PayTokenRoute
+  '/admin/ai-settings': typeof AuthenticatedAdminAiSettingsRoute
   '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
   '/admin/requests': typeof AuthenticatedAdminRequestsRoute
   '/admin/requests-website': typeof AuthenticatedAdminRequestsWebsiteRoute
@@ -255,6 +263,7 @@ export interface FileRoutesByTo {
   '/api/tts': typeof ApiTtsRoute
   '/pay/$token': typeof PayTokenRoute
   '/': typeof AuthenticatedIndexRoute
+  '/admin/ai-settings': typeof AuthenticatedAdminAiSettingsRoute
   '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
   '/admin/requests': typeof AuthenticatedAdminRequestsRoute
   '/admin/requests-website': typeof AuthenticatedAdminRequestsWebsiteRoute
@@ -289,6 +298,7 @@ export interface FileRoutesById {
   '/api/tts': typeof ApiTtsRoute
   '/pay/$token': typeof PayTokenRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/admin/ai-settings': typeof AuthenticatedAdminAiSettingsRoute
   '/_authenticated/admin/payments': typeof AuthenticatedAdminPaymentsRoute
   '/_authenticated/admin/requests': typeof AuthenticatedAdminRequestsRoute
   '/_authenticated/admin/requests-website': typeof AuthenticatedAdminRequestsWebsiteRoute
@@ -323,6 +333,7 @@ export interface FileRouteTypes {
     | '/api/transcribe'
     | '/api/tts'
     | '/pay/$token'
+    | '/admin/ai-settings'
     | '/admin/payments'
     | '/admin/requests'
     | '/admin/requests-website'
@@ -354,6 +365,7 @@ export interface FileRouteTypes {
     | '/api/tts'
     | '/pay/$token'
     | '/'
+    | '/admin/ai-settings'
     | '/admin/payments'
     | '/admin/requests'
     | '/admin/requests-website'
@@ -387,6 +399,7 @@ export interface FileRouteTypes {
     | '/api/tts'
     | '/pay/$token'
     | '/_authenticated/'
+    | '/_authenticated/admin/ai-settings'
     | '/_authenticated/admin/payments'
     | '/_authenticated/admin/requests'
     | '/_authenticated/admin/requests-website'
@@ -603,6 +616,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminPaymentsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/ai-settings': {
+      id: '/_authenticated/admin/ai-settings'
+      path: '/ai-settings'
+      fullPath: '/admin/ai-settings'
+      preLoaderRoute: typeof AuthenticatedAdminAiSettingsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/account/requests/': {
       id: '/_authenticated/account/requests/'
       path: '/account/requests'
@@ -642,6 +662,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminAiSettingsRoute: typeof AuthenticatedAdminAiSettingsRoute
   AuthenticatedAdminPaymentsRoute: typeof AuthenticatedAdminPaymentsRoute
   AuthenticatedAdminRequestsRoute: typeof AuthenticatedAdminRequestsRoute
   AuthenticatedAdminRequestsWebsiteRoute: typeof AuthenticatedAdminRequestsWebsiteRoute
@@ -654,6 +675,7 @@ interface AuthenticatedAdminRouteChildren {
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminAiSettingsRoute: AuthenticatedAdminAiSettingsRoute,
   AuthenticatedAdminPaymentsRoute: AuthenticatedAdminPaymentsRoute,
   AuthenticatedAdminRequestsRoute: AuthenticatedAdminRequestsRoute,
   AuthenticatedAdminRequestsWebsiteRoute:

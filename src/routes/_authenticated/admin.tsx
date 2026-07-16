@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet, Link, redirect, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, Users, KeyRound, Inbox, Settings, Wrench, CreditCard, MessageCircle, ClipboardList } from "lucide-react";
+import { LayoutDashboard, Users, KeyRound, Inbox, Settings, Wrench, CreditCard, MessageCircle, ClipboardList, Bot, Code2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
 
