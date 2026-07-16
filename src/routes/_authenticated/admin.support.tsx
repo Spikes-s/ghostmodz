@@ -2,13 +2,15 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { Send, MessageCircle } from "lucide-react";
+import { Send, MessageCircle, Bot, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import {
   listAllThreads, listThreadMessages, sendMessage, markThreadRead,
 } from "@/lib/workflow.functions";
+import { setThreadAiEnabled } from "@/lib/ai-support.functions";
 import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
 
