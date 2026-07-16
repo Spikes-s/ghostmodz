@@ -2,13 +2,15 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { Send, MessageCircle } from "lucide-react";
+import { Send, MessageCircle, Bot, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import {
   listAllThreads, listThreadMessages, sendMessage, markThreadRead,
 } from "@/lib/workflow.functions";
+import { setThreadAiEnabled } from "@/lib/ai-support.functions";
 import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
 
@@ -22,6 +24,7 @@ function AdminSupport() {
   const msgsFn = useServerFn(listThreadMessages);
   const sendFn = useServerFn(sendMessage);
   const readFn = useServerFn(markThreadRead);
+  const toggleAiFn = useServerFn(setThreadAiEnabled);
 
   const { data: threads = [] } = useQuery({ queryKey: ["all-threads"], queryFn: () => listFn() });
   const [activeId, setActiveId] = useState<string | null>(null);
@@ -112,11 +115,30 @@ function AdminSupport() {
           </div>
         ) : (
           <>
-            <div className="p-3 border-b border-border/40">
-              <div className="font-semibold text-sm">
-                {active.profile?.full_name || active.profile?.username || active.profile?.email || "User"}
+            <div className="p-3 border-b border-border/40 flex items-center justify-between gap-3">
+              <div>
+                <div className="font-semibold text-sm">
+                  {active.profile?.full_name || active.profile?.username || active.profile?.email || "User"}
+                </div>
+                <div className="text-xs text-muted-foreground">{active.profile?.email}</div>
               </div>
-              <div className="text-xs text-muted-foreground">{active.profile?.email}</div>
+              <div className="flex items-center gap-2 text-xs">
+                <span className={`flex items-center gap-1 px-2 py-0.5 rounded-full border ${active.ai_enabled && !active.admin_active ? "border-accent/50 text-accent" : "border-primary/50 text-primary"}`}>
+                  {active.ai_enabled && !active.admin_active ? <><Bot className="h-3 w-3" /> AI</> : <><Shield className="h-3 w-3" /> Admin</>}
+                </span>
+                <span className="text-muted-foreground">AI reply</span>
+                <Switch
+                  checked={!!active.ai_enabled && !active.admin_active}
+                  onCheckedChange={async (v) => {
+                    try {
+                      await toggleAiFn({ data: { threadId: active.id, enabled: v } });
+                      qc.invalidateQueries({ queryKey: ["all-threads"] });
+                    } catch (e: any) {
+                      toast.error(e?.message || "Failed");
+                    }
+                  }}
+                />
+              </div>
             </div>
             <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3">
               {(messages as any[]).map((m) => (

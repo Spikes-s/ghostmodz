@@ -53,6 +53,210 @@ export type Database = {
         }
         Relationships: []
       }
+      ai_support_settings: {
+        Row: {
+          ai_globally_enabled: boolean
+          business_description: string
+          business_hours: string
+          contact_details: string
+          escalation_rules: string
+          faqs: Json
+          id: string
+          max_response_length: number
+          response_style: string
+          supported_languages: string[]
+          updated_at: string
+          welcome_message: string
+        }
+        Insert: {
+          ai_globally_enabled?: boolean
+          business_description?: string
+          business_hours?: string
+          contact_details?: string
+          escalation_rules?: string
+          faqs?: Json
+          id?: string
+          max_response_length?: number
+          response_style?: string
+          supported_languages?: string[]
+          updated_at?: string
+          welcome_message?: string
+        }
+        Update: {
+          ai_globally_enabled?: boolean
+          business_description?: string
+          business_hours?: string
+          contact_details?: string
+          escalation_rules?: string
+          faqs?: Json
+          id?: string
+          max_response_length?: number
+          response_style?: string
+          supported_languages?: string[]
+          updated_at?: string
+          welcome_message?: string
+        }
+        Relationships: []
+      }
+      api_endpoints: {
+        Row: {
+          created_at: string
+          description: string | null
+          headers: Json
+          id: string
+          method: string
+          parameters: Json
+          project_id: string
+          request_body: Json
+          response_body: Json
+          route: string
+          updated_at: string
+          validation: Json
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          headers?: Json
+          id?: string
+          method?: string
+          parameters?: Json
+          project_id: string
+          request_body?: Json
+          response_body?: Json
+          route: string
+          updated_at?: string
+          validation?: Json
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          headers?: Json
+          id?: string
+          method?: string
+          parameters?: Json
+          project_id?: string
+          request_body?: Json
+          response_body?: Json
+          route?: string
+          updated_at?: string
+          validation?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "api_endpoints_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "api_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      api_env_vars: {
+        Row: {
+          created_at: string
+          id: string
+          key: string
+          project_id: string
+          value: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          key: string
+          project_id: string
+          value?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          key?: string
+          project_id?: string
+          value?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "api_env_vars_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "api_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      api_project_comments: {
+        Row: {
+          author_id: string
+          body: string
+          created_at: string
+          id: string
+          project_id: string
+        }
+        Insert: {
+          author_id: string
+          body: string
+          created_at?: string
+          id?: string
+          project_id: string
+        }
+        Update: {
+          author_id?: string
+          body?: string
+          created_at?: string
+          id?: string
+          project_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "api_project_comments_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "api_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      api_projects: {
+        Row: {
+          api_type: string
+          auth_type: string
+          base_url: string | null
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          status: string
+          updated_at: string
+          user_id: string
+          version: string
+        }
+        Insert: {
+          api_type?: string
+          auth_type?: string
+          base_url?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          status?: string
+          updated_at?: string
+          user_id: string
+          version?: string
+        }
+        Update: {
+          api_type?: string
+          auth_type?: string
+          base_url?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+          version?: string
+        }
+        Relationships: []
+      }
       conversations: {
         Row: {
           created_at: string
@@ -466,6 +670,7 @@ export type Database = {
           body: string
           created_at: string
           id: string
+          language: string | null
           sender_id: string
           sender_role: string
           thread_id: string
@@ -474,6 +679,7 @@ export type Database = {
           body: string
           created_at?: string
           id?: string
+          language?: string | null
           sender_id: string
           sender_role?: string
           thread_id: string
@@ -482,6 +688,7 @@ export type Database = {
           body?: string
           created_at?: string
           id?: string
+          language?: string | null
           sender_id?: string
           sender_role?: string
           thread_id?: string
@@ -498,9 +705,13 @@ export type Database = {
       }
       support_threads: {
         Row: {
+          admin_active: boolean
+          ai_enabled: boolean
           created_at: string
           id: string
+          language: string | null
           last_message_at: string
+          mode: string
           status: string
           subject: string | null
           unread_admin: number
@@ -509,9 +720,13 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          admin_active?: boolean
+          ai_enabled?: boolean
           created_at?: string
           id?: string
+          language?: string | null
           last_message_at?: string
+          mode?: string
           status?: string
           subject?: string | null
           unread_admin?: number
@@ -520,9 +735,13 @@ export type Database = {
           user_id: string
         }
         Update: {
+          admin_active?: boolean
+          ai_enabled?: boolean
           created_at?: string
           id?: string
+          language?: string | null
           last_message_at?: string
+          mode?: string
           status?: string
           subject?: string | null
           unread_admin?: number
@@ -668,7 +887,13 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
       app_role: "administrator" | "moderator" | "premium" | "standard"

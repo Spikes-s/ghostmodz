@@ -25,6 +25,12 @@ Workflow rules:
 - After code, add a short note explaining what changed and what to try next.
 - The user can type /preview, /terminal, or /files to switch tools — these are not commands you execute.`;
 
+const API_DEV_SYSTEM = `You are Spikes — the Ghost Mods Tech AI, in API Development mode.
+You help users design, build, test, and document their own APIs (REST, GraphQL, webhooks, auth, payment, file upload, custom).
+Give precise, standards-compliant guidance. Suggest concrete route paths, HTTP methods, request/response shapes, validation, auth patterns, and status codes.
+When the user shares their project (endpoints, auth type), reason about it directly. Be concise but complete. Use markdown; code blocks with language.
+Clearly distinguish project generation/scaffolding from actual deployment.`;
+
 export const Route = createFileRoute("/api/chat")({
   server: {
     handlers: {
@@ -34,7 +40,7 @@ export const Route = createFileRoute("/api/chat")({
 
         const { messages, mode } = (await request.json()) as {
           messages: UIMessage[];
-          mode?: "talk" | "build";
+          mode?: "talk" | "build" | "api-dev";
         };
         if (!Array.isArray(messages)) {
           return new Response("Messages required", { status: 400 });
@@ -43,10 +49,13 @@ export const Route = createFileRoute("/api/chat")({
         const key = process.env.LOVABLE_API_KEY;
         if (!key) return new Response("Missing LOVABLE_API_KEY", { status: 500 });
 
+        const system =
+          mode === "build" ? BUILD_SYSTEM : mode === "api-dev" ? API_DEV_SYSTEM : TALK_SYSTEM;
+
         const gateway = createLovableAiGatewayProvider(key);
         const result = streamText({
           model: gateway("google/gemini-3-flash-preview"),
-          system: mode === "build" ? BUILD_SYSTEM : TALK_SYSTEM,
+          system,
           messages: await convertToModelMessages(messages),
         });
 

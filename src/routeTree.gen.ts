@@ -35,10 +35,14 @@ import { Route as AuthenticatedAdminServicesRouteImport } from './routes/_authen
 import { Route as AuthenticatedAdminRequestsWebsiteRouteImport } from './routes/_authenticated/admin.requests-website'
 import { Route as AuthenticatedAdminRequestsRouteImport } from './routes/_authenticated/admin.requests'
 import { Route as AuthenticatedAdminPaymentsRouteImport } from './routes/_authenticated/admin.payments'
+import { Route as AuthenticatedAdminApiProjectsRouteImport } from './routes/_authenticated/admin.api-projects'
+import { Route as AuthenticatedAdminAiSettingsRouteImport } from './routes/_authenticated/admin.ai-settings'
 import { Route as AuthenticatedAccountRequestsIndexRouteImport } from './routes/_authenticated/account.requests.index'
 import { Route as AuthenticatedServicesWebDevNewRouteImport } from './routes/_authenticated/services.web-dev.new'
 import { Route as AuthenticatedServicesGenericKindRouteImport } from './routes/_authenticated/services.generic.$kind'
 import { Route as AuthenticatedServicesCampusApplyRouteImport } from './routes/_authenticated/services.campus.apply'
+import { Route as AuthenticatedServicesApiDevNewRouteImport } from './routes/_authenticated/services.api-dev.new'
+import { Route as AuthenticatedServicesApiDevProjectIdRouteImport } from './routes/_authenticated/services.api-dev.$projectId'
 import { Route as AuthenticatedAccountRequestsIdRouteImport } from './routes/_authenticated/account.requests.$id'
 
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -182,6 +186,18 @@ const AuthenticatedAdminPaymentsRoute =
     path: '/payments',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminApiProjectsRoute =
+  AuthenticatedAdminApiProjectsRouteImport.update({
+    id: '/api-projects',
+    path: '/api-projects',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminAiSettingsRoute =
+  AuthenticatedAdminAiSettingsRouteImport.update({
+    id: '/ai-settings',
+    path: '/ai-settings',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAccountRequestsIndexRoute =
   AuthenticatedAccountRequestsIndexRouteImport.update({
     id: '/account/requests/',
@@ -206,6 +222,18 @@ const AuthenticatedServicesCampusApplyRoute =
     path: '/services/campus/apply',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedServicesApiDevNewRoute =
+  AuthenticatedServicesApiDevNewRouteImport.update({
+    id: '/services/api-dev/new',
+    path: '/services/api-dev/new',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedServicesApiDevProjectIdRoute =
+  AuthenticatedServicesApiDevProjectIdRouteImport.update({
+    id: '/services/api-dev/$projectId',
+    path: '/services/api-dev/$projectId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAccountRequestsIdRoute =
   AuthenticatedAccountRequestsIdRouteImport.update({
     id: '/account/requests/$id',
@@ -224,6 +252,8 @@ export interface FileRoutesByFullPath {
   '/api/transcribe': typeof ApiTranscribeRoute
   '/api/tts': typeof ApiTtsRoute
   '/pay/$token': typeof PayTokenRoute
+  '/admin/ai-settings': typeof AuthenticatedAdminAiSettingsRoute
+  '/admin/api-projects': typeof AuthenticatedAdminApiProjectsRoute
   '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
   '/admin/requests': typeof AuthenticatedAdminRequestsRoute
   '/admin/requests-website': typeof AuthenticatedAdminRequestsWebsiteRoute
@@ -240,6 +270,8 @@ export interface FileRoutesByFullPath {
   '/services/': typeof AuthenticatedServicesIndexRoute
   '/spikes/': typeof AuthenticatedSpikesIndexRoute
   '/account/requests/$id': typeof AuthenticatedAccountRequestsIdRoute
+  '/services/api-dev/$projectId': typeof AuthenticatedServicesApiDevProjectIdRoute
+  '/services/api-dev/new': typeof AuthenticatedServicesApiDevNewRoute
   '/services/campus/apply': typeof AuthenticatedServicesCampusApplyRoute
   '/services/generic/$kind': typeof AuthenticatedServicesGenericKindRoute
   '/services/web-dev/new': typeof AuthenticatedServicesWebDevNewRoute
@@ -255,6 +287,8 @@ export interface FileRoutesByTo {
   '/api/tts': typeof ApiTtsRoute
   '/pay/$token': typeof PayTokenRoute
   '/': typeof AuthenticatedIndexRoute
+  '/admin/ai-settings': typeof AuthenticatedAdminAiSettingsRoute
+  '/admin/api-projects': typeof AuthenticatedAdminApiProjectsRoute
   '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
   '/admin/requests': typeof AuthenticatedAdminRequestsRoute
   '/admin/requests-website': typeof AuthenticatedAdminRequestsWebsiteRoute
@@ -271,6 +305,8 @@ export interface FileRoutesByTo {
   '/services': typeof AuthenticatedServicesIndexRoute
   '/spikes': typeof AuthenticatedSpikesIndexRoute
   '/account/requests/$id': typeof AuthenticatedAccountRequestsIdRoute
+  '/services/api-dev/$projectId': typeof AuthenticatedServicesApiDevProjectIdRoute
+  '/services/api-dev/new': typeof AuthenticatedServicesApiDevNewRoute
   '/services/campus/apply': typeof AuthenticatedServicesCampusApplyRoute
   '/services/generic/$kind': typeof AuthenticatedServicesGenericKindRoute
   '/services/web-dev/new': typeof AuthenticatedServicesWebDevNewRoute
@@ -289,6 +325,8 @@ export interface FileRoutesById {
   '/api/tts': typeof ApiTtsRoute
   '/pay/$token': typeof PayTokenRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/admin/ai-settings': typeof AuthenticatedAdminAiSettingsRoute
+  '/_authenticated/admin/api-projects': typeof AuthenticatedAdminApiProjectsRoute
   '/_authenticated/admin/payments': typeof AuthenticatedAdminPaymentsRoute
   '/_authenticated/admin/requests': typeof AuthenticatedAdminRequestsRoute
   '/_authenticated/admin/requests-website': typeof AuthenticatedAdminRequestsWebsiteRoute
@@ -305,6 +343,8 @@ export interface FileRoutesById {
   '/_authenticated/services/': typeof AuthenticatedServicesIndexRoute
   '/_authenticated/spikes/': typeof AuthenticatedSpikesIndexRoute
   '/_authenticated/account/requests/$id': typeof AuthenticatedAccountRequestsIdRoute
+  '/_authenticated/services/api-dev/$projectId': typeof AuthenticatedServicesApiDevProjectIdRoute
+  '/_authenticated/services/api-dev/new': typeof AuthenticatedServicesApiDevNewRoute
   '/_authenticated/services/campus/apply': typeof AuthenticatedServicesCampusApplyRoute
   '/_authenticated/services/generic/$kind': typeof AuthenticatedServicesGenericKindRoute
   '/_authenticated/services/web-dev/new': typeof AuthenticatedServicesWebDevNewRoute
@@ -323,6 +363,8 @@ export interface FileRouteTypes {
     | '/api/transcribe'
     | '/api/tts'
     | '/pay/$token'
+    | '/admin/ai-settings'
+    | '/admin/api-projects'
     | '/admin/payments'
     | '/admin/requests'
     | '/admin/requests-website'
@@ -339,6 +381,8 @@ export interface FileRouteTypes {
     | '/services/'
     | '/spikes/'
     | '/account/requests/$id'
+    | '/services/api-dev/$projectId'
+    | '/services/api-dev/new'
     | '/services/campus/apply'
     | '/services/generic/$kind'
     | '/services/web-dev/new'
@@ -354,6 +398,8 @@ export interface FileRouteTypes {
     | '/api/tts'
     | '/pay/$token'
     | '/'
+    | '/admin/ai-settings'
+    | '/admin/api-projects'
     | '/admin/payments'
     | '/admin/requests'
     | '/admin/requests-website'
@@ -370,6 +416,8 @@ export interface FileRouteTypes {
     | '/services'
     | '/spikes'
     | '/account/requests/$id'
+    | '/services/api-dev/$projectId'
+    | '/services/api-dev/new'
     | '/services/campus/apply'
     | '/services/generic/$kind'
     | '/services/web-dev/new'
@@ -387,6 +435,8 @@ export interface FileRouteTypes {
     | '/api/tts'
     | '/pay/$token'
     | '/_authenticated/'
+    | '/_authenticated/admin/ai-settings'
+    | '/_authenticated/admin/api-projects'
     | '/_authenticated/admin/payments'
     | '/_authenticated/admin/requests'
     | '/_authenticated/admin/requests-website'
@@ -403,6 +453,8 @@ export interface FileRouteTypes {
     | '/_authenticated/services/'
     | '/_authenticated/spikes/'
     | '/_authenticated/account/requests/$id'
+    | '/_authenticated/services/api-dev/$projectId'
+    | '/_authenticated/services/api-dev/new'
     | '/_authenticated/services/campus/apply'
     | '/_authenticated/services/generic/$kind'
     | '/_authenticated/services/web-dev/new'
@@ -603,6 +655,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminPaymentsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/api-projects': {
+      id: '/_authenticated/admin/api-projects'
+      path: '/api-projects'
+      fullPath: '/admin/api-projects'
+      preLoaderRoute: typeof AuthenticatedAdminApiProjectsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/ai-settings': {
+      id: '/_authenticated/admin/ai-settings'
+      path: '/ai-settings'
+      fullPath: '/admin/ai-settings'
+      preLoaderRoute: typeof AuthenticatedAdminAiSettingsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/account/requests/': {
       id: '/_authenticated/account/requests/'
       path: '/account/requests'
@@ -631,6 +697,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedServicesCampusApplyRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/services/api-dev/new': {
+      id: '/_authenticated/services/api-dev/new'
+      path: '/services/api-dev/new'
+      fullPath: '/services/api-dev/new'
+      preLoaderRoute: typeof AuthenticatedServicesApiDevNewRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/services/api-dev/$projectId': {
+      id: '/_authenticated/services/api-dev/$projectId'
+      path: '/services/api-dev/$projectId'
+      fullPath: '/services/api-dev/$projectId'
+      preLoaderRoute: typeof AuthenticatedServicesApiDevProjectIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/account/requests/$id': {
       id: '/_authenticated/account/requests/$id'
       path: '/account/requests/$id'
@@ -642,6 +722,8 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminAiSettingsRoute: typeof AuthenticatedAdminAiSettingsRoute
+  AuthenticatedAdminApiProjectsRoute: typeof AuthenticatedAdminApiProjectsRoute
   AuthenticatedAdminPaymentsRoute: typeof AuthenticatedAdminPaymentsRoute
   AuthenticatedAdminRequestsRoute: typeof AuthenticatedAdminRequestsRoute
   AuthenticatedAdminRequestsWebsiteRoute: typeof AuthenticatedAdminRequestsWebsiteRoute
@@ -654,6 +736,8 @@ interface AuthenticatedAdminRouteChildren {
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminAiSettingsRoute: AuthenticatedAdminAiSettingsRoute,
+  AuthenticatedAdminApiProjectsRoute: AuthenticatedAdminApiProjectsRoute,
   AuthenticatedAdminPaymentsRoute: AuthenticatedAdminPaymentsRoute,
   AuthenticatedAdminRequestsRoute: AuthenticatedAdminRequestsRoute,
   AuthenticatedAdminRequestsWebsiteRoute:
@@ -681,6 +765,8 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedServicesIndexRoute: typeof AuthenticatedServicesIndexRoute
   AuthenticatedSpikesIndexRoute: typeof AuthenticatedSpikesIndexRoute
   AuthenticatedAccountRequestsIdRoute: typeof AuthenticatedAccountRequestsIdRoute
+  AuthenticatedServicesApiDevProjectIdRoute: typeof AuthenticatedServicesApiDevProjectIdRoute
+  AuthenticatedServicesApiDevNewRoute: typeof AuthenticatedServicesApiDevNewRoute
   AuthenticatedServicesCampusApplyRoute: typeof AuthenticatedServicesCampusApplyRoute
   AuthenticatedServicesGenericKindRoute: typeof AuthenticatedServicesGenericKindRoute
   AuthenticatedServicesWebDevNewRoute: typeof AuthenticatedServicesWebDevNewRoute
@@ -700,6 +786,9 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedServicesIndexRoute: AuthenticatedServicesIndexRoute,
   AuthenticatedSpikesIndexRoute: AuthenticatedSpikesIndexRoute,
   AuthenticatedAccountRequestsIdRoute: AuthenticatedAccountRequestsIdRoute,
+  AuthenticatedServicesApiDevProjectIdRoute:
+    AuthenticatedServicesApiDevProjectIdRoute,
+  AuthenticatedServicesApiDevNewRoute: AuthenticatedServicesApiDevNewRoute,
   AuthenticatedServicesCampusApplyRoute: AuthenticatedServicesCampusApplyRoute,
   AuthenticatedServicesGenericKindRoute: AuthenticatedServicesGenericKindRoute,
   AuthenticatedServicesWebDevNewRoute: AuthenticatedServicesWebDevNewRoute,
@@ -722,13 +811,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
