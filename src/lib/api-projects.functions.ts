@@ -213,10 +213,65 @@ export const testEndpoint = createServerFn({ method: "POST" })
     const base = (data.overrideBaseUrl || project.base_url || "").replace(/\/$/, "");
     const url = `${base}${endpoint.route.startsWith("/") ? "" : "/"}${endpoint.route}`;
 
+    // SSRF protection: only allow http(s) to public hosts.
+    let parsed: URL;
+    try {
+      parsed = new URL(url);
+    } catch {
+      throw new Error("Invalid URL");
+    }
+    if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+      throw new Error("Only http and https URLs are allowed");
+    }
+    const host = parsed.hostname.toLowerCase().replace(/^\[|\]$/g, "");
+    const blockedHostnames = new Set([
+      "localhost",
+      "ip6-localhost",
+      "ip6-loopback",
+      "metadata.google.internal",
+      "metadata.goog",
+    ]);
+    if (blockedHostnames.has(host) || host.endsWith(".localhost") || host.endsWith(".internal")) {
+      throw new Error("Target host is not allowed");
+    }
+    const isIpv4 = /^(\d{1,3}\.){3}\d{1,3}$/.test(host);
+    if (isIpv4) {
+      const parts = host.split(".").map((n) => parseInt(n, 10));
+      if (parts.some((n) => Number.isNaN(n) || n < 0 || n > 255)) {
+        throw new Error("Invalid IP address");
+      }
+      const [a, b] = parts;
+      const isPrivate =
+        a === 10 ||
+        a === 127 ||
+        a === 0 ||
+        (a === 169 && b === 254) ||
+        (a === 172 && b >= 16 && b <= 31) ||
+        (a === 192 && b === 168) ||
+        (a === 100 && b >= 64 && b <= 127) ||
+        a >= 224; // multicast + reserved
+      if (isPrivate) throw new Error("Private/loopback IPs are not allowed");
+    }
+    if (host.includes(":")) {
+      // IPv6 — block loopback, link-local, unique-local, and unspecified.
+      const h = host;
+      if (
+        h === "::" ||
+        h === "::1" ||
+        h.startsWith("fe80:") ||
+        h.startsWith("fc") ||
+        h.startsWith("fd") ||
+        h.startsWith("::ffff:")
+      ) {
+        throw new Error("Private/loopback IPv6 addresses are not allowed");
+      }
+    }
+
     const headers: Record<string, string> = { "Content-Type": "application/json" };
     for (const h of (endpoint.headers as Array<{ key: string; value: string }>) ?? []) {
       if (h?.key) headers[h.key] = h.value ?? "";
     }
+
 
     const started = performance.now();
     const controller = new AbortController();
