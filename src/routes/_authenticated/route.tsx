@@ -7,6 +7,8 @@ import { CyberBackground } from "@/components/ghost/CyberBackground";
 import { useInactivityLogout } from "@/lib/inactivity";
 import { recordLogin } from "@/lib/admin.functions";
 import { toast } from "sonner";
+import { CommandPalette } from "@/components/ghost/CommandPalette";
+import { QuickActions } from "@/components/ghost/QuickActions";
 
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
@@ -55,6 +57,8 @@ function AuthedLayout() {
         <Outlet />
       </main>
       <Footer />
+      <CommandPalette />
+      <QuickActions />
     </div>
   );
 }
