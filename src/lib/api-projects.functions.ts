@@ -286,7 +286,9 @@ export const testEndpoint = createServerFn({ method: "POST" })
         headers,
         body,
         signal: controller.signal,
+        redirect: "manual",
       });
+
       const text = await res.text();
       const bodyOut = text.slice(0, 20000);
       return {
