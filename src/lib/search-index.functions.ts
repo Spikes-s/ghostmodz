@@ -85,7 +85,7 @@ export const searchAll = createServerFn({ method: "GET" })
         id: a.id,
         type: "api_project",
         title: a.name,
-        subtitle: `API · ${a.type ?? "rest"}`,
+        subtitle: `API · ${a.api_type ?? "rest"}`,
         href: `/services/api-dev/${a.id}`,
         updatedAt: a.updated_at as string,
       });
@@ -93,7 +93,7 @@ export const searchAll = createServerFn({ method: "GET" })
       results.push({
         id: r.id,
         type: "website_request",
-        title: r.project_name || "Website request",
+        title: r.website_type || r.service_kind || "Website request",
         subtitle: `Request · ${r.status ?? "pending"}`,
         href: `/account/requests/${r.id}`,
         updatedAt: r.updated_at as string,
@@ -117,17 +117,17 @@ export const getContinueWorking = createServerFn({ method: "GET" })
     const sb = context.supabase;
     const [proj, api, conv, req] = await Promise.all([
       sb.from("projects").select("id, name, description, updated_at").eq("user_id", context.userId).order("updated_at", { ascending: false }).limit(5),
-      sb.from("api_projects").select("id, name, type, updated_at").eq("user_id", context.userId).order("updated_at", { ascending: false }).limit(5),
+      sb.from("api_projects").select("id, name, api_type, updated_at").eq("user_id", context.userId).order("updated_at", { ascending: false }).limit(5),
       sb.from("conversations").select("id, title, updated_at").eq("user_id", context.userId).order("updated_at", { ascending: false }).limit(5),
-      sb.from("website_requests").select("id, project_name, status, updated_at").eq("user_id", context.userId).order("updated_at", { ascending: false }).limit(5),
+      sb.from("website_requests").select("id, service_kind, website_type, status, updated_at").eq("user_id", context.userId).order("updated_at", { ascending: false }).limit(5),
     ]);
 
     type Item = { id: string; kind: string; title: string; subtitle: string; href: string; updatedAt: string };
     const items: Item[] = [];
     for (const p of proj.data ?? []) items.push({ id: p.id, kind: "Build", title: p.name, subtitle: (p.description as string) || "Build project", href: `/build/${p.id}`, updatedAt: p.updated_at as string });
-    for (const a of api.data ?? []) items.push({ id: a.id, kind: "API", title: a.name, subtitle: `API project · ${a.type ?? "rest"}`, href: `/services/api-dev/${a.id}`, updatedAt: a.updated_at as string });
+    for (const a of api.data ?? []) items.push({ id: a.id, kind: "API", title: a.name, subtitle: `API project · ${a.api_type ?? "rest"}`, href: `/services/api-dev/${a.id}`, updatedAt: a.updated_at as string });
     for (const c of conv.data ?? []) items.push({ id: c.id, kind: "Chat", title: c.title || "Untitled chat", subtitle: "Spikes conversation", href: `/spikes/${c.id}`, updatedAt: c.updated_at as string });
-    for (const r of req.data ?? []) items.push({ id: r.id, kind: "Request", title: r.project_name || "Website request", subtitle: `Status · ${r.status ?? "pending"}`, href: `/account/requests/${r.id}`, updatedAt: r.updated_at as string });
+    for (const r of req.data ?? []) items.push({ id: r.id, kind: "Request", title: r.website_type || r.service_kind || "Website request", subtitle: `Status · ${r.status ?? "pending"}`, href: `/account/requests/${r.id}`, updatedAt: r.updated_at as string });
 
     items.sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
     return { latest: items[0] ?? null, recent: items.slice(0, 6) };
