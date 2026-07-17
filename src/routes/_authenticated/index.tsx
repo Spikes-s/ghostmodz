@@ -10,6 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { ServiceCard, type Service } from "@/components/ghost/ServiceCard";
 import { getSiteSettings } from "@/lib/tokens.functions";
+import { ContinueWorking } from "@/components/ghost/ContinueWorking";
 
 export const Route = createFileRoute("/_authenticated/")({
   head: () => ({
@@ -88,6 +89,9 @@ function Home() {
           </div>
         </div>
       </section>
+
+      <ContinueWorking />
+
 
       {/* SERVICES */}
       <section
