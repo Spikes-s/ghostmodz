@@ -17,7 +17,9 @@ async function isAdmin(ctx: { supabase: any; userId: string }): Promise<boolean>
 export const getAiSupportSettings = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    const { data, error } = await context.supabase
+    if (!(await isAdmin(context))) throw new Error("Forbidden");
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data, error } = await supabaseAdmin
       .from("ai_support_settings")
       .select("*")
       .limit(1)
@@ -25,6 +27,7 @@ export const getAiSupportSettings = createServerFn({ method: "GET" })
     if (error) throw new Error(error.message);
     return data;
   });
+
 
 const SettingsSchema = z.object({
   ai_globally_enabled: z.boolean(),
