@@ -37,13 +37,13 @@ export const searchAll = createServerFn({ method: "GET" })
       .limit(6);
     const apiQ = sb
       .from("api_projects")
-      .select("id, name, type, updated_at")
+      .select("id, name, api_type, updated_at")
       .eq("user_id", context.userId)
       .order("updated_at", { ascending: false })
       .limit(6);
     const reqQ = sb
       .from("website_requests")
-      .select("id, project_name, status, updated_at")
+      .select("id, service_kind, website_type, status, updated_at")
       .eq("user_id", context.userId)
       .order("updated_at", { ascending: false })
       .limit(6);
