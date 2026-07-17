@@ -1,11 +1,12 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { Menu, X, LogOut, Shield, MessageCircle, Inbox } from "lucide-react";
+import { Menu, X, LogOut, Shield, Search } from "lucide-react";
 import { Logo } from "./Logo";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useIsAdmin } from "@/lib/use-is-admin";
 import { NotificationBell } from "./NotificationBell";
+import { openCommandPalette } from "./CommandPalette";
 
 const NAV = [
   { href: "/", label: "Home" },
@@ -45,6 +46,14 @@ export function Navbar() {
         </nav>
 
         <div className="hidden lg:flex items-center gap-2">
+          <button
+            onClick={openCommandPalette}
+            className="flex items-center gap-2 px-3 py-1.5 text-xs text-muted-foreground glass rounded-md border border-border/40 hover:border-primary/60 hover:text-foreground transition-colors min-w-[220px]"
+          >
+            <Search className="h-3.5 w-3.5" />
+            <span className="flex-1 text-left">Search anything…</span>
+            <kbd className="px-1.5 py-0.5 text-[10px] rounded bg-muted/50 font-mono">⌘K</kbd>
+          </button>
           <NotificationBell />
           {isAdmin && (
             <Link to="/admin" className="inline-flex items-center gap-1 px-3 py-2 text-sm font-medium text-primary hover:text-primary/80 neon-border rounded-md">
