@@ -38,6 +38,7 @@ import { Route as AuthenticatedAdminRequestsRouteImport } from './routes/_authen
 import { Route as AuthenticatedAdminPaymentsRouteImport } from './routes/_authenticated/admin.payments'
 import { Route as AuthenticatedAdminApiProjectsRouteImport } from './routes/_authenticated/admin.api-projects'
 import { Route as AuthenticatedAdminAiSettingsRouteImport } from './routes/_authenticated/admin.ai-settings'
+import { Route as AuthenticatedAcademyCoursesRouteImport } from './routes/_authenticated/academy.courses'
 import { Route as AuthenticatedAccountRequestsIndexRouteImport } from './routes/_authenticated/account.requests.index'
 import { Route as AuthenticatedServicesWebDevNewRouteImport } from './routes/_authenticated/services.web-dev.new'
 import { Route as AuthenticatedServicesGenericKindRouteImport } from './routes/_authenticated/services.generic.$kind'
@@ -205,6 +206,12 @@ const AuthenticatedAdminAiSettingsRoute =
     path: '/ai-settings',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAcademyCoursesRoute =
+  AuthenticatedAcademyCoursesRouteImport.update({
+    id: '/academy/courses',
+    path: '/academy/courses',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAccountRequestsIndexRoute =
   AuthenticatedAccountRequestsIndexRouteImport.update({
     id: '/account/requests/',
@@ -259,6 +266,7 @@ export interface FileRoutesByFullPath {
   '/api/transcribe': typeof ApiTranscribeRoute
   '/api/tts': typeof ApiTtsRoute
   '/pay/$token': typeof PayTokenRoute
+  '/academy/courses': typeof AuthenticatedAcademyCoursesRoute
   '/admin/ai-settings': typeof AuthenticatedAdminAiSettingsRoute
   '/admin/api-projects': typeof AuthenticatedAdminApiProjectsRoute
   '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
@@ -295,6 +303,7 @@ export interface FileRoutesByTo {
   '/api/tts': typeof ApiTtsRoute
   '/pay/$token': typeof PayTokenRoute
   '/': typeof AuthenticatedIndexRoute
+  '/academy/courses': typeof AuthenticatedAcademyCoursesRoute
   '/admin/ai-settings': typeof AuthenticatedAdminAiSettingsRoute
   '/admin/api-projects': typeof AuthenticatedAdminApiProjectsRoute
   '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
@@ -334,6 +343,7 @@ export interface FileRoutesById {
   '/api/tts': typeof ApiTtsRoute
   '/pay/$token': typeof PayTokenRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/academy/courses': typeof AuthenticatedAcademyCoursesRoute
   '/_authenticated/admin/ai-settings': typeof AuthenticatedAdminAiSettingsRoute
   '/_authenticated/admin/api-projects': typeof AuthenticatedAdminApiProjectsRoute
   '/_authenticated/admin/payments': typeof AuthenticatedAdminPaymentsRoute
@@ -373,6 +383,7 @@ export interface FileRouteTypes {
     | '/api/transcribe'
     | '/api/tts'
     | '/pay/$token'
+    | '/academy/courses'
     | '/admin/ai-settings'
     | '/admin/api-projects'
     | '/admin/payments'
@@ -409,6 +420,7 @@ export interface FileRouteTypes {
     | '/api/tts'
     | '/pay/$token'
     | '/'
+    | '/academy/courses'
     | '/admin/ai-settings'
     | '/admin/api-projects'
     | '/admin/payments'
@@ -447,6 +459,7 @@ export interface FileRouteTypes {
     | '/api/tts'
     | '/pay/$token'
     | '/_authenticated/'
+    | '/_authenticated/academy/courses'
     | '/_authenticated/admin/ai-settings'
     | '/_authenticated/admin/api-projects'
     | '/_authenticated/admin/payments'
@@ -689,6 +702,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminAiSettingsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/academy/courses': {
+      id: '/_authenticated/academy/courses'
+      path: '/academy/courses'
+      fullPath: '/academy/courses'
+      preLoaderRoute: typeof AuthenticatedAcademyCoursesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/account/requests/': {
       id: '/_authenticated/account/requests/'
       path: '/account/requests'
@@ -778,6 +798,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedSupportRoute: typeof AuthenticatedSupportRoute
   AuthenticatedTerminalRoute: typeof AuthenticatedTerminalRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+  AuthenticatedAcademyCoursesRoute: typeof AuthenticatedAcademyCoursesRoute
   AuthenticatedBuildProjectIdRoute: typeof AuthenticatedBuildProjectIdRoute
   AuthenticatedServicesSlugRoute: typeof AuthenticatedServicesSlugRoute
   AuthenticatedSpikesConversationIdRoute: typeof AuthenticatedSpikesConversationIdRoute
@@ -799,6 +820,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSupportRoute: AuthenticatedSupportRoute,
   AuthenticatedTerminalRoute: AuthenticatedTerminalRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+  AuthenticatedAcademyCoursesRoute: AuthenticatedAcademyCoursesRoute,
   AuthenticatedBuildProjectIdRoute: AuthenticatedBuildProjectIdRoute,
   AuthenticatedServicesSlugRoute: AuthenticatedServicesSlugRoute,
   AuthenticatedSpikesConversationIdRoute:
