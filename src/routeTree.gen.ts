@@ -38,6 +38,7 @@ import { Route as AuthenticatedAdminRequestsRouteImport } from './routes/_authen
 import { Route as AuthenticatedAdminPaymentsRouteImport } from './routes/_authenticated/admin.payments'
 import { Route as AuthenticatedAdminApiProjectsRouteImport } from './routes/_authenticated/admin.api-projects'
 import { Route as AuthenticatedAdminAiSettingsRouteImport } from './routes/_authenticated/admin.ai-settings'
+import { Route as AuthenticatedAdminAcademyRouteImport } from './routes/_authenticated/admin.academy'
 import { Route as AuthenticatedAcademyCoursesRouteImport } from './routes/_authenticated/academy.courses'
 import { Route as AuthenticatedAcademySlugRouteImport } from './routes/_authenticated/academy.$slug'
 import { Route as AuthenticatedAccountRequestsIndexRouteImport } from './routes/_authenticated/account.requests.index'
@@ -208,6 +209,12 @@ const AuthenticatedAdminAiSettingsRoute =
     path: '/ai-settings',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminAcademyRoute =
+  AuthenticatedAdminAcademyRouteImport.update({
+    id: '/academy',
+    path: '/academy',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAcademyCoursesRoute =
   AuthenticatedAcademyCoursesRouteImport.update({
     id: '/academy/courses',
@@ -282,6 +289,7 @@ export interface FileRoutesByFullPath {
   '/pay/$token': typeof PayTokenRoute
   '/academy/$slug': typeof AuthenticatedAcademySlugRoute
   '/academy/courses': typeof AuthenticatedAcademyCoursesRoute
+  '/admin/academy': typeof AuthenticatedAdminAcademyRoute
   '/admin/ai-settings': typeof AuthenticatedAdminAiSettingsRoute
   '/admin/api-projects': typeof AuthenticatedAdminApiProjectsRoute
   '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
@@ -321,6 +329,7 @@ export interface FileRoutesByTo {
   '/': typeof AuthenticatedIndexRoute
   '/academy/$slug': typeof AuthenticatedAcademySlugRoute
   '/academy/courses': typeof AuthenticatedAcademyCoursesRoute
+  '/admin/academy': typeof AuthenticatedAdminAcademyRoute
   '/admin/ai-settings': typeof AuthenticatedAdminAiSettingsRoute
   '/admin/api-projects': typeof AuthenticatedAdminApiProjectsRoute
   '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
@@ -363,6 +372,7 @@ export interface FileRoutesById {
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/_authenticated/academy/$slug': typeof AuthenticatedAcademySlugRoute
   '/_authenticated/academy/courses': typeof AuthenticatedAcademyCoursesRoute
+  '/_authenticated/admin/academy': typeof AuthenticatedAdminAcademyRoute
   '/_authenticated/admin/ai-settings': typeof AuthenticatedAdminAiSettingsRoute
   '/_authenticated/admin/api-projects': typeof AuthenticatedAdminApiProjectsRoute
   '/_authenticated/admin/payments': typeof AuthenticatedAdminPaymentsRoute
@@ -405,6 +415,7 @@ export interface FileRouteTypes {
     | '/pay/$token'
     | '/academy/$slug'
     | '/academy/courses'
+    | '/admin/academy'
     | '/admin/ai-settings'
     | '/admin/api-projects'
     | '/admin/payments'
@@ -444,6 +455,7 @@ export interface FileRouteTypes {
     | '/'
     | '/academy/$slug'
     | '/academy/courses'
+    | '/admin/academy'
     | '/admin/ai-settings'
     | '/admin/api-projects'
     | '/admin/payments'
@@ -485,6 +497,7 @@ export interface FileRouteTypes {
     | '/_authenticated/'
     | '/_authenticated/academy/$slug'
     | '/_authenticated/academy/courses'
+    | '/_authenticated/admin/academy'
     | '/_authenticated/admin/ai-settings'
     | '/_authenticated/admin/api-projects'
     | '/_authenticated/admin/payments'
@@ -728,6 +741,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminAiSettingsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/academy': {
+      id: '/_authenticated/admin/academy'
+      path: '/academy'
+      fullPath: '/admin/academy'
+      preLoaderRoute: typeof AuthenticatedAdminAcademyRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/academy/courses': {
       id: '/_authenticated/academy/courses'
       path: '/academy/courses'
@@ -802,6 +822,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminAcademyRoute: typeof AuthenticatedAdminAcademyRoute
   AuthenticatedAdminAiSettingsRoute: typeof AuthenticatedAdminAiSettingsRoute
   AuthenticatedAdminApiProjectsRoute: typeof AuthenticatedAdminApiProjectsRoute
   AuthenticatedAdminPaymentsRoute: typeof AuthenticatedAdminPaymentsRoute
@@ -816,6 +837,7 @@ interface AuthenticatedAdminRouteChildren {
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminAcademyRoute: AuthenticatedAdminAcademyRoute,
   AuthenticatedAdminAiSettingsRoute: AuthenticatedAdminAiSettingsRoute,
   AuthenticatedAdminApiProjectsRoute: AuthenticatedAdminApiProjectsRoute,
   AuthenticatedAdminPaymentsRoute: AuthenticatedAdminPaymentsRoute,
