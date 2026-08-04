@@ -294,12 +294,35 @@ export const confirmPayment = createServerFn({ method: "POST" })
       .select("user_id,request_id,amount,currency")
       .single();
     if (error) throw new Error(error.message);
+
+    // Course/campus payments unlock Ghost Modz Academy access.
+    const { data: req } = await supabaseAdmin
+      .from("website_requests")
+      .select("service_kind")
+      .eq("id", pay.request_id)
+      .maybeSingle();
+    if (req?.service_kind === "campus") {
+      await supabaseAdmin.from("academy_enrollments").insert({
+        user_id: pay.user_id,
+        request_id: pay.request_id,
+        track: "coding",
+        status: "active",
+      });
+      await notifyUser(pay.user_id, {
+        kind: "academy.enrolled",
+        title: "Welcome to Ghost Modz Academy",
+        body: "Your enrollment is active. Choose your learning path to begin.",
+        link: "/academy",
+      });
+    }
+
     await notifyUser(pay.user_id, {
       kind: "payment.confirmed",
       title: "Payment confirmed",
       body: `${pay.currency} ${Number(pay.amount).toLocaleString()} received. Thank you!`,
       link: `/account/requests/${pay.request_id}`,
     });
+
     return { ok: true };
   });
 
