@@ -47,6 +47,7 @@ import { Route as AuthenticatedServicesCampusApplyRouteImport } from './routes/_
 import { Route as AuthenticatedServicesApiDevNewRouteImport } from './routes/_authenticated/services.api-dev.new'
 import { Route as AuthenticatedServicesApiDevProjectIdRouteImport } from './routes/_authenticated/services.api-dev.$projectId'
 import { Route as AuthenticatedAccountRequestsIdRouteImport } from './routes/_authenticated/account.requests.$id'
+import { Route as AuthenticatedAcademyLessonLessonIdRouteImport } from './routes/_authenticated/academy.lesson.$lessonId'
 
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
@@ -261,6 +262,12 @@ const AuthenticatedAccountRequestsIdRoute =
     path: '/account/requests/$id',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAcademyLessonLessonIdRoute =
+  AuthenticatedAcademyLessonLessonIdRouteImport.update({
+    id: '/academy/lesson/$lessonId',
+    path: '/academy/lesson/$lessonId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
@@ -293,6 +300,7 @@ export interface FileRoutesByFullPath {
   '/build/': typeof AuthenticatedBuildIndexRoute
   '/services/': typeof AuthenticatedServicesIndexRoute
   '/spikes/': typeof AuthenticatedSpikesIndexRoute
+  '/academy/lesson/$lessonId': typeof AuthenticatedAcademyLessonLessonIdRoute
   '/account/requests/$id': typeof AuthenticatedAccountRequestsIdRoute
   '/services/api-dev/$projectId': typeof AuthenticatedServicesApiDevProjectIdRoute
   '/services/api-dev/new': typeof AuthenticatedServicesApiDevNewRoute
@@ -331,6 +339,7 @@ export interface FileRoutesByTo {
   '/build': typeof AuthenticatedBuildIndexRoute
   '/services': typeof AuthenticatedServicesIndexRoute
   '/spikes': typeof AuthenticatedSpikesIndexRoute
+  '/academy/lesson/$lessonId': typeof AuthenticatedAcademyLessonLessonIdRoute
   '/account/requests/$id': typeof AuthenticatedAccountRequestsIdRoute
   '/services/api-dev/$projectId': typeof AuthenticatedServicesApiDevProjectIdRoute
   '/services/api-dev/new': typeof AuthenticatedServicesApiDevNewRoute
@@ -372,6 +381,7 @@ export interface FileRoutesById {
   '/_authenticated/build/': typeof AuthenticatedBuildIndexRoute
   '/_authenticated/services/': typeof AuthenticatedServicesIndexRoute
   '/_authenticated/spikes/': typeof AuthenticatedSpikesIndexRoute
+  '/_authenticated/academy/lesson/$lessonId': typeof AuthenticatedAcademyLessonLessonIdRoute
   '/_authenticated/account/requests/$id': typeof AuthenticatedAccountRequestsIdRoute
   '/_authenticated/services/api-dev/$projectId': typeof AuthenticatedServicesApiDevProjectIdRoute
   '/_authenticated/services/api-dev/new': typeof AuthenticatedServicesApiDevNewRoute
@@ -413,6 +423,7 @@ export interface FileRouteTypes {
     | '/build/'
     | '/services/'
     | '/spikes/'
+    | '/academy/lesson/$lessonId'
     | '/account/requests/$id'
     | '/services/api-dev/$projectId'
     | '/services/api-dev/new'
@@ -451,6 +462,7 @@ export interface FileRouteTypes {
     | '/build'
     | '/services'
     | '/spikes'
+    | '/academy/lesson/$lessonId'
     | '/account/requests/$id'
     | '/services/api-dev/$projectId'
     | '/services/api-dev/new'
@@ -491,6 +503,7 @@ export interface FileRouteTypes {
     | '/_authenticated/build/'
     | '/_authenticated/services/'
     | '/_authenticated/spikes/'
+    | '/_authenticated/academy/lesson/$lessonId'
     | '/_authenticated/account/requests/$id'
     | '/_authenticated/services/api-dev/$projectId'
     | '/_authenticated/services/api-dev/new'
@@ -778,6 +791,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAccountRequestsIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/academy/lesson/$lessonId': {
+      id: '/_authenticated/academy/lesson/$lessonId'
+      path: '/academy/lesson/$lessonId'
+      fullPath: '/academy/lesson/$lessonId'
+      preLoaderRoute: typeof AuthenticatedAcademyLessonLessonIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -827,6 +847,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedBuildIndexRoute: typeof AuthenticatedBuildIndexRoute
   AuthenticatedServicesIndexRoute: typeof AuthenticatedServicesIndexRoute
   AuthenticatedSpikesIndexRoute: typeof AuthenticatedSpikesIndexRoute
+  AuthenticatedAcademyLessonLessonIdRoute: typeof AuthenticatedAcademyLessonLessonIdRoute
   AuthenticatedAccountRequestsIdRoute: typeof AuthenticatedAccountRequestsIdRoute
   AuthenticatedServicesApiDevProjectIdRoute: typeof AuthenticatedServicesApiDevProjectIdRoute
   AuthenticatedServicesApiDevNewRoute: typeof AuthenticatedServicesApiDevNewRoute
@@ -851,6 +872,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedBuildIndexRoute: AuthenticatedBuildIndexRoute,
   AuthenticatedServicesIndexRoute: AuthenticatedServicesIndexRoute,
   AuthenticatedSpikesIndexRoute: AuthenticatedSpikesIndexRoute,
+  AuthenticatedAcademyLessonLessonIdRoute:
+    AuthenticatedAcademyLessonLessonIdRoute,
   AuthenticatedAccountRequestsIdRoute: AuthenticatedAccountRequestsIdRoute,
   AuthenticatedServicesApiDevProjectIdRoute:
     AuthenticatedServicesApiDevProjectIdRoute,
