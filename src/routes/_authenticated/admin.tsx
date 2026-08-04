@@ -26,6 +26,8 @@ function AdminLayout() {
     { to: "/admin/requests-website", label: "Website Requests", icon: ClipboardList, exact: false },
     { to: "/admin/support", label: "Support Chat", icon: MessageCircle, exact: false },
     { to: "/admin/ai-settings", label: "AI Assistant", icon: Bot, exact: false },
+    { to: "/admin/academy", label: "Academy", icon: GraduationCap, exact: false },
+
     { to: "/admin/api-projects", label: "API Projects", icon: Code2, exact: false },
     { to: "/admin/users", label: "Users", icon: Users, exact: false },
     { to: "/admin/tokens", label: "Access Tokens", icon: KeyRound, exact: false },

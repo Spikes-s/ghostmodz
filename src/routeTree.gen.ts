@@ -49,6 +49,7 @@ import { Route as AuthenticatedServicesApiDevNewRouteImport } from './routes/_au
 import { Route as AuthenticatedServicesApiDevProjectIdRouteImport } from './routes/_authenticated/services.api-dev.$projectId'
 import { Route as AuthenticatedAccountRequestsIdRouteImport } from './routes/_authenticated/account.requests.$id'
 import { Route as AuthenticatedAcademyLessonLessonIdRouteImport } from './routes/_authenticated/academy.lesson.$lessonId'
+import { Route as AuthenticatedAcademyCertificateCodeRouteImport } from './routes/_authenticated/academy.certificate.$code'
 
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
@@ -275,6 +276,12 @@ const AuthenticatedAcademyLessonLessonIdRoute =
     path: '/academy/lesson/$lessonId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAcademyCertificateCodeRoute =
+  AuthenticatedAcademyCertificateCodeRouteImport.update({
+    id: '/academy/certificate/$code',
+    path: '/academy/certificate/$code',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
@@ -308,6 +315,7 @@ export interface FileRoutesByFullPath {
   '/build/': typeof AuthenticatedBuildIndexRoute
   '/services/': typeof AuthenticatedServicesIndexRoute
   '/spikes/': typeof AuthenticatedSpikesIndexRoute
+  '/academy/certificate/$code': typeof AuthenticatedAcademyCertificateCodeRoute
   '/academy/lesson/$lessonId': typeof AuthenticatedAcademyLessonLessonIdRoute
   '/account/requests/$id': typeof AuthenticatedAccountRequestsIdRoute
   '/services/api-dev/$projectId': typeof AuthenticatedServicesApiDevProjectIdRoute
@@ -348,6 +356,7 @@ export interface FileRoutesByTo {
   '/build': typeof AuthenticatedBuildIndexRoute
   '/services': typeof AuthenticatedServicesIndexRoute
   '/spikes': typeof AuthenticatedSpikesIndexRoute
+  '/academy/certificate/$code': typeof AuthenticatedAcademyCertificateCodeRoute
   '/academy/lesson/$lessonId': typeof AuthenticatedAcademyLessonLessonIdRoute
   '/account/requests/$id': typeof AuthenticatedAccountRequestsIdRoute
   '/services/api-dev/$projectId': typeof AuthenticatedServicesApiDevProjectIdRoute
@@ -391,6 +400,7 @@ export interface FileRoutesById {
   '/_authenticated/build/': typeof AuthenticatedBuildIndexRoute
   '/_authenticated/services/': typeof AuthenticatedServicesIndexRoute
   '/_authenticated/spikes/': typeof AuthenticatedSpikesIndexRoute
+  '/_authenticated/academy/certificate/$code': typeof AuthenticatedAcademyCertificateCodeRoute
   '/_authenticated/academy/lesson/$lessonId': typeof AuthenticatedAcademyLessonLessonIdRoute
   '/_authenticated/account/requests/$id': typeof AuthenticatedAccountRequestsIdRoute
   '/_authenticated/services/api-dev/$projectId': typeof AuthenticatedServicesApiDevProjectIdRoute
@@ -434,6 +444,7 @@ export interface FileRouteTypes {
     | '/build/'
     | '/services/'
     | '/spikes/'
+    | '/academy/certificate/$code'
     | '/academy/lesson/$lessonId'
     | '/account/requests/$id'
     | '/services/api-dev/$projectId'
@@ -474,6 +485,7 @@ export interface FileRouteTypes {
     | '/build'
     | '/services'
     | '/spikes'
+    | '/academy/certificate/$code'
     | '/academy/lesson/$lessonId'
     | '/account/requests/$id'
     | '/services/api-dev/$projectId'
@@ -516,6 +528,7 @@ export interface FileRouteTypes {
     | '/_authenticated/build/'
     | '/_authenticated/services/'
     | '/_authenticated/spikes/'
+    | '/_authenticated/academy/certificate/$code'
     | '/_authenticated/academy/lesson/$lessonId'
     | '/_authenticated/account/requests/$id'
     | '/_authenticated/services/api-dev/$projectId'
@@ -818,6 +831,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAcademyLessonLessonIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/academy/certificate/$code': {
+      id: '/_authenticated/academy/certificate/$code'
+      path: '/academy/certificate/$code'
+      fullPath: '/academy/certificate/$code'
+      preLoaderRoute: typeof AuthenticatedAcademyCertificateCodeRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -869,6 +889,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedBuildIndexRoute: typeof AuthenticatedBuildIndexRoute
   AuthenticatedServicesIndexRoute: typeof AuthenticatedServicesIndexRoute
   AuthenticatedSpikesIndexRoute: typeof AuthenticatedSpikesIndexRoute
+  AuthenticatedAcademyCertificateCodeRoute: typeof AuthenticatedAcademyCertificateCodeRoute
   AuthenticatedAcademyLessonLessonIdRoute: typeof AuthenticatedAcademyLessonLessonIdRoute
   AuthenticatedAccountRequestsIdRoute: typeof AuthenticatedAccountRequestsIdRoute
   AuthenticatedServicesApiDevProjectIdRoute: typeof AuthenticatedServicesApiDevProjectIdRoute
@@ -894,6 +915,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedBuildIndexRoute: AuthenticatedBuildIndexRoute,
   AuthenticatedServicesIndexRoute: AuthenticatedServicesIndexRoute,
   AuthenticatedSpikesIndexRoute: AuthenticatedSpikesIndexRoute,
+  AuthenticatedAcademyCertificateCodeRoute:
+    AuthenticatedAcademyCertificateCodeRoute,
   AuthenticatedAcademyLessonLessonIdRoute:
     AuthenticatedAcademyLessonLessonIdRoute,
   AuthenticatedAccountRequestsIdRoute: AuthenticatedAccountRequestsIdRoute,
