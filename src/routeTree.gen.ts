@@ -24,6 +24,7 @@ import { Route as AuthenticatedSpikesIndexRouteImport } from './routes/_authenti
 import { Route as AuthenticatedServicesIndexRouteImport } from './routes/_authenticated/services.index'
 import { Route as AuthenticatedBuildIndexRouteImport } from './routes/_authenticated/build.index'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as AuthenticatedAcademyIndexRouteImport } from './routes/_authenticated/academy.index'
 import { Route as AuthenticatedSpikesConversationIdRouteImport } from './routes/_authenticated/spikes.$conversationId'
 import { Route as AuthenticatedServicesSlugRouteImport } from './routes/_authenticated/services.$slug'
 import { Route as AuthenticatedBuildProjectIdRouteImport } from './routes/_authenticated/build.$projectId'
@@ -121,6 +122,12 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAcademyIndexRoute =
+  AuthenticatedAcademyIndexRouteImport.update({
+    id: '/academy/',
+    path: '/academy/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedSpikesConversationIdRoute =
   AuthenticatedSpikesConversationIdRouteImport.update({
     id: '/spikes/$conversationId',
@@ -265,6 +272,7 @@ export interface FileRoutesByFullPath {
   '/build/$projectId': typeof AuthenticatedBuildProjectIdRoute
   '/services/$slug': typeof AuthenticatedServicesSlugRoute
   '/spikes/$conversationId': typeof AuthenticatedSpikesConversationIdRoute
+  '/academy/': typeof AuthenticatedAcademyIndexRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/build/': typeof AuthenticatedBuildIndexRoute
   '/services/': typeof AuthenticatedServicesIndexRoute
@@ -300,6 +308,7 @@ export interface FileRoutesByTo {
   '/build/$projectId': typeof AuthenticatedBuildProjectIdRoute
   '/services/$slug': typeof AuthenticatedServicesSlugRoute
   '/spikes/$conversationId': typeof AuthenticatedSpikesConversationIdRoute
+  '/academy': typeof AuthenticatedAcademyIndexRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/build': typeof AuthenticatedBuildIndexRoute
   '/services': typeof AuthenticatedServicesIndexRoute
@@ -338,6 +347,7 @@ export interface FileRoutesById {
   '/_authenticated/build/$projectId': typeof AuthenticatedBuildProjectIdRoute
   '/_authenticated/services/$slug': typeof AuthenticatedServicesSlugRoute
   '/_authenticated/spikes/$conversationId': typeof AuthenticatedSpikesConversationIdRoute
+  '/_authenticated/academy/': typeof AuthenticatedAcademyIndexRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/build/': typeof AuthenticatedBuildIndexRoute
   '/_authenticated/services/': typeof AuthenticatedServicesIndexRoute
@@ -376,6 +386,7 @@ export interface FileRouteTypes {
     | '/build/$projectId'
     | '/services/$slug'
     | '/spikes/$conversationId'
+    | '/academy/'
     | '/admin/'
     | '/build/'
     | '/services/'
@@ -411,6 +422,7 @@ export interface FileRouteTypes {
     | '/build/$projectId'
     | '/services/$slug'
     | '/spikes/$conversationId'
+    | '/academy'
     | '/admin'
     | '/build'
     | '/services'
@@ -448,6 +460,7 @@ export interface FileRouteTypes {
     | '/_authenticated/build/$projectId'
     | '/_authenticated/services/$slug'
     | '/_authenticated/spikes/$conversationId'
+    | '/_authenticated/academy/'
     | '/_authenticated/admin/'
     | '/_authenticated/build/'
     | '/_authenticated/services/'
@@ -577,6 +590,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/'
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/academy/': {
+      id: '/_authenticated/academy/'
+      path: '/academy'
+      fullPath: '/academy/'
+      preLoaderRoute: typeof AuthenticatedAcademyIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/spikes/$conversationId': {
       id: '/_authenticated/spikes/$conversationId'
@@ -761,6 +781,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedBuildProjectIdRoute: typeof AuthenticatedBuildProjectIdRoute
   AuthenticatedServicesSlugRoute: typeof AuthenticatedServicesSlugRoute
   AuthenticatedSpikesConversationIdRoute: typeof AuthenticatedSpikesConversationIdRoute
+  AuthenticatedAcademyIndexRoute: typeof AuthenticatedAcademyIndexRoute
   AuthenticatedBuildIndexRoute: typeof AuthenticatedBuildIndexRoute
   AuthenticatedServicesIndexRoute: typeof AuthenticatedServicesIndexRoute
   AuthenticatedSpikesIndexRoute: typeof AuthenticatedSpikesIndexRoute
@@ -782,6 +803,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedServicesSlugRoute: AuthenticatedServicesSlugRoute,
   AuthenticatedSpikesConversationIdRoute:
     AuthenticatedSpikesConversationIdRoute,
+  AuthenticatedAcademyIndexRoute: AuthenticatedAcademyIndexRoute,
   AuthenticatedBuildIndexRoute: AuthenticatedBuildIndexRoute,
   AuthenticatedServicesIndexRoute: AuthenticatedServicesIndexRoute,
   AuthenticatedSpikesIndexRoute: AuthenticatedSpikesIndexRoute,
