@@ -233,14 +233,15 @@ export const generateStudyPlan = createServerFn({ method: "POST" })
     const { data: lessons } = await context.supabase
       .from("academy_lessons")
       .select("id,estimated_minutes,sort_order,module_id")
-      .eq("course_id", enr.course_id)
+      .eq("course_id", enr.course_id as string)
       .order("sort_order");
     if (!lessons?.length) return { days: 0 };
 
     await context.supabase.from("academy_study_plan").delete().eq("enrollment_id", enr.id);
 
     const budget = Math.round(Number(enr.hours_per_day) * 60);
-    const days: string[] = (enr.study_days ?? []).map((d: string) => d.toLowerCase());
+    const days: string[] = ((enr.study_days as string[] | null) ?? []).map((d) => String(d).toLowerCase());
+
     const rows: any[] = [];
     const cursor = new Date();
     let guard = 0;
