@@ -11,6 +11,8 @@ import { getLesson } from "@/lib/academy-lesson.functions";
 import { completeLesson } from "@/lib/academy.functions";
 import { Markdown } from "@/components/ghost/Markdown";
 import { BrandedLoader } from "@/components/ghost/BrandedLoader";
+import { AiTutor } from "@/components/ghost/AiTutor";
+
 
 export const Route = createFileRoute("/_authenticated/academy/lesson/$lessonId")({
   head: () => ({
@@ -52,7 +54,7 @@ function LessonPage() {
   async function finish() {
     setBusy(true);
     try {
-      await doneFn({
+      const r: any = await doneFn({
         data: {
           lesson_id: l.id,
           course_id: l.course_id,
@@ -61,6 +63,13 @@ function LessonPage() {
           quiz_total: quiz.length || null,
         },
       });
+      if (r?.certificate?.certificate_code) {
+        toast.success("Course complete — certificate issued!", {
+          description: "Opening your certificate.",
+        });
+        navigate({ to: "/academy/certificate/$code", params: { code: r.certificate.certificate_code } });
+        return;
+      }
       toast.success("Lesson completed", { description: "Progress saved." });
       navigate({ to: "/academy/$slug", params: { slug: l.course?.slug ?? "" } });
     } catch (e: any) {
@@ -69,6 +78,7 @@ function LessonPage() {
       setBusy(false);
     }
   }
+
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-8">
@@ -248,6 +258,9 @@ function LessonPage() {
       <Button onClick={finish} disabled={busy} className="w-full glow-purple gap-2">
         <CheckCircle2 className="h-4 w-4" /> {busy ? "Saving…" : "Mark lesson complete"}
       </Button>
+
+      <AiTutor lessonId={l.id} lessonTitle={l.title} />
     </div>
   );
 }
+
