@@ -64,7 +64,17 @@ function RoadmapPage() {
           <Progress value={pct} className="h-2 flex-1" />
           <span className="text-sm font-mono text-secondary">{pct}%</span>
         </div>
+        {pct === 100 && (
+          <Button
+            onClick={claim}
+            disabled={claiming}
+            className="mt-4 gap-2 glow-purple"
+          >
+            <Award className="h-4 w-4" /> {claiming ? "Issuing…" : "View your certificate"}
+          </Button>
+        )}
       </div>
+
 
       <div className="space-y-8">
         {byLevel.map((group) => (
