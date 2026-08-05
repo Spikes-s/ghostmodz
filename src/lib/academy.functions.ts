@@ -351,8 +351,72 @@ export const completeLesson = createServerFn({ method: "POST" })
     if ((count ?? 0) >= 10)
       await award(context.userId, "quiz_master", "Ten Lessons Down", "Completed 10 lessons.", "Trophy");
 
-    return { ok: true, completed: count ?? 0 };
+    // Auto-issue the certificate the moment the final lesson of a course is done.
+    const certificate = await maybeIssueCertificate(context, data.course_id);
+
+    return { ok: true, completed: count ?? 0, certificate };
   });
+
+/** Issues a certificate when every lesson in the course is complete. Returns null otherwise. */
+async function maybeIssueCertificate(context: { supabase: any; userId: string }, courseId: string) {
+  const { count: total } = await context.supabase
+    .from("academy_lessons")
+    .select("id", { count: "exact", head: true })
+    .eq("course_id", courseId);
+  if (!total) return null;
+
+  const { count: done } = await context.supabase
+    .from("academy_progress")
+    .select("id", { count: "exact", head: true })
+    .eq("user_id", context.userId)
+    .eq("course_id", courseId)
+    .eq("completed", true);
+  if ((done ?? 0) < total) return null;
+
+  const { data: existing } = await context.supabase
+    .from("academy_certificates")
+    .select("*")
+    .eq("user_id", context.userId)
+    .eq("course_id", courseId)
+    .maybeSingle();
+  if (existing) return existing;
+
+  const [{ data: course }, { data: profile }] = await Promise.all([
+    context.supabase.from("academy_courses").select("id,title").eq("id", courseId).maybeSingle(),
+    context.supabase.from("profiles").select("full_name,username,email").eq("id", context.userId).maybeSingle(),
+  ]);
+  if (!course) return null;
+
+  const { data: row, error } = await context.supabase
+    .from("academy_certificates")
+    .insert({
+      user_id: context.userId,
+      course_id: courseId,
+      certificate_code: certCode(),
+      student_name: profile?.full_name || profile?.username || profile?.email || "Ghost Modz Student",
+      course_title: course.title,
+    })
+    .select("*")
+    .single();
+  if (error) {
+    console.error("Certificate issue failed:", error.message);
+    return null;
+  }
+
+  await award(context.userId, "course_completed", "Course Completed", `Finished ${course.title}.`, "Award");
+
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  await supabaseAdmin.from("notifications").insert({
+    user_id: context.userId,
+    kind: "academy",
+    title: "Certificate unlocked",
+    body: `You completed ${course.title}. Your certificate is ready.`,
+    link: `/academy/certificate/${row.certificate_code}`,
+  });
+
+  return row;
+}
+
 
 /* ------------------------- dashboard ------------------------- */
 
