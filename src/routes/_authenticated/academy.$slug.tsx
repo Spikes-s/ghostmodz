@@ -1,14 +1,17 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
+import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { ArrowLeft, CheckCircle2, Circle, PlayCircle } from "lucide-react";
-import { getRoadmap } from "@/lib/academy.functions";
+import { ArrowLeft, Award, CheckCircle2, Circle, PlayCircle } from "lucide-react";
+import { toast } from "sonner";
+import { getRoadmap, issueCertificate } from "@/lib/academy.functions";
 import { BrandedLoader } from "@/components/ghost/BrandedLoader";
+
 
 export const Route = createFileRoute("/_authenticated/academy/$slug")({
   head: () => ({
@@ -30,10 +33,27 @@ function RoadmapPage() {
   const { slug } = Route.useParams();
   const navigate = useNavigate();
   const fn = useServerFn(getRoadmap);
+  const certFn = useServerFn(issueCertificate);
+  const [claiming, setClaiming] = useState(false);
   const { data, isLoading } = useQuery({
     queryKey: ["roadmap", slug],
     queryFn: () => fn({ data: { slug } }),
   });
+
+  async function claim() {
+    if (!data) return;
+    setClaiming(true);
+    try {
+      const cert: any = await certFn({ data: { course_id: (data.course as any).id } });
+      navigate({ to: "/academy/certificate/$code", params: { code: cert.certificate_code } });
+    } catch (e: any) {
+      toast.error(e?.message || "Certificate is not available yet");
+    } finally {
+      setClaiming(false);
+    }
+  }
+
+
 
   if (isLoading) return <BrandedLoader label="Assembling your roadmap…" />;
   if (!data) return <div className="p-10 text-center text-muted-foreground">Course not found.</div>;
