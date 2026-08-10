@@ -295,17 +295,25 @@ export const confirmPayment = createServerFn({ method: "POST" })
       .single();
     if (error) throw new Error(error.message);
 
-    // Course/campus payments unlock Ghost Modz Academy access.
+    // Any confirmed payment unlocks Ghost Modz Academy access.
     const { data: req } = await supabaseAdmin
       .from("website_requests")
       .select("service_kind")
       .eq("id", pay.request_id)
       .maybeSingle();
-    if (req?.service_kind === "campus") {
+
+    const { data: existingEnrollment } = await supabaseAdmin
+      .from("academy_enrollments")
+      .select("id")
+      .eq("user_id", pay.user_id)
+      .limit(1)
+      .maybeSingle();
+
+    if (!existingEnrollment) {
       await supabaseAdmin.from("academy_enrollments").insert({
         user_id: pay.user_id,
         request_id: pay.request_id,
-        track: "coding",
+        track: req?.service_kind === "campus" ? "coding" : "general",
         status: "active",
       });
       await notifyUser(pay.user_id, {
@@ -315,6 +323,7 @@ export const confirmPayment = createServerFn({ method: "POST" })
         link: "/academy",
       });
     }
+
 
     await notifyUser(pay.user_id, {
       kind: "payment.confirmed",
