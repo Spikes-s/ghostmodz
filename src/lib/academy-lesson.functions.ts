@@ -17,10 +17,17 @@ export const getLesson = createServerFn({ method: "POST" })
       .maybeSingle();
     if (!lesson) throw new Error("Lesson not found");
 
-    if (lesson.generated && lesson.content_md) return lesson;
+    const { data: progress } = await context.supabase
+      .from("academy_progress")
+      .select("completed,minutes_spent,quiz_score,quiz_total")
+      .eq("user_id", context.userId)
+      .eq("lesson_id", data.lesson_id)
+      .maybeSingle();
+
+    if (lesson.generated && lesson.content_md) return { ...lesson, progress: progress ?? null };
 
     const generated = await generateLessonContent(lesson);
-    if (!generated) return lesson;
+    if (!generated) return { ...lesson, progress: progress ?? null };
 
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: updated } = await supabaseAdmin
@@ -29,8 +36,9 @@ export const getLesson = createServerFn({ method: "POST" })
       .eq("id", lesson.id)
       .select("*, module:academy_modules(title,level), course:academy_courses(id,title,slug,track)")
       .single();
-    return updated ?? lesson;
+    return { ...(updated ?? lesson), progress: progress ?? null };
   });
+
 
 async function generateLessonContent(lesson: any) {
   const key = process.env.LOVABLE_API_KEY;
