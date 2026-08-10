@@ -1,14 +1,14 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { ArrowLeft, BookOpen, CheckCircle2, ExternalLink, Target, ClipboardCheck, Lightbulb } from "lucide-react";
 import { getLesson } from "@/lib/academy-lesson.functions";
-import { completeLesson } from "@/lib/academy.functions";
+import { completeLesson, saveLessonProgress } from "@/lib/academy.functions";
 import { Markdown } from "@/components/ghost/Markdown";
 import { BrandedLoader } from "@/components/ghost/BrandedLoader";
 import { AiTutor } from "@/components/ghost/AiTutor";
