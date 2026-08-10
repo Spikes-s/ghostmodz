@@ -41,6 +41,51 @@ function LessonPage() {
   const [submitted, setSubmitted] = useState(false);
   const [busy, setBusy] = useState(false);
 
+  // ---- automatic progress autosave -------------------------------------
+  const saveFn = useServerFn(saveLessonProgress);
+  const startedAt = useRef<number>(Date.now());
+  const lessonRef = useRef<{ id: string; course_id: string } | null>(null);
+  const [savedAt, setSavedAt] = useState<Date | null>(null);
+  const priorMinutes = (data as any)?.progress?.minutes_spent ?? 0;
+
+  useEffect(() => {
+    startedAt.current = Date.now();
+  }, [lessonId]);
+
+  useEffect(() => {
+    if (data) lessonRef.current = { id: (data as any).id, course_id: (data as any).course_id };
+  }, [data]);
+
+  const flush = useCallback(async () => {
+    const l = lessonRef.current;
+    if (!l) return;
+    const minutes = Math.round((Date.now() - startedAt.current) / 60000) + priorMinutes;
+    if (minutes <= 0) return;
+    try {
+      await saveFn({ data: { lesson_id: l.id, course_id: l.course_id, minutes } });
+      setSavedAt(new Date());
+    } catch {
+      /* autosave is best-effort */
+    }
+  }, [saveFn, priorMinutes]);
+
+  useEffect(() => {
+    const interval = window.setInterval(flush, 45_000);
+    const onHide = () => {
+      if (document.visibilityState === "hidden") void flush();
+    };
+    document.addEventListener("visibilitychange", onHide);
+    window.addEventListener("pagehide", flush);
+    return () => {
+      window.clearInterval(interval);
+      document.removeEventListener("visibilitychange", onHide);
+      window.removeEventListener("pagehide", flush);
+      void flush();
+    };
+  }, [flush]);
+
+
+
   if (isLoading) return <BrandedLoader label="Spikes is preparing this lesson…" />;
   if (!data) return <div className="p-10 text-center text-muted-foreground">Lesson not found.</div>;
 
