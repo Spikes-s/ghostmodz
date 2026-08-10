@@ -1,14 +1,14 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { ArrowLeft, BookOpen, CheckCircle2, ExternalLink, Target, ClipboardCheck, Lightbulb } from "lucide-react";
+import { ArrowLeft, BookOpen, CheckCircle2, ExternalLink, Target, ClipboardCheck, Lightbulb, Save } from "lucide-react";
 import { getLesson } from "@/lib/academy-lesson.functions";
-import { completeLesson } from "@/lib/academy.functions";
+import { completeLesson, saveLessonProgress } from "@/lib/academy.functions";
 import { Markdown } from "@/components/ghost/Markdown";
 import { BrandedLoader } from "@/components/ghost/BrandedLoader";
 import { AiTutor } from "@/components/ghost/AiTutor";
@@ -40,6 +40,51 @@ function LessonPage() {
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [submitted, setSubmitted] = useState(false);
   const [busy, setBusy] = useState(false);
+
+  // ---- automatic progress autosave -------------------------------------
+  const saveFn = useServerFn(saveLessonProgress);
+  const startedAt = useRef<number>(Date.now());
+  const lessonRef = useRef<{ id: string; course_id: string } | null>(null);
+  const [savedAt, setSavedAt] = useState<Date | null>(null);
+  const priorMinutes = (data as any)?.progress?.minutes_spent ?? 0;
+
+  useEffect(() => {
+    startedAt.current = Date.now();
+  }, [lessonId]);
+
+  useEffect(() => {
+    if (data) lessonRef.current = { id: (data as any).id, course_id: (data as any).course_id };
+  }, [data]);
+
+  const flush = useCallback(async () => {
+    const l = lessonRef.current;
+    if (!l) return;
+    const minutes = Math.round((Date.now() - startedAt.current) / 60000) + priorMinutes;
+    if (minutes <= 0) return;
+    try {
+      await saveFn({ data: { lesson_id: l.id, course_id: l.course_id, minutes } });
+      setSavedAt(new Date());
+    } catch {
+      /* autosave is best-effort */
+    }
+  }, [saveFn, priorMinutes]);
+
+  useEffect(() => {
+    const interval = window.setInterval(flush, 45_000);
+    const onHide = () => {
+      if (document.visibilityState === "hidden") void flush();
+    };
+    document.addEventListener("visibilitychange", onHide);
+    window.addEventListener("pagehide", flush);
+    return () => {
+      window.clearInterval(interval);
+      document.removeEventListener("visibilitychange", onHide);
+      window.removeEventListener("pagehide", flush);
+      void flush();
+    };
+  }, [flush]);
+
+
 
   if (isLoading) return <BrandedLoader label="Spikes is preparing this lesson…" />;
   if (!data) return <div className="p-10 text-center text-muted-foreground">Lesson not found.</div>;
@@ -94,7 +139,17 @@ function LessonPage() {
       <Badge className="mb-2 bg-primary/15 text-primary border border-primary/40 capitalize">
         {l.module?.level} · {l.module?.title}
       </Badge>
-      <h1 className="text-3xl font-bold neon-text mb-6">{l.title}</h1>
+      <h1 className="text-3xl font-bold neon-text mb-2">{l.title}</h1>
+
+      <div className="mb-6 flex items-center gap-2 text-xs text-muted-foreground">
+        <Save className="h-3.5 w-3.5 text-secondary" />
+        {savedAt
+          ? `Progress autosaved at ${savedAt.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`
+          : priorMinutes > 0
+            ? `Resumed — ${priorMinutes} min already logged. Autosaving as you learn.`
+            : "Autosaving your progress as you learn."}
+      </div>
+
 
       {objectives.length > 0 && (
         <Card className="glass-card border-primary/30 mb-6">

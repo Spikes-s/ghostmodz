@@ -9,6 +9,7 @@ import { recordLogin } from "@/lib/admin.functions";
 import { toast } from "sonner";
 import { CommandPalette } from "@/components/ghost/CommandPalette";
 import { QuickActions } from "@/components/ghost/QuickActions";
+import { BrandedLoader } from "@/components/ghost/BrandedLoader";
 
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
@@ -30,6 +31,8 @@ export const Route = createFileRoute("/_authenticated")({
     return { user: data.user };
   },
   component: AuthedLayout,
+  pendingMs: 200,
+  pendingComponent: () => <BrandedLoader label="Booting Ghost Mods Tech…" />,
 });
 
 function AuthedLayout() {

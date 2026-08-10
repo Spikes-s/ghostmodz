@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { ServiceCard, type Service } from "@/components/ghost/ServiceCard";
 import { getSiteSettings } from "@/lib/tokens.functions";
 import { ContinueWorking } from "@/components/ghost/ContinueWorking";
+import { LazySection } from "@/components/ghost/LazySection";
 
 export const Route = createFileRoute("/_authenticated/")({
   head: () => ({
@@ -121,6 +122,8 @@ function Home() {
       </section>
 
       {/* ABOUT */}
+      <LazySection minHeight={520}>
+
       <section className="relative py-24">
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -156,8 +159,11 @@ function Home() {
           </div>
         </div>
       </section>
+      </LazySection>
 
       {/* CTA */}
+      <LazySection minHeight={340}>
+
       <section className="relative py-16">
         <div className="mx-auto max-w-7xl px-6">
           <div className="glass-card rounded-2xl p-10 md:p-14 text-center relative overflow-hidden">
@@ -179,6 +185,8 @@ function Home() {
           </div>
         </div>
       </section>
+      </LazySection>
     </>
+
   );
 }
