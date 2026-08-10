@@ -14,6 +14,9 @@ import { z } from "zod";
 import { Loader2 } from "lucide-react";
 
 export const Route = createFileRoute("/auth")({
+  // Auth UI depends on browser-only session/storage state — rendering it on the
+  // server produced hydration mismatches ("System fault" flashes) on reload.
+  ssr: false,
   head: () => ({
     meta: [
       { title: "Sign in — Ghost Mods Tech" },
