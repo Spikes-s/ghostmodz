@@ -304,6 +304,66 @@ async function award(userId: string, code: string, title: string, description: s
     .upsert({ user_id: userId, code, title, description, icon }, { onConflict: "user_id,code" });
 }
 
+/** Autosave: records time spent on a lesson without marking it complete. */
+export const saveLessonProgress = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) =>
+    z
+      .object({
+        lesson_id: z.string().uuid(),
+        course_id: z.string().uuid(),
+        minutes: z.number().min(0).max(600).default(0),
+      })
+      .parse(d),
+  )
+  .handler(async ({ data, context }) => {
+    const { data: existing } = await context.supabase
+      .from("academy_progress")
+      .select("id,completed,minutes_spent")
+      .eq("user_id", context.userId)
+      .eq("lesson_id", data.lesson_id)
+      .maybeSingle();
+
+    const minutes = Math.max(Math.round(data.minutes), existing?.minutes_spent ?? 0);
+
+    if (existing) {
+      await context.supabase
+        .from("academy_progress")
+        .update({ minutes_spent: minutes })
+        .eq("id", existing.id);
+    } else {
+      await context.supabase.from("academy_progress").insert({
+        user_id: context.userId,
+        course_id: data.course_id,
+        lesson_id: data.lesson_id,
+        completed: false,
+        minutes_spent: minutes,
+      });
+    }
+
+    if (minutes > 0) {
+      const today = new Date().toISOString().slice(0, 10);
+      const { data: act } = await context.supabase
+        .from("academy_activity")
+        .select("id,minutes")
+        .eq("user_id", context.userId)
+        .eq("day", today)
+        .maybeSingle();
+      if (act) {
+        if (minutes > (act.minutes ?? 0))
+          await context.supabase.from("academy_activity").update({ minutes }).eq("id", act.id);
+      } else {
+        await context.supabase
+          .from("academy_activity")
+          .insert({ user_id: context.userId, day: today, minutes });
+      }
+    }
+
+    return { ok: true, minutes, completed: !!existing?.completed };
+  });
+
+
+
 export const completeLesson = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) =>
