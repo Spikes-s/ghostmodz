@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { ArrowLeft, BookOpen, CheckCircle2, ExternalLink, Target, ClipboardCheck, Lightbulb } from "lucide-react";
+import { ArrowLeft, BookOpen, CheckCircle2, ExternalLink, Target, ClipboardCheck, Lightbulb, Save } from "lucide-react";
 import { getLesson } from "@/lib/academy-lesson.functions";
 import { completeLesson, saveLessonProgress } from "@/lib/academy.functions";
 import { Markdown } from "@/components/ghost/Markdown";
@@ -139,7 +139,17 @@ function LessonPage() {
       <Badge className="mb-2 bg-primary/15 text-primary border border-primary/40 capitalize">
         {l.module?.level} · {l.module?.title}
       </Badge>
-      <h1 className="text-3xl font-bold neon-text mb-6">{l.title}</h1>
+      <h1 className="text-3xl font-bold neon-text mb-2">{l.title}</h1>
+
+      <div className="mb-6 flex items-center gap-2 text-xs text-muted-foreground">
+        <Save className="h-3.5 w-3.5 text-secondary" />
+        {savedAt
+          ? `Progress autosaved at ${savedAt.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`
+          : priorMinutes > 0
+            ? `Resumed — ${priorMinutes} min already logged. Autosaving as you learn.`
+            : "Autosaving your progress as you learn."}
+      </div>
+
 
       {objectives.length > 0 && (
         <Card className="glass-card border-primary/30 mb-6">
