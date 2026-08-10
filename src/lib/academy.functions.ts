@@ -546,6 +546,40 @@ export const getAcademyOverview = createServerFn({ method: "GET" })
       next[cid] = (ls ?? []).find((l: any) => !done.has(l.id)) ?? null;
     }
 
+    // Most recently touched but unfinished lesson — powers the Resume button.
+    const { data: inProgress } = await context.supabase
+      .from("academy_progress")
+      .select("lesson_id,course_id,minutes_spent,updated_at")
+      .eq("user_id", context.userId)
+      .eq("completed", false)
+      .order("updated_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    let resume: any = null;
+    if (inProgress) {
+      const { data: lesson } = await context.supabase
+        .from("academy_lessons")
+        .select("id,title,course_id,estimated_minutes")
+        .eq("id", inProgress.lesson_id)
+        .maybeSingle();
+      const { data: course } = await context.supabase
+        .from("academy_courses")
+        .select("id,title,slug")
+        .eq("id", inProgress.course_id)
+        .maybeSingle();
+      if (lesson) {
+        resume = {
+          lesson_id: lesson.id,
+          lesson_title: lesson.title,
+          course_title: course?.title ?? "",
+          course_slug: course?.slug ?? "",
+          minutes_spent: inProgress.minutes_spent ?? 0,
+          estimated_minutes: lesson.estimated_minutes ?? 0,
+        };
+      }
+    }
+
     return {
       enrollments: enrollments ?? [],
       achievements: achievements ?? [],
@@ -555,7 +589,9 @@ export const getAcademyOverview = createServerFn({ method: "GET" })
       streak,
       minutesTotal,
       next,
+      resume,
     };
+
   });
 
 /* ------------------------- certificates ------------------------- */
