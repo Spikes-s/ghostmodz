@@ -16,6 +16,8 @@ import {
   ArrowRight,
   Bot,
   CalendarDays,
+  PlayCircle,
+
 } from "lucide-react";
 import { getAcademyOverview, getMyPlan, markWelcomed } from "@/lib/academy.functions";
 import { AcademyWelcome } from "@/components/ghost/AcademyWelcome";
@@ -115,7 +117,36 @@ function AcademyDashboard() {
         </div>
       </div>
 
+      {(data as any)?.resume && (
+        <Card className="glass-card border-secondary/40 mb-8">
+          <CardContent className="flex flex-wrap items-center justify-between gap-4 p-5">
+            <div>
+              <p className="font-mono text-[11px] tracking-[0.25em] text-secondary">// PICK UP WHERE YOU LEFT OFF</p>
+              <h2 className="mt-1 text-lg font-semibold">{(data as any).resume.lesson_title}</h2>
+              <p className="text-sm text-muted-foreground">
+                {(data as any).resume.course_title}
+                {(data as any).resume.minutes_spent > 0
+                  ? ` · ${(data as any).resume.minutes_spent} min logged`
+                  : ""}
+              </p>
+            </div>
+            <Button
+              className="glow-purple gap-2"
+              onClick={() =>
+                navigate({
+                  to: "/academy/lesson/$lessonId",
+                  params: { lessonId: (data as any).resume.lesson_id },
+                })
+              }
+            >
+              <PlayCircle className="h-4 w-4" /> Resume lesson
+            </Button>
+          </CardContent>
+        </Card>
+      )}
+
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-8">
+
         <Stat icon={Flame} label="Learning streak" value={`${data?.streak ?? 0} days`} />
         <Stat icon={Clock} label="Time invested" value={`${Math.round((data?.minutesTotal ?? 0) / 60)} h`} />
         <Stat icon={Trophy} label="Lessons completed" value={String(totalDone)} />
