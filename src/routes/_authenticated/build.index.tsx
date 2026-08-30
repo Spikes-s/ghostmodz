@@ -26,6 +26,8 @@ function BuildIndex() {
   const createFn = useServerFn(createProject);
   const renameFn = useServerFn(renameProject);
   const deleteFn = useServerFn(deleteProject);
+  const favFn = useServerFn(toggleProjectFavorite);
+
 
   const { data: projects = [], isLoading } = useQuery({
     queryKey: ["projects"],
