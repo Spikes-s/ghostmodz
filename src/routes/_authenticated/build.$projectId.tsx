@@ -568,11 +568,23 @@ function ProjectWorkspace() {
             <TabBtn active={rightTab === "preview"} onClick={() => { setRightTab("preview"); setPreviewKey((k) => k + 1); }} icon={<Eye className="h-3.5 w-3.5" />} label="Preview" />
             <TabBtn active={rightTab === "terminal"} onClick={() => setRightTab("terminal")} icon={<TerminalIcon className="h-3.5 w-3.5" />} label="Terminal" />
             <div className="flex-1" />
+            {rightTab === "files" && (
+              <Button
+                onClick={() => { setSplit((s) => !s); setPreviewKey((k) => k + 1); }}
+                size="sm"
+                variant={split ? "secondary" : "ghost"}
+                className="gap-1"
+                title="Split editor & preview"
+              >
+                <Columns2 className="h-3.5 w-3.5" /> Split
+              </Button>
+            )}
             {rightTab === "files" && activePath && (
               <Button onClick={save} size="sm" variant="ghost" disabled={!isDirty} className="gap-1">
                 <Save className="h-3.5 w-3.5" /> Save
               </Button>
             )}
+
             {rightTab === "preview" && (
               <div className="flex items-center gap-1">
                 <Button variant={device === "desktop" ? "secondary" : "ghost"} size="icon" onClick={() => setDevice("desktop")}>
