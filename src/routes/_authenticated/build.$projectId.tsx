@@ -96,6 +96,8 @@ function ProjectWorkspace() {
   const [previewKey, setPreviewKey] = useState(0);
   const [device, setDevice] = useState<"desktop" | "mobile">("desktop");
   const [rightTab, setRightTab] = useState<RightTab>("files");
+  const [split, setSplit] = useState(false);
+
 
   useEffect(() => {
     if (files.length > 0 && !activePath) {
