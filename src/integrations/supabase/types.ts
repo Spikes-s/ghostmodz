@@ -649,6 +649,7 @@ export type Database = {
           created_at: string
           description: string | null
           id: string
+          is_favorite: boolean
           name: string
           status: string
           updated_at: string
@@ -662,6 +663,7 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: string
+          is_favorite?: boolean
           name: string
           status?: string
           updated_at?: string
@@ -675,6 +677,7 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: string
+          is_favorite?: boolean
           name?: string
           status?: string
           updated_at?: string
@@ -938,6 +941,7 @@ export type Database = {
           description: string | null
           framework: string
           id: string
+          is_favorite: boolean
           name: string
           updated_at: string
           user_id: string
@@ -947,6 +951,7 @@ export type Database = {
           description?: string | null
           framework?: string
           id?: string
+          is_favorite?: boolean
           name?: string
           updated_at?: string
           user_id: string
@@ -956,6 +961,7 @@ export type Database = {
           description?: string | null
           framework?: string
           id?: string
+          is_favorite?: boolean
           name?: string
           updated_at?: string
           user_id?: string

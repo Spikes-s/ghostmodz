@@ -8,7 +8,7 @@ import JSZip from "jszip";
 import {
   FilePlus, FolderPlus, Trash2, Download, Upload, Play, Loader2, Sparkles,
   ArrowLeft, Smartphone, Monitor, Save, X, Send, Mic, MicOff, Files as FilesIcon,
-  Eye, Terminal as TerminalIcon, Code2, Hammer,
+  Eye, Terminal as TerminalIcon, Code2, Hammer, Columns2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -96,6 +96,8 @@ function ProjectWorkspace() {
   const [previewKey, setPreviewKey] = useState(0);
   const [device, setDevice] = useState<"desktop" | "mobile">("desktop");
   const [rightTab, setRightTab] = useState<RightTab>("files");
+  const [split, setSplit] = useState(false);
+
 
   useEffect(() => {
     if (files.length > 0 && !activePath) {
@@ -566,11 +568,23 @@ function ProjectWorkspace() {
             <TabBtn active={rightTab === "preview"} onClick={() => { setRightTab("preview"); setPreviewKey((k) => k + 1); }} icon={<Eye className="h-3.5 w-3.5" />} label="Preview" />
             <TabBtn active={rightTab === "terminal"} onClick={() => setRightTab("terminal")} icon={<TerminalIcon className="h-3.5 w-3.5" />} label="Terminal" />
             <div className="flex-1" />
+            {rightTab === "files" && (
+              <Button
+                onClick={() => { setSplit((s) => !s); setPreviewKey((k) => k + 1); }}
+                size="sm"
+                variant={split ? "secondary" : "ghost"}
+                className="gap-1"
+                title="Split editor & preview"
+              >
+                <Columns2 className="h-3.5 w-3.5" /> Split
+              </Button>
+            )}
             {rightTab === "files" && activePath && (
               <Button onClick={save} size="sm" variant="ghost" disabled={!isDirty} className="gap-1">
                 <Save className="h-3.5 w-3.5" /> Save
               </Button>
             )}
+
             {rightTab === "preview" && (
               <div className="flex items-center gap-1">
                 <Button variant={device === "desktop" ? "secondary" : "ghost"} size="icon" onClick={() => setDevice("desktop")}>
@@ -662,13 +676,26 @@ function ProjectWorkspace() {
                   ))}
                 </div>
                 {activePath ? (
-                  <div className="flex-1 min-h-0 bg-[#0a0a18]">
-                    <CodeEditor
-                      value={activeContent}
-                      language={inferLanguage(activePath)}
-                      onChange={(v) => setDrafts((d) => ({ ...d, [activePath]: v }))}
-                      onSave={save}
-                    />
+                  <div className={`flex-1 min-h-0 ${split ? "grid grid-rows-2 lg:grid-rows-1 lg:grid-cols-2" : ""}`}>
+                    <div className="min-h-0 bg-[#0a0a18]">
+                      <CodeEditor
+                        value={activeContent}
+                        language={inferLanguage(activePath)}
+                        onChange={(v) => setDrafts((d) => ({ ...d, [activePath]: v }))}
+                        onSave={save}
+                      />
+                    </div>
+                    {split && (
+                      <div className="min-h-0 border-t lg:border-t-0 lg:border-l border-border/40 bg-black/60">
+                        <iframe
+                          key={`split-${previewKey}`}
+                          srcDoc={previewSrcDoc}
+                          title="split preview"
+                          sandbox="allow-scripts allow-forms"
+                          className="h-full w-full bg-white"
+                        />
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <div className="flex flex-1 items-center justify-center text-sm text-muted-foreground">
@@ -678,6 +705,7 @@ function ProjectWorkspace() {
                     </div>
                   </div>
                 )}
+
               </div>
             </div>
           )}

@@ -182,11 +182,28 @@ export const listProjects = createServerFn({ method: "GET" })
     await assertBuildAccess(context);
     const { data, error } = await context.supabase
       .from("projects")
-      .select("id,name,framework,description,created_at,updated_at")
+      .select("id,name,framework,description,is_favorite,created_at,updated_at")
+      .order("is_favorite", { ascending: false })
       .order("updated_at", { ascending: false });
     if (error) throw new Error(error.message);
     return data ?? [];
   });
+
+export const toggleProjectFavorite = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) =>
+    z.object({ id: z.string().uuid(), value: z.boolean() }).parse(d),
+  )
+  .handler(async ({ data, context }) => {
+    await assertBuildAccess(context);
+    const { error } = await context.supabase
+      .from("projects")
+      .update({ is_favorite: data.value })
+      .eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
 
 export const createProject = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])

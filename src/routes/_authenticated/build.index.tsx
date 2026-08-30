@@ -2,11 +2,12 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
-import { FolderPlus, Hammer, Trash2, Pencil, ArrowRight, Sparkles } from "lucide-react";
+import { FolderPlus, Hammer, Trash2, Pencil, ArrowRight, Sparkles, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { createProject, deleteProject, listProjects, renameProject } from "@/lib/spikes.functions";
+import { createProject, deleteProject, listProjects, renameProject, toggleProjectFavorite } from "@/lib/spikes.functions";
+
 import { BuildAccessGate } from "@/components/ghost/BuildAccessGate";
 
 export const Route = createFileRoute("/_authenticated/build/")({
@@ -25,6 +26,8 @@ function BuildIndex() {
   const createFn = useServerFn(createProject);
   const renameFn = useServerFn(renameProject);
   const deleteFn = useServerFn(deleteProject);
+  const favFn = useServerFn(toggleProjectFavorite);
+
 
   const { data: projects = [], isLoading } = useQuery({
     queryKey: ["projects"],
@@ -55,6 +58,12 @@ function BuildIndex() {
     await deleteFn({ data: { id } });
     qc.invalidateQueries({ queryKey: ["projects"] });
   }
+
+  async function toggleFav(id: string, current: boolean) {
+    await favFn({ data: { id, value: !current } });
+    qc.invalidateQueries({ queryKey: ["projects"] });
+  }
+
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-10">
@@ -106,17 +115,25 @@ function BuildIndex() {
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((p) => (
             <div key={p.id} className="glass-card rounded-xl p-5 hover-glow group">
-              <div className="flex items-start justify-between mb-2">
+              <div className="flex items-start justify-between mb-2 gap-2">
                 <div className="font-display text-lg font-bold truncate flex-1">{p.name}</div>
-                <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition">
-                  <button onClick={() => rename(p.id, p.name)} className="p-1 hover:text-secondary">
+                <div className="flex gap-1 items-center">
+                  <button
+                    onClick={() => toggleFav(p.id, !!(p as any).is_favorite)}
+                    title={(p as any).is_favorite ? "Remove from favorites" : "Add to favorites"}
+                    className={(p as any).is_favorite ? "p-1 text-secondary" : "p-1 text-muted-foreground hover:text-secondary opacity-0 group-hover:opacity-100 transition"}
+                  >
+                    <Star className={`h-3.5 w-3.5 ${(p as any).is_favorite ? "fill-current" : ""}`} />
+                  </button>
+                  <button onClick={() => rename(p.id, p.name)} className="p-1 hover:text-secondary opacity-0 group-hover:opacity-100 transition">
                     <Pencil className="h-3.5 w-3.5" />
                   </button>
-                  <button onClick={() => remove(p.id)} className="p-1 hover:text-destructive">
+                  <button onClick={() => remove(p.id)} className="p-1 hover:text-destructive opacity-0 group-hover:opacity-100 transition">
                     <Trash2 className="h-3.5 w-3.5" />
                   </button>
                 </div>
               </div>
+
               <p className="text-xs font-mono text-secondary mb-3">{p.framework}</p>
               <p className="text-xs text-muted-foreground mb-4">
                 Updated {new Date(p.updated_at).toLocaleString()}
