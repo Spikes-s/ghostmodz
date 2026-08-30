@@ -373,6 +373,18 @@ export const markAllRead = createServerFn({ method: "POST" })
     return { ok: true };
   });
 
+export const clearReadNotifications = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await context.supabase
+      .from("notifications")
+      .delete()
+      .eq("user_id", context.userId)
+      .not("read_at", "is", null);
+    return { ok: true };
+  });
+
+
 /* -------------------- Live support chat -------------------- */
 
 export const getOrCreateMyThread = createServerFn({ method: "POST" })
