@@ -59,6 +59,12 @@ function BuildIndex() {
     qc.invalidateQueries({ queryKey: ["projects"] });
   }
 
+  async function toggleFav(id: string, current: boolean) {
+    await favFn({ data: { id, value: !current } });
+    qc.invalidateQueries({ queryKey: ["projects"] });
+  }
+
+
   return (
     <div className="mx-auto max-w-6xl px-6 py-10">
       <div className="mb-8 text-center">
