@@ -2,11 +2,12 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
-import { FolderPlus, Hammer, Trash2, Pencil, ArrowRight, Sparkles } from "lucide-react";
+import { FolderPlus, Hammer, Trash2, Pencil, ArrowRight, Sparkles, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { createProject, deleteProject, listProjects, renameProject } from "@/lib/spikes.functions";
+import { createProject, deleteProject, listProjects, renameProject, toggleProjectFavorite } from "@/lib/spikes.functions";
+
 import { BuildAccessGate } from "@/components/ghost/BuildAccessGate";
 
 export const Route = createFileRoute("/_authenticated/build/")({
