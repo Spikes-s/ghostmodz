@@ -676,13 +676,26 @@ function ProjectWorkspace() {
                   ))}
                 </div>
                 {activePath ? (
-                  <div className="flex-1 min-h-0 bg-[#0a0a18]">
-                    <CodeEditor
-                      value={activeContent}
-                      language={inferLanguage(activePath)}
-                      onChange={(v) => setDrafts((d) => ({ ...d, [activePath]: v }))}
-                      onSave={save}
-                    />
+                  <div className={`flex-1 min-h-0 ${split ? "grid grid-rows-2 lg:grid-rows-1 lg:grid-cols-2" : ""}`}>
+                    <div className="min-h-0 bg-[#0a0a18]">
+                      <CodeEditor
+                        value={activeContent}
+                        language={inferLanguage(activePath)}
+                        onChange={(v) => setDrafts((d) => ({ ...d, [activePath]: v }))}
+                        onSave={save}
+                      />
+                    </div>
+                    {split && (
+                      <div className="min-h-0 border-t lg:border-t-0 lg:border-l border-border/40 bg-black/60">
+                        <iframe
+                          key={`split-${previewKey}`}
+                          srcDoc={previewSrcDoc}
+                          title="split preview"
+                          sandbox="allow-scripts allow-forms"
+                          className="h-full w-full bg-white"
+                        />
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <div className="flex flex-1 items-center justify-center text-sm text-muted-foreground">
@@ -692,6 +705,7 @@ function ProjectWorkspace() {
                     </div>
                   </div>
                 )}
+
               </div>
             </div>
           )}
