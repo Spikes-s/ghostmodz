@@ -115,17 +115,25 @@ function BuildIndex() {
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((p) => (
             <div key={p.id} className="glass-card rounded-xl p-5 hover-glow group">
-              <div className="flex items-start justify-between mb-2">
+              <div className="flex items-start justify-between mb-2 gap-2">
                 <div className="font-display text-lg font-bold truncate flex-1">{p.name}</div>
-                <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition">
-                  <button onClick={() => rename(p.id, p.name)} className="p-1 hover:text-secondary">
+                <div className="flex gap-1 items-center">
+                  <button
+                    onClick={() => toggleFav(p.id, !!(p as any).is_favorite)}
+                    title={(p as any).is_favorite ? "Remove from favorites" : "Add to favorites"}
+                    className={(p as any).is_favorite ? "p-1 text-secondary" : "p-1 text-muted-foreground hover:text-secondary opacity-0 group-hover:opacity-100 transition"}
+                  >
+                    <Star className={`h-3.5 w-3.5 ${(p as any).is_favorite ? "fill-current" : ""}`} />
+                  </button>
+                  <button onClick={() => rename(p.id, p.name)} className="p-1 hover:text-secondary opacity-0 group-hover:opacity-100 transition">
                     <Pencil className="h-3.5 w-3.5" />
                   </button>
-                  <button onClick={() => remove(p.id)} className="p-1 hover:text-destructive">
+                  <button onClick={() => remove(p.id)} className="p-1 hover:text-destructive opacity-0 group-hover:opacity-100 transition">
                     <Trash2 className="h-3.5 w-3.5" />
                   </button>
                 </div>
               </div>
+
               <p className="text-xs font-mono text-secondary mb-3">{p.framework}</p>
               <p className="text-xs text-muted-foreground mb-4">
                 Updated {new Date(p.updated_at).toLocaleString()}
