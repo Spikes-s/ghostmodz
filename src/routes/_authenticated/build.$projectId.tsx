@@ -23,7 +23,7 @@ import {
 } from "@/lib/spikes.functions";
 import { parseCodeBlocks, sanitizePath } from "@/lib/code-blocks";
 import { buildPreviewDoc } from "@/lib/preview-builder";
-import { useVoiceRecorder, getMicPermission, micErrorMessage, MicError } from "@/lib/voice-recorder";
+import { useVoiceRecorder, preflightMic, micErrorMessage, type MicErrorKind } from "@/lib/voice-recorder";
 import { BuildAccessGate } from "@/components/ghost/BuildAccessGate";
 import { authedFetch } from "@/lib/api-fetch";
 
@@ -237,7 +237,8 @@ function ProjectWorkspace() {
 
   // ---------- Composer ----------
   const [input, setInput] = useState("");
-  const { recording, start: startRec, stop: stopRec } = useVoiceRecorder();
+  const { recording, start: startRec, stop: stopRec, cancel: cancelRec } = useVoiceRecorder();
+  const [micNotice, setMicNotice] = useState<{ title: string; hint: string; kind: MicErrorKind } | null>(null);
   const [transcribing, setTranscribing] = useState(false);
   const isChatLoading = status === "submitted" || status === "streaming";
 
@@ -299,16 +300,19 @@ function ProjectWorkspace() {
       }
       return;
     }
-    const perm = await getMicPermission();
-    if (perm === "denied") {
-      const m = micErrorMessage(new MicError("denied", "denied"));
-      toast.error(m.title, { description: m.hint });
+    const pre = await preflightMic();
+    if (pre) {
+      setMicNotice(pre);
+      toast.error(pre.title, { description: pre.hint });
       return;
     }
     try {
       await startRec();
+      setMicNotice(null);
     } catch (err) {
+      cancelRec();
       const m = micErrorMessage(err);
+      setMicNotice(m);
       toast.error(m.title, { description: m.hint });
     }
   }
@@ -522,6 +526,18 @@ function ProjectWorkspace() {
           </div>
           {/* Composer */}
           <div className="border-t border-border/40 p-2 space-y-2">
+            {micNotice && (
+              <div className="flex items-start gap-2 rounded-lg border border-destructive/40 bg-destructive/10 px-3 py-2 text-xs">
+                <MicOff className="mt-0.5 h-3.5 w-3.5 shrink-0 text-destructive" />
+                <div className="flex-1">
+                  <div className="font-semibold text-destructive">{micNotice.title}</div>
+                  <div className="text-muted-foreground">{micNotice.hint}</div>
+                </div>
+                <button onClick={() => setMicNotice(null)} className="text-muted-foreground hover:text-foreground">
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            )}
             <div className="flex items-end gap-1">
               <Button
                 variant={recording ? "destructive" : "ghost"}
