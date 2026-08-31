@@ -14,7 +14,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { Markdown } from "@/components/ghost/Markdown";
 import { SpikesIntro } from "@/components/ghost/SpikesIntro";
-import { useVoiceRecorder, getMicPermission, micErrorMessage } from "@/lib/voice-recorder";
+import { useVoiceRecorder, preflightMic, micErrorMessage, type MicErrorKind } from "@/lib/voice-recorder";
 import {
   createConversation, deleteConversation, getMessages, listConversations,
   renameConversation, saveMessages,
@@ -139,7 +139,8 @@ function SpikesChat() {
   const [input, setInput] = useState("");
   const [files, setFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const { recording, start: startRec, stop: stopRec } = useVoiceRecorder();
+  const { recording, start: startRec, stop: stopRec, cancel: cancelRec } = useVoiceRecorder();
+  const [micNotice, setMicNotice] = useState<{ title: string; hint: string; kind: MicErrorKind } | null>(null);
   const [transcribing, setTranscribing] = useState(false);
 
   async function send() {
@@ -338,6 +339,18 @@ function SpikesChat() {
                       </button>
                     </div>
                   ))}
+                </div>
+              )}
+              {micNotice && (
+                <div className="mb-2 flex items-start gap-2 rounded-lg border border-destructive/40 bg-destructive/10 px-3 py-2 text-xs">
+                  <MicOff className="mt-0.5 h-3.5 w-3.5 shrink-0 text-destructive" />
+                  <div className="flex-1">
+                    <div className="font-semibold text-destructive">{micNotice.title}</div>
+                    <div className="text-muted-foreground">{micNotice.hint}</div>
+                  </div>
+                  <button onClick={() => setMicNotice(null)} className="text-muted-foreground hover:text-foreground">
+                    <X className="h-3.5 w-3.5" />
+                  </button>
                 </div>
               )}
               <div className="flex items-end gap-2">
