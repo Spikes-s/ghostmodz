@@ -51,6 +51,26 @@ export function micErrorMessage(e: unknown): { title: string; hint: string; kind
   }
 }
 
+/** Synchronous environment check — returns a MicErrorKind when the mic can't work at all. */
+export function micUnavailableReason(): MicErrorKind | null {
+  if (typeof window === "undefined" || typeof navigator === "undefined") return "unsupported";
+  if (!window.isSecureContext && location.hostname !== "localhost") return "insecure-context";
+  if (!navigator.mediaDevices?.getUserMedia) return "unsupported";
+  return null;
+}
+
+/**
+ * Full preflight: environment + permission state. Returns null when it's safe
+ * to call start(), otherwise a friendly notice to show in the UI.
+ */
+export async function preflightMic(): Promise<{ title: string; hint: string; kind: MicErrorKind } | null> {
+  const env = micUnavailableReason();
+  if (env) return micErrorMessage(new MicError(env, env));
+  const perm = await getMicPermission();
+  if (perm === "denied") return micErrorMessage(new MicError("denied", "denied"));
+  return null;
+}
+
 /** Returns 'granted' | 'denied' | 'prompt' | 'unknown' without prompting (when supported). */
 export async function getMicPermission(): Promise<"granted" | "denied" | "prompt" | "unknown"> {
   if (typeof navigator === "undefined") return "unknown";
