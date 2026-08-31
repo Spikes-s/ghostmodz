@@ -191,17 +191,20 @@ function SpikesChat() {
       return;
     }
 
-    // Pre-check permission so we don't show the prompt twice or mislabel denial
-    const perm = await getMicPermission();
-    if (perm === "denied") {
-      const m = micErrorMessage(new (await import("@/lib/voice-recorder")).MicError("denied", "denied"));
-      toast.error(m.title, { description: m.hint });
+    // Pre-check environment + permission so we don't hang or mislabel denial
+    const pre = await preflightMic();
+    if (pre) {
+      setMicNotice(pre);
+      toast.error(pre.title, { description: pre.hint });
       return;
     }
     try {
       await startRec();
+      setMicNotice(null);
     } catch (err) {
+      cancelRec();
       const m = micErrorMessage(err);
+      setMicNotice(m);
       toast.error(m.title, { description: m.hint });
     }
   }
