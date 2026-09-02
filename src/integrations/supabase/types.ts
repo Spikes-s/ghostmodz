@@ -686,6 +686,240 @@ export type Database = {
         }
         Relationships: []
       }
+      cloud_apps: {
+        Row: {
+          branch: string
+          created_at: string
+          domain: string | null
+          env_vars: Json
+          health: string
+          id: string
+          last_deploy_at: string | null
+          name: string
+          plan_id: string | null
+          region: string
+          repo_url: string
+          runtime: string
+          slug: string
+          start_command: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          branch?: string
+          created_at?: string
+          domain?: string | null
+          env_vars?: Json
+          health?: string
+          id?: string
+          last_deploy_at?: string | null
+          name: string
+          plan_id?: string | null
+          region?: string
+          repo_url?: string
+          runtime?: string
+          slug: string
+          start_command?: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          branch?: string
+          created_at?: string
+          domain?: string | null
+          env_vars?: Json
+          health?: string
+          id?: string
+          last_deploy_at?: string | null
+          name?: string
+          plan_id?: string | null
+          region?: string
+          repo_url?: string
+          runtime?: string
+          slug?: string
+          start_command?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cloud_apps_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "hosting_plans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cloud_deployments: {
+        Row: {
+          app_id: string
+          created_at: string
+          duration_ms: number | null
+          finished_at: string | null
+          id: string
+          logs: string
+          status: string
+          trigger: string
+          user_id: string
+        }
+        Insert: {
+          app_id: string
+          created_at?: string
+          duration_ms?: number | null
+          finished_at?: string | null
+          id?: string
+          logs?: string
+          status?: string
+          trigger?: string
+          user_id: string
+        }
+        Update: {
+          app_id?: string
+          created_at?: string
+          duration_ms?: number | null
+          finished_at?: string | null
+          id?: string
+          logs?: string
+          status?: string
+          trigger?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cloud_deployments_app_id_fkey"
+            columns: ["app_id"]
+            isOneToOne: false
+            referencedRelation: "cloud_apps"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cloud_transactions: {
+        Row: {
+          amount: number
+          created_at: string
+          currency: string
+          id: string
+          kind: string
+          method: string
+          note: string | null
+          reference: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          currency?: string
+          id?: string
+          kind?: string
+          method?: string
+          note?: string | null
+          reference?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          currency?: string
+          id?: string
+          kind?: string
+          method?: string
+          note?: string | null
+          reference?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      cloud_vps: {
+        Row: {
+          created_at: string
+          hostname: string
+          id: string
+          ip_address: string | null
+          notes: string | null
+          os_image: string
+          plan_id: string | null
+          region: string
+          root_user: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          hostname: string
+          id?: string
+          ip_address?: string | null
+          notes?: string | null
+          os_image?: string
+          plan_id?: string | null
+          region?: string
+          root_user?: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          hostname?: string
+          id?: string
+          ip_address?: string | null
+          notes?: string | null
+          os_image?: string
+          plan_id?: string | null
+          region?: string
+          root_user?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cloud_vps_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "hosting_plans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cloud_wallets: {
+        Row: {
+          balance: number
+          created_at: string
+          currency: string
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          balance?: number
+          created_at?: string
+          currency?: string
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          balance?: number
+          created_at?: string
+          currency?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       conversations: {
         Row: {
           created_at: string
@@ -710,6 +944,69 @@ export type Database = {
           title?: string
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      hosting_plans: {
+        Row: {
+          active: boolean
+          bandwidth_gb: number
+          category: string
+          cpu_cores: number
+          created_at: string
+          currency: string
+          description: string
+          disk_gb: number
+          features: Json
+          id: string
+          name: string
+          popular: boolean
+          price_monthly: number
+          ram_mb: number
+          slug: string
+          sort_order: number
+          tagline: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          bandwidth_gb?: number
+          category?: string
+          cpu_cores?: number
+          created_at?: string
+          currency?: string
+          description?: string
+          disk_gb?: number
+          features?: Json
+          id?: string
+          name: string
+          popular?: boolean
+          price_monthly?: number
+          ram_mb?: number
+          slug: string
+          sort_order?: number
+          tagline?: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          bandwidth_gb?: number
+          category?: string
+          cpu_cores?: number
+          created_at?: string
+          currency?: string
+          description?: string
+          disk_gb?: number
+          features?: Json
+          id?: string
+          name?: string
+          popular?: boolean
+          price_monthly?: number
+          ram_mb?: number
+          slug?: string
+          sort_order?: number
+          tagline?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -1344,12 +1641,12 @@ export type Tables<
   DefaultSchemaTableNameOrOptions extends
     | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
         DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -1373,11 +1670,11 @@ export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -1398,11 +1695,11 @@ export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -1423,11 +1720,11 @@ export type Enums<
   DefaultSchemaEnumNameOrOptions extends
     | keyof DefaultSchema["Enums"]
     | { schema: keyof DatabaseWithoutInternals },
-  EnumName extends DefaultSchemaEnumNameOrOptions extends {
+  EnumName extends (DefaultSchemaEnumNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaEnumNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -1440,11 +1737,11 @@ export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
     | keyof DefaultSchema["CompositeTypes"]
     | { schema: keyof DatabaseWithoutInternals },
-  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+  CompositeTypeName extends (PublicCompositeTypeNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never = never,
+    : never) = never,
 > = PublicCompositeTypeNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
