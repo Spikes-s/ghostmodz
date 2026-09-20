@@ -60,7 +60,7 @@ export function serviceHref(
     case "campus-hacking":
       return { kind: "internal", url: "/services/campus/apply" };
     case "cloud":
-      return { kind: "external", url: settings?.cloud_solutions_url || CLOUD_HOST_URL };
+      return { kind: "internal", url: "/cloud" };
     case "cybersec":
       return { kind: "internal", url: "/support" };
     case "api":
@@ -94,7 +94,7 @@ export function ServiceCard({
 
   function openDetails() {
     if (service.slug === "cloud") {
-      go({ kind: "external", url: settings?.cloud_solutions_url || CLOUD_HOST_URL });
+      window.location.assign("/cloud");
       return;
     }
     window.location.assign(`/services/${detailSlug}`);
