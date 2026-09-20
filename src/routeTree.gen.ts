@@ -28,6 +28,7 @@ import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authentic
 import { Route as AuthenticatedAcademyIndexRouteImport } from './routes/_authenticated/academy.index'
 import { Route as AuthenticatedSpikesConversationIdRouteImport } from './routes/_authenticated/spikes.$conversationId'
 import { Route as AuthenticatedServicesSlugRouteImport } from './routes/_authenticated/services.$slug'
+import { Route as AuthenticatedCloudNewRouteImport } from './routes/_authenticated/cloud.new'
 import { Route as AuthenticatedBuildProjectIdRouteImport } from './routes/_authenticated/build.$projectId'
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
 import { Route as AuthenticatedAdminTokensRouteImport } from './routes/_authenticated/admin.tokens'
@@ -151,6 +152,11 @@ const AuthenticatedServicesSlugRoute =
     path: '/services/$slug',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedCloudNewRoute = AuthenticatedCloudNewRouteImport.update({
+  id: '/cloud/new',
+  path: '/cloud/new',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedBuildProjectIdRoute =
   AuthenticatedBuildProjectIdRouteImport.update({
     id: '/build/$projectId',
@@ -314,6 +320,7 @@ export interface FileRoutesByFullPath {
   '/admin/tokens': typeof AuthenticatedAdminTokensRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/build/$projectId': typeof AuthenticatedBuildProjectIdRoute
+  '/cloud/new': typeof AuthenticatedCloudNewRoute
   '/services/$slug': typeof AuthenticatedServicesSlugRoute
   '/spikes/$conversationId': typeof AuthenticatedSpikesConversationIdRoute
   '/academy/': typeof AuthenticatedAcademyIndexRoute
@@ -356,6 +363,7 @@ export interface FileRoutesByTo {
   '/admin/tokens': typeof AuthenticatedAdminTokensRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/build/$projectId': typeof AuthenticatedBuildProjectIdRoute
+  '/cloud/new': typeof AuthenticatedCloudNewRoute
   '/services/$slug': typeof AuthenticatedServicesSlugRoute
   '/spikes/$conversationId': typeof AuthenticatedSpikesConversationIdRoute
   '/academy': typeof AuthenticatedAcademyIndexRoute
@@ -401,6 +409,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/tokens': typeof AuthenticatedAdminTokensRoute
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/_authenticated/build/$projectId': typeof AuthenticatedBuildProjectIdRoute
+  '/_authenticated/cloud/new': typeof AuthenticatedCloudNewRoute
   '/_authenticated/services/$slug': typeof AuthenticatedServicesSlugRoute
   '/_authenticated/spikes/$conversationId': typeof AuthenticatedSpikesConversationIdRoute
   '/_authenticated/academy/': typeof AuthenticatedAcademyIndexRoute
@@ -446,6 +455,7 @@ export interface FileRouteTypes {
     | '/admin/tokens'
     | '/admin/users'
     | '/build/$projectId'
+    | '/cloud/new'
     | '/services/$slug'
     | '/spikes/$conversationId'
     | '/academy/'
@@ -488,6 +498,7 @@ export interface FileRouteTypes {
     | '/admin/tokens'
     | '/admin/users'
     | '/build/$projectId'
+    | '/cloud/new'
     | '/services/$slug'
     | '/spikes/$conversationId'
     | '/academy'
@@ -532,6 +543,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/tokens'
     | '/_authenticated/admin/users'
     | '/_authenticated/build/$projectId'
+    | '/_authenticated/cloud/new'
     | '/_authenticated/services/$slug'
     | '/_authenticated/spikes/$conversationId'
     | '/_authenticated/academy/'
@@ -694,6 +706,13 @@ declare module '@tanstack/react-router' {
       path: '/services/$slug'
       fullPath: '/services/$slug'
       preLoaderRoute: typeof AuthenticatedServicesSlugRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/cloud/new': {
+      id: '/_authenticated/cloud/new'
+      path: '/cloud/new'
+      fullPath: '/cloud/new'
+      preLoaderRoute: typeof AuthenticatedCloudNewRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/build/$projectId': {
@@ -902,6 +921,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAcademySlugRoute: typeof AuthenticatedAcademySlugRoute
   AuthenticatedAcademyCoursesRoute: typeof AuthenticatedAcademyCoursesRoute
   AuthenticatedBuildProjectIdRoute: typeof AuthenticatedBuildProjectIdRoute
+  AuthenticatedCloudNewRoute: typeof AuthenticatedCloudNewRoute
   AuthenticatedServicesSlugRoute: typeof AuthenticatedServicesSlugRoute
   AuthenticatedSpikesConversationIdRoute: typeof AuthenticatedSpikesConversationIdRoute
   AuthenticatedAcademyIndexRoute: typeof AuthenticatedAcademyIndexRoute
@@ -928,6 +948,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAcademySlugRoute: AuthenticatedAcademySlugRoute,
   AuthenticatedAcademyCoursesRoute: AuthenticatedAcademyCoursesRoute,
   AuthenticatedBuildProjectIdRoute: AuthenticatedBuildProjectIdRoute,
+  AuthenticatedCloudNewRoute: AuthenticatedCloudNewRoute,
   AuthenticatedServicesSlugRoute: AuthenticatedServicesSlugRoute,
   AuthenticatedSpikesConversationIdRoute:
     AuthenticatedSpikesConversationIdRoute,
