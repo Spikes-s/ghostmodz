@@ -22,6 +22,7 @@ import { Route as AuthenticatedSupportRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedSpikesIndexRouteImport } from './routes/_authenticated/spikes.index'
 import { Route as AuthenticatedServicesIndexRouteImport } from './routes/_authenticated/services.index'
+import { Route as AuthenticatedCloudIndexRouteImport } from './routes/_authenticated/cloud.index'
 import { Route as AuthenticatedBuildIndexRouteImport } from './routes/_authenticated/build.index'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAcademyIndexRouteImport } from './routes/_authenticated/academy.index'
@@ -117,6 +118,11 @@ const AuthenticatedServicesIndexRoute =
     path: '/services/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedCloudIndexRoute = AuthenticatedCloudIndexRouteImport.update({
+  id: '/cloud/',
+  path: '/cloud/',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedBuildIndexRoute = AuthenticatedBuildIndexRouteImport.update({
   id: '/build/',
   path: '/build/',
@@ -313,6 +319,7 @@ export interface FileRoutesByFullPath {
   '/academy/': typeof AuthenticatedAcademyIndexRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/build/': typeof AuthenticatedBuildIndexRoute
+  '/cloud/': typeof AuthenticatedCloudIndexRoute
   '/services/': typeof AuthenticatedServicesIndexRoute
   '/spikes/': typeof AuthenticatedSpikesIndexRoute
   '/academy/certificate/$code': typeof AuthenticatedAcademyCertificateCodeRoute
@@ -354,6 +361,7 @@ export interface FileRoutesByTo {
   '/academy': typeof AuthenticatedAcademyIndexRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/build': typeof AuthenticatedBuildIndexRoute
+  '/cloud': typeof AuthenticatedCloudIndexRoute
   '/services': typeof AuthenticatedServicesIndexRoute
   '/spikes': typeof AuthenticatedSpikesIndexRoute
   '/academy/certificate/$code': typeof AuthenticatedAcademyCertificateCodeRoute
@@ -398,6 +406,7 @@ export interface FileRoutesById {
   '/_authenticated/academy/': typeof AuthenticatedAcademyIndexRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/build/': typeof AuthenticatedBuildIndexRoute
+  '/_authenticated/cloud/': typeof AuthenticatedCloudIndexRoute
   '/_authenticated/services/': typeof AuthenticatedServicesIndexRoute
   '/_authenticated/spikes/': typeof AuthenticatedSpikesIndexRoute
   '/_authenticated/academy/certificate/$code': typeof AuthenticatedAcademyCertificateCodeRoute
@@ -442,6 +451,7 @@ export interface FileRouteTypes {
     | '/academy/'
     | '/admin/'
     | '/build/'
+    | '/cloud/'
     | '/services/'
     | '/spikes/'
     | '/academy/certificate/$code'
@@ -483,6 +493,7 @@ export interface FileRouteTypes {
     | '/academy'
     | '/admin'
     | '/build'
+    | '/cloud'
     | '/services'
     | '/spikes'
     | '/academy/certificate/$code'
@@ -526,6 +537,7 @@ export interface FileRouteTypes {
     | '/_authenticated/academy/'
     | '/_authenticated/admin/'
     | '/_authenticated/build/'
+    | '/_authenticated/cloud/'
     | '/_authenticated/services/'
     | '/_authenticated/spikes/'
     | '/_authenticated/academy/certificate/$code'
@@ -640,6 +652,13 @@ declare module '@tanstack/react-router' {
       path: '/services'
       fullPath: '/services/'
       preLoaderRoute: typeof AuthenticatedServicesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/cloud/': {
+      id: '/_authenticated/cloud/'
+      path: '/cloud'
+      fullPath: '/cloud/'
+      preLoaderRoute: typeof AuthenticatedCloudIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/build/': {
@@ -887,6 +906,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedSpikesConversationIdRoute: typeof AuthenticatedSpikesConversationIdRoute
   AuthenticatedAcademyIndexRoute: typeof AuthenticatedAcademyIndexRoute
   AuthenticatedBuildIndexRoute: typeof AuthenticatedBuildIndexRoute
+  AuthenticatedCloudIndexRoute: typeof AuthenticatedCloudIndexRoute
   AuthenticatedServicesIndexRoute: typeof AuthenticatedServicesIndexRoute
   AuthenticatedSpikesIndexRoute: typeof AuthenticatedSpikesIndexRoute
   AuthenticatedAcademyCertificateCodeRoute: typeof AuthenticatedAcademyCertificateCodeRoute
@@ -913,6 +933,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
     AuthenticatedSpikesConversationIdRoute,
   AuthenticatedAcademyIndexRoute: AuthenticatedAcademyIndexRoute,
   AuthenticatedBuildIndexRoute: AuthenticatedBuildIndexRoute,
+  AuthenticatedCloudIndexRoute: AuthenticatedCloudIndexRoute,
   AuthenticatedServicesIndexRoute: AuthenticatedServicesIndexRoute,
   AuthenticatedSpikesIndexRoute: AuthenticatedSpikesIndexRoute,
   AuthenticatedAcademyCertificateCodeRoute:
