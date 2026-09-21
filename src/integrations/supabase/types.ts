@@ -524,6 +524,53 @@ export type Database = {
         }
         Relationships: []
       }
+      analytics_events: {
+        Row: {
+          created_at: string
+          duration_ms: number | null
+          event: string
+          format: string | null
+          id: string
+          job_id: string | null
+          metadata: Json
+          platform: string | null
+          status: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          duration_ms?: number | null
+          event: string
+          format?: string | null
+          id?: string
+          job_id?: string | null
+          metadata?: Json
+          platform?: string | null
+          status?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          duration_ms?: number | null
+          event?: string
+          format?: string | null
+          id?: string
+          job_id?: string | null
+          metadata?: Json
+          platform?: string | null
+          status?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "analytics_events_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "download_jobs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       api_endpoints: {
         Row: {
           created_at: string
@@ -683,6 +730,39 @@ export type Database = {
           updated_at?: string
           user_id?: string
           version?: string
+        }
+        Relationships: []
+      }
+      audit_logs: {
+        Row: {
+          action: string
+          actor_email: string | null
+          actor_id: string | null
+          created_at: string
+          id: string
+          ip_hash: string | null
+          metadata: Json
+          target: string | null
+        }
+        Insert: {
+          action: string
+          actor_email?: string | null
+          actor_id?: string | null
+          created_at?: string
+          id?: string
+          ip_hash?: string | null
+          metadata?: Json
+          target?: string | null
+        }
+        Update: {
+          action?: string
+          actor_email?: string | null
+          actor_id?: string | null
+          created_at?: string
+          id?: string
+          ip_hash?: string | null
+          metadata?: Json
+          target?: string | null
         }
         Relationships: []
       }
@@ -947,6 +1027,186 @@ export type Database = {
         }
         Relationships: []
       }
+      download_jobs: {
+        Row: {
+          attempts: number
+          client_ip_hash: string | null
+          completed_at: string | null
+          created_at: string
+          error_code: string | null
+          error_message: string | null
+          expires_at: string | null
+          guest_key: string | null
+          id: string
+          idempotency_key: string | null
+          max_attempts: number
+          media_title: string | null
+          media_type: string | null
+          metadata: Json
+          normalized_url: string
+          output_filename: string | null
+          output_size: number | null
+          progress: number
+          requested_format: string
+          requested_quality: string | null
+          source_platform: string | null
+          source_url: string
+          started_at: string | null
+          status: string
+          temporary_storage_path: string | null
+          updated_at: string
+          url_hash: string
+          user_id: string | null
+          worker_job_id: string | null
+        }
+        Insert: {
+          attempts?: number
+          client_ip_hash?: string | null
+          completed_at?: string | null
+          created_at?: string
+          error_code?: string | null
+          error_message?: string | null
+          expires_at?: string | null
+          guest_key?: string | null
+          id?: string
+          idempotency_key?: string | null
+          max_attempts?: number
+          media_title?: string | null
+          media_type?: string | null
+          metadata?: Json
+          normalized_url: string
+          output_filename?: string | null
+          output_size?: number | null
+          progress?: number
+          requested_format: string
+          requested_quality?: string | null
+          source_platform?: string | null
+          source_url: string
+          started_at?: string | null
+          status?: string
+          temporary_storage_path?: string | null
+          updated_at?: string
+          url_hash: string
+          user_id?: string | null
+          worker_job_id?: string | null
+        }
+        Update: {
+          attempts?: number
+          client_ip_hash?: string | null
+          completed_at?: string | null
+          created_at?: string
+          error_code?: string | null
+          error_message?: string | null
+          expires_at?: string | null
+          guest_key?: string | null
+          id?: string
+          idempotency_key?: string | null
+          max_attempts?: number
+          media_title?: string | null
+          media_type?: string | null
+          metadata?: Json
+          normalized_url?: string
+          output_filename?: string | null
+          output_size?: number | null
+          progress?: number
+          requested_format?: string
+          requested_quality?: string | null
+          source_platform?: string | null
+          source_url?: string
+          started_at?: string | null
+          status?: string
+          temporary_storage_path?: string | null
+          updated_at?: string
+          url_hash?: string
+          user_id?: string | null
+          worker_job_id?: string | null
+        }
+        Relationships: []
+      }
+      downloader_settings: {
+        Row: {
+          accent_primary: string
+          accent_secondary: string
+          downloads_paused: boolean
+          favicon_url: string | null
+          file_lifetime_minutes: number
+          footer_text: string | null
+          guest_downloads_enabled: boolean
+          guest_requests_per_hour: number
+          id: number
+          logo_url: string | null
+          maintenance_mode: boolean
+          max_concurrent_jobs_global: number
+          max_concurrent_jobs_per_user: number
+          max_file_size_mb: number
+          meta_description: string
+          meta_title: string
+          metadata_cache_minutes: number
+          metadata_requests_per_minute: number
+          privacy_url: string | null
+          require_account: boolean
+          site_name: string
+          support_email: string | null
+          terms_url: string | null
+          updated_at: string
+          user_requests_per_hour: number
+        }
+        Insert: {
+          accent_primary?: string
+          accent_secondary?: string
+          downloads_paused?: boolean
+          favicon_url?: string | null
+          file_lifetime_minutes?: number
+          footer_text?: string | null
+          guest_downloads_enabled?: boolean
+          guest_requests_per_hour?: number
+          id?: number
+          logo_url?: string | null
+          maintenance_mode?: boolean
+          max_concurrent_jobs_global?: number
+          max_concurrent_jobs_per_user?: number
+          max_file_size_mb?: number
+          meta_description?: string
+          meta_title?: string
+          metadata_cache_minutes?: number
+          metadata_requests_per_minute?: number
+          privacy_url?: string | null
+          require_account?: boolean
+          site_name?: string
+          support_email?: string | null
+          terms_url?: string | null
+          updated_at?: string
+          user_requests_per_hour?: number
+        }
+        Update: {
+          accent_primary?: string
+          accent_secondary?: string
+          downloads_paused?: boolean
+          favicon_url?: string | null
+          file_lifetime_minutes?: number
+          footer_text?: string | null
+          guest_downloads_enabled?: boolean
+          guest_requests_per_hour?: number
+          id?: number
+          logo_url?: string | null
+          maintenance_mode?: boolean
+          max_concurrent_jobs_global?: number
+          max_concurrent_jobs_per_user?: number
+          max_file_size_mb?: number
+          meta_description?: string
+          meta_title?: string
+          metadata_cache_minutes?: number
+          metadata_requests_per_minute?: number
+          privacy_url?: string | null
+          require_account?: boolean
+          site_name?: string
+          support_email?: string | null
+          terms_url?: string | null
+          updated_at?: string
+          user_requests_per_hour?: number
+        }
+        Relationships: []
+      }
       hosting_plans: {
         Row: {
           active: boolean
@@ -1031,6 +1291,33 @@ export type Database = {
           ip_address?: string | null
           user_agent?: string | null
           user_id?: string
+        }
+        Relationships: []
+      }
+      media_metadata_cache: {
+        Row: {
+          created_at: string
+          expires_at: string
+          normalized_url: string
+          payload: Json
+          platform: string | null
+          url_hash: string
+        }
+        Insert: {
+          created_at?: string
+          expires_at: string
+          normalized_url: string
+          payload: Json
+          platform?: string | null
+          url_hash: string
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string
+          normalized_url?: string
+          payload?: Json
+          platform?: string | null
+          url_hash?: string
         }
         Relationships: []
       }
@@ -1155,6 +1442,45 @@ export type Database = {
           },
         ]
       }
+      platforms: {
+        Row: {
+          created_at: string
+          domain: string
+          enabled: boolean
+          extractor: string
+          id: string
+          last_checked: string | null
+          name: string
+          notes: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          domain: string
+          enabled?: boolean
+          extractor?: string
+          id?: string
+          last_checked?: string | null
+          name: string
+          notes?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          domain?: string
+          enabled?: boolean
+          extractor?: string
+          id?: string
+          last_checked?: string | null
+          name?: string
+          notes?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -1262,6 +1588,33 @@ export type Database = {
           name?: string
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      rate_limits: {
+        Row: {
+          bucket_key: string
+          count: number
+          created_at: string
+          id: string
+          scope: string
+          window_start: string
+        }
+        Insert: {
+          bucket_key: string
+          count?: number
+          created_at?: string
+          id?: string
+          scope: string
+          window_start: string
+        }
+        Update: {
+          bucket_key?: string
+          count?: number
+          created_at?: string
+          id?: string
+          scope?: string
+          window_start?: string
         }
         Relationships: []
       }
@@ -1608,6 +1961,42 @@ export type Database = {
           updated_at?: string
           user_id?: string
           website_type?: string | null
+        }
+        Relationships: []
+      }
+      worker_heartbeats: {
+        Row: {
+          active_jobs: number
+          capabilities: Json
+          cpu_percent: number | null
+          id: string
+          memory_percent: number | null
+          queue_length: number
+          reported_at: string
+          version: string | null
+          worker_id: string
+        }
+        Insert: {
+          active_jobs?: number
+          capabilities?: Json
+          cpu_percent?: number | null
+          id?: string
+          memory_percent?: number | null
+          queue_length?: number
+          reported_at?: string
+          version?: string | null
+          worker_id: string
+        }
+        Update: {
+          active_jobs?: number
+          capabilities?: Json
+          cpu_percent?: number | null
+          id?: string
+          memory_percent?: number | null
+          queue_length?: number
+          reported_at?: string
+          version?: string | null
+          worker_id?: string
         }
         Relationships: []
       }
