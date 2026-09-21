@@ -49,6 +49,7 @@ import { Route as AuthenticatedServicesGenericKindRouteImport } from './routes/_
 import { Route as AuthenticatedServicesCampusApplyRouteImport } from './routes/_authenticated/services.campus.apply'
 import { Route as AuthenticatedServicesApiDevNewRouteImport } from './routes/_authenticated/services.api-dev.new'
 import { Route as AuthenticatedServicesApiDevProjectIdRouteImport } from './routes/_authenticated/services.api-dev.$projectId'
+import { Route as AuthenticatedCloudAppsAppIdRouteImport } from './routes/_authenticated/cloud.apps.$appId'
 import { Route as AuthenticatedAccountRequestsIdRouteImport } from './routes/_authenticated/account.requests.$id'
 import { Route as AuthenticatedAcademyLessonLessonIdRouteImport } from './routes/_authenticated/academy.lesson.$lessonId'
 import { Route as AuthenticatedAcademyCertificateCodeRouteImport } from './routes/_authenticated/academy.certificate.$code'
@@ -276,6 +277,12 @@ const AuthenticatedServicesApiDevProjectIdRoute =
     path: '/services/api-dev/$projectId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedCloudAppsAppIdRoute =
+  AuthenticatedCloudAppsAppIdRouteImport.update({
+    id: '/cloud/apps/$appId',
+    path: '/cloud/apps/$appId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAccountRequestsIdRoute =
   AuthenticatedAccountRequestsIdRouteImport.update({
     id: '/account/requests/$id',
@@ -332,6 +339,7 @@ export interface FileRoutesByFullPath {
   '/academy/certificate/$code': typeof AuthenticatedAcademyCertificateCodeRoute
   '/academy/lesson/$lessonId': typeof AuthenticatedAcademyLessonLessonIdRoute
   '/account/requests/$id': typeof AuthenticatedAccountRequestsIdRoute
+  '/cloud/apps/$appId': typeof AuthenticatedCloudAppsAppIdRoute
   '/services/api-dev/$projectId': typeof AuthenticatedServicesApiDevProjectIdRoute
   '/services/api-dev/new': typeof AuthenticatedServicesApiDevNewRoute
   '/services/campus/apply': typeof AuthenticatedServicesCampusApplyRoute
@@ -375,6 +383,7 @@ export interface FileRoutesByTo {
   '/academy/certificate/$code': typeof AuthenticatedAcademyCertificateCodeRoute
   '/academy/lesson/$lessonId': typeof AuthenticatedAcademyLessonLessonIdRoute
   '/account/requests/$id': typeof AuthenticatedAccountRequestsIdRoute
+  '/cloud/apps/$appId': typeof AuthenticatedCloudAppsAppIdRoute
   '/services/api-dev/$projectId': typeof AuthenticatedServicesApiDevProjectIdRoute
   '/services/api-dev/new': typeof AuthenticatedServicesApiDevNewRoute
   '/services/campus/apply': typeof AuthenticatedServicesCampusApplyRoute
@@ -421,6 +430,7 @@ export interface FileRoutesById {
   '/_authenticated/academy/certificate/$code': typeof AuthenticatedAcademyCertificateCodeRoute
   '/_authenticated/academy/lesson/$lessonId': typeof AuthenticatedAcademyLessonLessonIdRoute
   '/_authenticated/account/requests/$id': typeof AuthenticatedAccountRequestsIdRoute
+  '/_authenticated/cloud/apps/$appId': typeof AuthenticatedCloudAppsAppIdRoute
   '/_authenticated/services/api-dev/$projectId': typeof AuthenticatedServicesApiDevProjectIdRoute
   '/_authenticated/services/api-dev/new': typeof AuthenticatedServicesApiDevNewRoute
   '/_authenticated/services/campus/apply': typeof AuthenticatedServicesCampusApplyRoute
@@ -467,6 +477,7 @@ export interface FileRouteTypes {
     | '/academy/certificate/$code'
     | '/academy/lesson/$lessonId'
     | '/account/requests/$id'
+    | '/cloud/apps/$appId'
     | '/services/api-dev/$projectId'
     | '/services/api-dev/new'
     | '/services/campus/apply'
@@ -510,6 +521,7 @@ export interface FileRouteTypes {
     | '/academy/certificate/$code'
     | '/academy/lesson/$lessonId'
     | '/account/requests/$id'
+    | '/cloud/apps/$appId'
     | '/services/api-dev/$projectId'
     | '/services/api-dev/new'
     | '/services/campus/apply'
@@ -555,6 +567,7 @@ export interface FileRouteTypes {
     | '/_authenticated/academy/certificate/$code'
     | '/_authenticated/academy/lesson/$lessonId'
     | '/_authenticated/account/requests/$id'
+    | '/_authenticated/cloud/apps/$appId'
     | '/_authenticated/services/api-dev/$projectId'
     | '/_authenticated/services/api-dev/new'
     | '/_authenticated/services/campus/apply'
@@ -855,6 +868,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedServicesApiDevProjectIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/cloud/apps/$appId': {
+      id: '/_authenticated/cloud/apps/$appId'
+      path: '/cloud/apps/$appId'
+      fullPath: '/cloud/apps/$appId'
+      preLoaderRoute: typeof AuthenticatedCloudAppsAppIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/account/requests/$id': {
       id: '/_authenticated/account/requests/$id'
       path: '/account/requests/$id'
@@ -932,6 +952,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAcademyCertificateCodeRoute: typeof AuthenticatedAcademyCertificateCodeRoute
   AuthenticatedAcademyLessonLessonIdRoute: typeof AuthenticatedAcademyLessonLessonIdRoute
   AuthenticatedAccountRequestsIdRoute: typeof AuthenticatedAccountRequestsIdRoute
+  AuthenticatedCloudAppsAppIdRoute: typeof AuthenticatedCloudAppsAppIdRoute
   AuthenticatedServicesApiDevProjectIdRoute: typeof AuthenticatedServicesApiDevProjectIdRoute
   AuthenticatedServicesApiDevNewRoute: typeof AuthenticatedServicesApiDevNewRoute
   AuthenticatedServicesCampusApplyRoute: typeof AuthenticatedServicesCampusApplyRoute
@@ -962,6 +983,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAcademyLessonLessonIdRoute:
     AuthenticatedAcademyLessonLessonIdRoute,
   AuthenticatedAccountRequestsIdRoute: AuthenticatedAccountRequestsIdRoute,
+  AuthenticatedCloudAppsAppIdRoute: AuthenticatedCloudAppsAppIdRoute,
   AuthenticatedServicesApiDevProjectIdRoute:
     AuthenticatedServicesApiDevProjectIdRoute,
   AuthenticatedServicesApiDevNewRoute: AuthenticatedServicesApiDevNewRoute,
