@@ -2012,6 +2012,10 @@ export type Database = {
         }
         Returns: boolean
       }
+      hit_rate_limit: {
+        Args: { _bucket: string; _scope: string; _window_start: string }
+        Returns: number
+      }
     }
     Enums: {
       app_role: "administrator" | "moderator" | "premium" | "standard"
