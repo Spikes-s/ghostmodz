@@ -22,12 +22,15 @@ import { Route as AuthenticatedSupportRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedSpikesIndexRouteImport } from './routes/_authenticated/spikes.index'
 import { Route as AuthenticatedServicesIndexRouteImport } from './routes/_authenticated/services.index'
+import { Route as AuthenticatedDownloaderIndexRouteImport } from './routes/_authenticated/downloader.index'
 import { Route as AuthenticatedCloudIndexRouteImport } from './routes/_authenticated/cloud.index'
 import { Route as AuthenticatedBuildIndexRouteImport } from './routes/_authenticated/build.index'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as AuthenticatedAccountIndexRouteImport } from './routes/_authenticated/account.index'
 import { Route as AuthenticatedAcademyIndexRouteImport } from './routes/_authenticated/academy.index'
 import { Route as AuthenticatedSpikesConversationIdRouteImport } from './routes/_authenticated/spikes.$conversationId'
 import { Route as AuthenticatedServicesSlugRouteImport } from './routes/_authenticated/services.$slug'
+import { Route as AuthenticatedDownloaderHistoryRouteImport } from './routes/_authenticated/downloader.history'
 import { Route as AuthenticatedCloudNewRouteImport } from './routes/_authenticated/cloud.new'
 import { Route as AuthenticatedBuildProjectIdRouteImport } from './routes/_authenticated/build.$projectId'
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
@@ -120,6 +123,12 @@ const AuthenticatedServicesIndexRoute =
     path: '/services/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedDownloaderIndexRoute =
+  AuthenticatedDownloaderIndexRouteImport.update({
+    id: '/downloader/',
+    path: '/downloader/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedCloudIndexRoute = AuthenticatedCloudIndexRouteImport.update({
   id: '/cloud/',
   path: '/cloud/',
@@ -135,6 +144,12 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAccountIndexRoute =
+  AuthenticatedAccountIndexRouteImport.update({
+    id: '/account/',
+    path: '/account/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAcademyIndexRoute =
   AuthenticatedAcademyIndexRouteImport.update({
     id: '/academy/',
@@ -151,6 +166,12 @@ const AuthenticatedServicesSlugRoute =
   AuthenticatedServicesSlugRouteImport.update({
     id: '/services/$slug',
     path: '/services/$slug',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedDownloaderHistoryRoute =
+  AuthenticatedDownloaderHistoryRouteImport.update({
+    id: '/downloader/history',
+    path: '/downloader/history',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedCloudNewRoute = AuthenticatedCloudNewRouteImport.update({
@@ -328,12 +349,15 @@ export interface FileRoutesByFullPath {
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/build/$projectId': typeof AuthenticatedBuildProjectIdRoute
   '/cloud/new': typeof AuthenticatedCloudNewRoute
+  '/downloader/history': typeof AuthenticatedDownloaderHistoryRoute
   '/services/$slug': typeof AuthenticatedServicesSlugRoute
   '/spikes/$conversationId': typeof AuthenticatedSpikesConversationIdRoute
   '/academy/': typeof AuthenticatedAcademyIndexRoute
+  '/account/': typeof AuthenticatedAccountIndexRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/build/': typeof AuthenticatedBuildIndexRoute
   '/cloud/': typeof AuthenticatedCloudIndexRoute
+  '/downloader/': typeof AuthenticatedDownloaderIndexRoute
   '/services/': typeof AuthenticatedServicesIndexRoute
   '/spikes/': typeof AuthenticatedSpikesIndexRoute
   '/academy/certificate/$code': typeof AuthenticatedAcademyCertificateCodeRoute
@@ -372,12 +396,15 @@ export interface FileRoutesByTo {
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/build/$projectId': typeof AuthenticatedBuildProjectIdRoute
   '/cloud/new': typeof AuthenticatedCloudNewRoute
+  '/downloader/history': typeof AuthenticatedDownloaderHistoryRoute
   '/services/$slug': typeof AuthenticatedServicesSlugRoute
   '/spikes/$conversationId': typeof AuthenticatedSpikesConversationIdRoute
   '/academy': typeof AuthenticatedAcademyIndexRoute
+  '/account': typeof AuthenticatedAccountIndexRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/build': typeof AuthenticatedBuildIndexRoute
   '/cloud': typeof AuthenticatedCloudIndexRoute
+  '/downloader': typeof AuthenticatedDownloaderIndexRoute
   '/services': typeof AuthenticatedServicesIndexRoute
   '/spikes': typeof AuthenticatedSpikesIndexRoute
   '/academy/certificate/$code': typeof AuthenticatedAcademyCertificateCodeRoute
@@ -419,12 +446,15 @@ export interface FileRoutesById {
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/_authenticated/build/$projectId': typeof AuthenticatedBuildProjectIdRoute
   '/_authenticated/cloud/new': typeof AuthenticatedCloudNewRoute
+  '/_authenticated/downloader/history': typeof AuthenticatedDownloaderHistoryRoute
   '/_authenticated/services/$slug': typeof AuthenticatedServicesSlugRoute
   '/_authenticated/spikes/$conversationId': typeof AuthenticatedSpikesConversationIdRoute
   '/_authenticated/academy/': typeof AuthenticatedAcademyIndexRoute
+  '/_authenticated/account/': typeof AuthenticatedAccountIndexRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/build/': typeof AuthenticatedBuildIndexRoute
   '/_authenticated/cloud/': typeof AuthenticatedCloudIndexRoute
+  '/_authenticated/downloader/': typeof AuthenticatedDownloaderIndexRoute
   '/_authenticated/services/': typeof AuthenticatedServicesIndexRoute
   '/_authenticated/spikes/': typeof AuthenticatedSpikesIndexRoute
   '/_authenticated/academy/certificate/$code': typeof AuthenticatedAcademyCertificateCodeRoute
@@ -466,12 +496,15 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/build/$projectId'
     | '/cloud/new'
+    | '/downloader/history'
     | '/services/$slug'
     | '/spikes/$conversationId'
     | '/academy/'
+    | '/account/'
     | '/admin/'
     | '/build/'
     | '/cloud/'
+    | '/downloader/'
     | '/services/'
     | '/spikes/'
     | '/academy/certificate/$code'
@@ -510,12 +543,15 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/build/$projectId'
     | '/cloud/new'
+    | '/downloader/history'
     | '/services/$slug'
     | '/spikes/$conversationId'
     | '/academy'
+    | '/account'
     | '/admin'
     | '/build'
     | '/cloud'
+    | '/downloader'
     | '/services'
     | '/spikes'
     | '/academy/certificate/$code'
@@ -556,12 +592,15 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/users'
     | '/_authenticated/build/$projectId'
     | '/_authenticated/cloud/new'
+    | '/_authenticated/downloader/history'
     | '/_authenticated/services/$slug'
     | '/_authenticated/spikes/$conversationId'
     | '/_authenticated/academy/'
+    | '/_authenticated/account/'
     | '/_authenticated/admin/'
     | '/_authenticated/build/'
     | '/_authenticated/cloud/'
+    | '/_authenticated/downloader/'
     | '/_authenticated/services/'
     | '/_authenticated/spikes/'
     | '/_authenticated/academy/certificate/$code'
@@ -679,6 +718,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedServicesIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/downloader/': {
+      id: '/_authenticated/downloader/'
+      path: '/downloader'
+      fullPath: '/downloader/'
+      preLoaderRoute: typeof AuthenticatedDownloaderIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/cloud/': {
       id: '/_authenticated/cloud/'
       path: '/cloud'
@@ -700,6 +746,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/account/': {
+      id: '/_authenticated/account/'
+      path: '/account'
+      fullPath: '/account/'
+      preLoaderRoute: typeof AuthenticatedAccountIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/academy/': {
       id: '/_authenticated/academy/'
       path: '/academy'
@@ -719,6 +772,13 @@ declare module '@tanstack/react-router' {
       path: '/services/$slug'
       fullPath: '/services/$slug'
       preLoaderRoute: typeof AuthenticatedServicesSlugRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/downloader/history': {
+      id: '/_authenticated/downloader/history'
+      path: '/downloader/history'
+      fullPath: '/downloader/history'
+      preLoaderRoute: typeof AuthenticatedDownloaderHistoryRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/cloud/new': {
@@ -942,11 +1002,14 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAcademyCoursesRoute: typeof AuthenticatedAcademyCoursesRoute
   AuthenticatedBuildProjectIdRoute: typeof AuthenticatedBuildProjectIdRoute
   AuthenticatedCloudNewRoute: typeof AuthenticatedCloudNewRoute
+  AuthenticatedDownloaderHistoryRoute: typeof AuthenticatedDownloaderHistoryRoute
   AuthenticatedServicesSlugRoute: typeof AuthenticatedServicesSlugRoute
   AuthenticatedSpikesConversationIdRoute: typeof AuthenticatedSpikesConversationIdRoute
   AuthenticatedAcademyIndexRoute: typeof AuthenticatedAcademyIndexRoute
+  AuthenticatedAccountIndexRoute: typeof AuthenticatedAccountIndexRoute
   AuthenticatedBuildIndexRoute: typeof AuthenticatedBuildIndexRoute
   AuthenticatedCloudIndexRoute: typeof AuthenticatedCloudIndexRoute
+  AuthenticatedDownloaderIndexRoute: typeof AuthenticatedDownloaderIndexRoute
   AuthenticatedServicesIndexRoute: typeof AuthenticatedServicesIndexRoute
   AuthenticatedSpikesIndexRoute: typeof AuthenticatedSpikesIndexRoute
   AuthenticatedAcademyCertificateCodeRoute: typeof AuthenticatedAcademyCertificateCodeRoute
@@ -970,12 +1033,15 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAcademyCoursesRoute: AuthenticatedAcademyCoursesRoute,
   AuthenticatedBuildProjectIdRoute: AuthenticatedBuildProjectIdRoute,
   AuthenticatedCloudNewRoute: AuthenticatedCloudNewRoute,
+  AuthenticatedDownloaderHistoryRoute: AuthenticatedDownloaderHistoryRoute,
   AuthenticatedServicesSlugRoute: AuthenticatedServicesSlugRoute,
   AuthenticatedSpikesConversationIdRoute:
     AuthenticatedSpikesConversationIdRoute,
   AuthenticatedAcademyIndexRoute: AuthenticatedAcademyIndexRoute,
+  AuthenticatedAccountIndexRoute: AuthenticatedAccountIndexRoute,
   AuthenticatedBuildIndexRoute: AuthenticatedBuildIndexRoute,
   AuthenticatedCloudIndexRoute: AuthenticatedCloudIndexRoute,
+  AuthenticatedDownloaderIndexRoute: AuthenticatedDownloaderIndexRoute,
   AuthenticatedServicesIndexRoute: AuthenticatedServicesIndexRoute,
   AuthenticatedSpikesIndexRoute: AuthenticatedSpikesIndexRoute,
   AuthenticatedAcademyCertificateCodeRoute:
