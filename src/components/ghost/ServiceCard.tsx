@@ -15,7 +15,8 @@ export interface Service {
     | "cloud"
     | "cybersec"
     | "api"
-    | "hosting";
+    | "hosting"
+    | "downloader";
   icon: LucideIcon;
   title: string;
   description: string;
@@ -35,6 +36,7 @@ export const SERVICE_DETAIL_SLUG: Record<Service["slug"], string> = {
   cybersec: "cybersecurity",
   api: "api-dev",
   hosting: "hosting-deployment",
+  downloader: "downloader",
 };
 
 export const CLOUD_HOST_URL = "https://Host.silvatechs.com";
@@ -67,6 +69,8 @@ export function serviceHref(
       return { kind: "internal", url: "/services/api-dev/new" };
     case "hosting":
       return { kind: "internal", url: "/services/generic/hosting-api" };
+    case "downloader":
+      return { kind: "internal", url: "/downloader" };
   }
 }
 
@@ -93,8 +97,8 @@ export function ServiceCard({
   }
 
   function openDetails() {
-    if (service.slug === "cloud") {
-      window.location.assign("/cloud");
+    if (service.slug === "cloud" || service.slug === "downloader") {
+      window.location.assign(service.slug === "cloud" ? "/cloud" : "/downloader");
       return;
     }
     window.location.assign(`/services/${detailSlug}`);

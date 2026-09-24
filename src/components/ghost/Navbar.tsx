@@ -10,6 +10,9 @@ import { openCommandPalette } from "./CommandPalette";
 
 const NAV = [
   { href: "/", label: "Home" },
+  { href: "/downloader", label: "Downloader" },
+  { href: "/downloader/history", label: "History" },
+  { href: "/account", label: "Account" },
   { href: "/spikes", label: "Spikes Bot" },
   { href: "/build", label: "Build Mode" },
   { href: "/support", label: "Support" },
