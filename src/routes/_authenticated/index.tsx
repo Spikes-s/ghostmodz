@@ -5,8 +5,7 @@ import { useServerFn } from "@tanstack/react-start";
 import {
   Code2, MessageSquare, Send, Bot, Palette, Cpu,
   GraduationCap, Shield, Cloud, Lock, Plug, Server,
-  Hammer, Sparkles, Rocket, Target, Eye, Zap, Terminal as TerminalIcon,
-} from "lucide-react";
+  Hammer, Sparkles, Rocket, Target, Eye, Zap, Terminal as TerminalIcon, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ServiceCard, type Service } from "@/components/ghost/ServiceCard";
 import { getSiteSettings } from "@/lib/tokens.functions";
@@ -35,6 +34,7 @@ const SERVICES: Service[] = [
   { slug: "cloud", icon: Cloud, title: "Cloud Solutions", description: "Scalable cloud architecture, IaC, and cost-optimized deployments." },
   { slug: "cybersec", icon: Lock, title: "Cybersecurity Consulting", description: "Threat modeling, hardening, and incident response advisory." },
   { slug: "api", icon: Plug, title: "API Development", description: "Type-safe REST and GraphQL APIs with full observability." },
+  { slug: "downloader", icon: Download, title: "Media Downloader", description: "Paste a public media link and download video, audio or images in the format you need." },
   { slug: "hosting", icon: Server, title: "Hosting & Deployment", description: "Zero-downtime deployment pipelines on global edge networks." },
 ];
 
