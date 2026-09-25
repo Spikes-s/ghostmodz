@@ -91,7 +91,7 @@ def run(jid):
     fmt, q = j["format"], j.get("quality")
     def hook(d):
         if j["status"] == "cancelled": raise Exception("cancelled")
-        if d.get("status") == "downloading" and d.get("total_bytes") or d.get("total_bytes_estimate"):
+        if d.get("status") == "downloading" and (d.get("total_bytes") or d.get("total_bytes_estimate")):
             tot = d.get("total_bytes") or d.get("total_bytes_estimate") or 0
             if tot: j["progress"] = max(1, min(95, int(d.get("downloaded_bytes", 0) * 100 / tot)))
             if tot > j["maxSizeMb"] * 1024 * 1024: raise Exception("too_large")
