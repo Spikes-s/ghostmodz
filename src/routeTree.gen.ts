@@ -9,59 +9,58 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as ResetPasswordRouteImport } from './routes/reset-password'
-import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
-import { Route as PayTokenRouteImport } from './routes/pay.$token'
-import { Route as ApiTtsRouteImport } from './routes/api/tts'
-import { Route as ApiTranscribeRouteImport } from './routes/api/transcribe'
-import { Route as ApiChatRouteImport } from './routes/api/chat'
-import { Route as AuthenticatedTerminalRouteImport } from './routes/_authenticated/terminal'
-import { Route as AuthenticatedSupportRouteImport } from './routes/_authenticated/support'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
-import { Route as AuthenticatedSpikesIndexRouteImport } from './routes/_authenticated/spikes.index'
-import { Route as AuthenticatedServicesIndexRouteImport } from './routes/_authenticated/services.index'
-import { Route as AuthenticatedDownloaderIndexRouteImport } from './routes/_authenticated/downloader.index'
-import { Route as AuthenticatedCloudIndexRouteImport } from './routes/_authenticated/cloud.index'
-import { Route as AuthenticatedBuildIndexRouteImport } from './routes/_authenticated/build.index'
-import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
-import { Route as AuthenticatedAccountIndexRouteImport } from './routes/_authenticated/account.index'
+import { Route as AuthenticatedSupportRouteImport } from './routes/_authenticated/support'
+import { Route as AuthenticatedTerminalRouteImport } from './routes/_authenticated/terminal'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as ApiTranscribeRouteImport } from './routes/api/transcribe'
+import { Route as ApiTtsRouteImport } from './routes/api/tts'
+import { Route as PayTokenRouteImport } from './routes/pay.$token'
 import { Route as AuthenticatedAcademyIndexRouteImport } from './routes/_authenticated/academy.index'
-import { Route as AuthenticatedSpikesConversationIdRouteImport } from './routes/_authenticated/spikes.$conversationId'
-import { Route as AuthenticatedServicesSlugRouteImport } from './routes/_authenticated/services.$slug'
-import { Route as AuthenticatedDownloaderHistoryRouteImport } from './routes/_authenticated/downloader.history'
-import { Route as AuthenticatedCloudNewRouteImport } from './routes/_authenticated/cloud.new'
-import { Route as AuthenticatedBuildProjectIdRouteImport } from './routes/_authenticated/build.$projectId'
-import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
-import { Route as AuthenticatedAdminTokensRouteImport } from './routes/_authenticated/admin.tokens'
-import { Route as AuthenticatedAdminSupportRouteImport } from './routes/_authenticated/admin.support'
-import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
-import { Route as AuthenticatedAdminServicesRouteImport } from './routes/_authenticated/admin.services'
-import { Route as AuthenticatedAdminRequestsWebsiteRouteImport } from './routes/_authenticated/admin.requests-website'
-import { Route as AuthenticatedAdminRequestsRouteImport } from './routes/_authenticated/admin.requests'
-import { Route as AuthenticatedAdminPaymentsRouteImport } from './routes/_authenticated/admin.payments'
-import { Route as AuthenticatedAdminDownloaderRouteImport } from './routes/_authenticated/admin.downloader'
-import { Route as AuthenticatedAdminCloudRouteImport } from './routes/_authenticated/admin.cloud'
-import { Route as AuthenticatedAdminApiProjectsRouteImport } from './routes/_authenticated/admin.api-projects'
-import { Route as AuthenticatedAdminAiSettingsRouteImport } from './routes/_authenticated/admin.ai-settings'
-import { Route as AuthenticatedAdminAcademyRouteImport } from './routes/_authenticated/admin.academy'
-import { Route as AuthenticatedAcademyCoursesRouteImport } from './routes/_authenticated/academy.courses'
 import { Route as AuthenticatedAcademySlugRouteImport } from './routes/_authenticated/academy.$slug'
-import { Route as AuthenticatedAccountRequestsIndexRouteImport } from './routes/_authenticated/account.requests.index'
-import { Route as AuthenticatedServicesWebDevNewRouteImport } from './routes/_authenticated/services.web-dev.new'
-import { Route as AuthenticatedServicesGenericKindRouteImport } from './routes/_authenticated/services.generic.$kind'
-import { Route as AuthenticatedServicesCampusApplyRouteImport } from './routes/_authenticated/services.campus.apply'
-import { Route as AuthenticatedServicesApiDevNewRouteImport } from './routes/_authenticated/services.api-dev.new'
-import { Route as AuthenticatedServicesApiDevProjectIdRouteImport } from './routes/_authenticated/services.api-dev.$projectId'
-import { Route as AuthenticatedCloudAppsAppIdRouteImport } from './routes/_authenticated/cloud.apps.$appId'
-import { Route as AuthenticatedAccountRequestsIdRouteImport } from './routes/_authenticated/account.requests.$id'
-import { Route as AuthenticatedAcademyLessonLessonIdRouteImport } from './routes/_authenticated/academy.lesson.$lessonId'
+import { Route as AuthenticatedAcademyCoursesRouteImport } from './routes/_authenticated/academy.courses'
+import { Route as AuthenticatedAccountIndexRouteImport } from './routes/_authenticated/account.index'
+import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as AuthenticatedAdminAcademyRouteImport } from './routes/_authenticated/admin.academy'
+import { Route as AuthenticatedAdminAiSettingsRouteImport } from './routes/_authenticated/admin.ai-settings'
+import { Route as AuthenticatedAdminApiProjectsRouteImport } from './routes/_authenticated/admin.api-projects'
+import { Route as AuthenticatedAdminCloudRouteImport } from './routes/_authenticated/admin.cloud'
+import { Route as AuthenticatedAdminDownloaderRouteImport } from './routes/_authenticated/admin.downloader'
+import { Route as AuthenticatedAdminPaymentsRouteImport } from './routes/_authenticated/admin.payments'
+import { Route as AuthenticatedAdminRequestsRouteImport } from './routes/_authenticated/admin.requests'
+import { Route as AuthenticatedAdminRequestsWebsiteRouteImport } from './routes/_authenticated/admin.requests-website'
+import { Route as AuthenticatedAdminServicesRouteImport } from './routes/_authenticated/admin.services'
+import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
+import { Route as AuthenticatedAdminSupportRouteImport } from './routes/_authenticated/admin.support'
+import { Route as AuthenticatedAdminTokensRouteImport } from './routes/_authenticated/admin.tokens'
+import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
+import { Route as AuthenticatedBuildIndexRouteImport } from './routes/_authenticated/build.index'
+import { Route as AuthenticatedBuildProjectIdRouteImport } from './routes/_authenticated/build.$projectId'
+import { Route as AuthenticatedCloudIndexRouteImport } from './routes/_authenticated/cloud.index'
+import { Route as AuthenticatedCloudNewRouteImport } from './routes/_authenticated/cloud.new'
+import { Route as AuthenticatedDownloaderIndexRouteImport } from './routes/_authenticated/downloader.index'
+import { Route as AuthenticatedDownloaderHistoryRouteImport } from './routes/_authenticated/downloader.history'
+import { Route as AuthenticatedServicesIndexRouteImport } from './routes/_authenticated/services.index'
+import { Route as AuthenticatedServicesSlugRouteImport } from './routes/_authenticated/services.$slug'
+import { Route as AuthenticatedSpikesIndexRouteImport } from './routes/_authenticated/spikes.index'
+import { Route as AuthenticatedSpikesConversationIdRouteImport } from './routes/_authenticated/spikes.$conversationId'
 import { Route as AuthenticatedAcademyCertificateCodeRouteImport } from './routes/_authenticated/academy.certificate.$code'
+import { Route as AuthenticatedAcademyLessonLessonIdRouteImport } from './routes/_authenticated/academy.lesson.$lessonId'
+import { Route as AuthenticatedAccountRequestsIndexRouteImport } from './routes/_authenticated/account.requests.index'
+import { Route as AuthenticatedAccountRequestsIdRouteImport } from './routes/_authenticated/account.requests.$id'
+import { Route as AuthenticatedCloudAppsAppIdRouteImport } from './routes/_authenticated/cloud.apps.$appId'
+import { Route as AuthenticatedServicesApiDevProjectIdRouteImport } from './routes/_authenticated/services.api-dev.$projectId'
+import { Route as AuthenticatedServicesApiDevNewRouteImport } from './routes/_authenticated/services.api-dev.new'
+import { Route as AuthenticatedServicesCampusApplyRouteImport } from './routes/_authenticated/services.campus.apply'
+import { Route as AuthenticatedServicesGenericKindRouteImport } from './routes/_authenticated/services.generic.$kind'
+import { Route as AuthenticatedServicesWebDevNewRouteImport } from './routes/_authenticated/services.web-dev.new'
 
-const ResetPasswordRoute = ResetPasswordRouteImport.update({
-  id: '/reset-password',
-  path: '/reset-password',
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -69,8 +68,9 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
-  id: '/_authenticated',
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
@@ -78,29 +78,9 @@ const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const PayTokenRoute = PayTokenRouteImport.update({
-  id: '/pay/$token',
-  path: '/pay/$token',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiTtsRoute = ApiTtsRouteImport.update({
-  id: '/api/tts',
-  path: '/api/tts',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiTranscribeRoute = ApiTranscribeRouteImport.update({
-  id: '/api/transcribe',
-  path: '/api/transcribe',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiChatRoute = ApiChatRouteImport.update({
-  id: '/api/chat',
-  path: '/api/chat',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthenticatedTerminalRoute = AuthenticatedTerminalRouteImport.update({
-  id: '/terminal',
-  path: '/terminal',
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedSupportRoute = AuthenticatedSupportRouteImport.update({
@@ -108,165 +88,35 @@ const AuthenticatedSupportRoute = AuthenticatedSupportRouteImport.update({
   path: '/support',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
+const AuthenticatedTerminalRoute = AuthenticatedTerminalRouteImport.update({
+  id: '/terminal',
+  path: '/terminal',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedSpikesIndexRoute =
-  AuthenticatedSpikesIndexRouteImport.update({
-    id: '/spikes/',
-    path: '/spikes/',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedServicesIndexRoute =
-  AuthenticatedServicesIndexRouteImport.update({
-    id: '/services/',
-    path: '/services/',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedDownloaderIndexRoute =
-  AuthenticatedDownloaderIndexRouteImport.update({
-    id: '/downloader/',
-    path: '/downloader/',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedCloudIndexRoute = AuthenticatedCloudIndexRouteImport.update({
-  id: '/cloud/',
-  path: '/cloud/',
-  getParentRoute: () => AuthenticatedRouteRoute,
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedBuildIndexRoute = AuthenticatedBuildIndexRouteImport.update({
-  id: '/build/',
-  path: '/build/',
-  getParentRoute: () => AuthenticatedRouteRoute,
+const ApiTranscribeRoute = ApiTranscribeRouteImport.update({
+  id: '/api/transcribe',
+  path: '/api/transcribe',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AuthenticatedAdminRoute,
+const ApiTtsRoute = ApiTtsRouteImport.update({
+  id: '/api/tts',
+  path: '/api/tts',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedAccountIndexRoute =
-  AuthenticatedAccountIndexRouteImport.update({
-    id: '/account/',
-    path: '/account/',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
+const PayTokenRoute = PayTokenRouteImport.update({
+  id: '/pay/$token',
+  path: '/pay/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedAcademyIndexRoute =
   AuthenticatedAcademyIndexRouteImport.update({
     id: '/academy/',
     path: '/academy/',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedSpikesConversationIdRoute =
-  AuthenticatedSpikesConversationIdRouteImport.update({
-    id: '/spikes/$conversationId',
-    path: '/spikes/$conversationId',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedServicesSlugRoute =
-  AuthenticatedServicesSlugRouteImport.update({
-    id: '/services/$slug',
-    path: '/services/$slug',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedDownloaderHistoryRoute =
-  AuthenticatedDownloaderHistoryRouteImport.update({
-    id: '/downloader/history',
-    path: '/downloader/history',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedCloudNewRoute = AuthenticatedCloudNewRouteImport.update({
-  id: '/cloud/new',
-  path: '/cloud/new',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedBuildProjectIdRoute =
-  AuthenticatedBuildProjectIdRouteImport.update({
-    id: '/build/$projectId',
-    path: '/build/$projectId',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedAdminUsersRoute = AuthenticatedAdminUsersRouteImport.update({
-  id: '/users',
-  path: '/users',
-  getParentRoute: () => AuthenticatedAdminRoute,
-} as any)
-const AuthenticatedAdminTokensRoute =
-  AuthenticatedAdminTokensRouteImport.update({
-    id: '/tokens',
-    path: '/tokens',
-    getParentRoute: () => AuthenticatedAdminRoute,
-  } as any)
-const AuthenticatedAdminSupportRoute =
-  AuthenticatedAdminSupportRouteImport.update({
-    id: '/support',
-    path: '/support',
-    getParentRoute: () => AuthenticatedAdminRoute,
-  } as any)
-const AuthenticatedAdminSettingsRoute =
-  AuthenticatedAdminSettingsRouteImport.update({
-    id: '/settings',
-    path: '/settings',
-    getParentRoute: () => AuthenticatedAdminRoute,
-  } as any)
-const AuthenticatedAdminServicesRoute =
-  AuthenticatedAdminServicesRouteImport.update({
-    id: '/services',
-    path: '/services',
-    getParentRoute: () => AuthenticatedAdminRoute,
-  } as any)
-const AuthenticatedAdminRequestsWebsiteRoute =
-  AuthenticatedAdminRequestsWebsiteRouteImport.update({
-    id: '/requests-website',
-    path: '/requests-website',
-    getParentRoute: () => AuthenticatedAdminRoute,
-  } as any)
-const AuthenticatedAdminRequestsRoute =
-  AuthenticatedAdminRequestsRouteImport.update({
-    id: '/requests',
-    path: '/requests',
-    getParentRoute: () => AuthenticatedAdminRoute,
-  } as any)
-const AuthenticatedAdminPaymentsRoute =
-  AuthenticatedAdminPaymentsRouteImport.update({
-    id: '/payments',
-    path: '/payments',
-    getParentRoute: () => AuthenticatedAdminRoute,
-  } as any)
-const AuthenticatedAdminDownloaderRoute =
-  AuthenticatedAdminDownloaderRouteImport.update({
-    id: '/downloader',
-    path: '/downloader',
-    getParentRoute: () => AuthenticatedAdminRoute,
-  } as any)
-const AuthenticatedAdminCloudRoute = AuthenticatedAdminCloudRouteImport.update({
-  id: '/cloud',
-  path: '/cloud',
-  getParentRoute: () => AuthenticatedAdminRoute,
-} as any)
-const AuthenticatedAdminApiProjectsRoute =
-  AuthenticatedAdminApiProjectsRouteImport.update({
-    id: '/api-projects',
-    path: '/api-projects',
-    getParentRoute: () => AuthenticatedAdminRoute,
-  } as any)
-const AuthenticatedAdminAiSettingsRoute =
-  AuthenticatedAdminAiSettingsRouteImport.update({
-    id: '/ai-settings',
-    path: '/ai-settings',
-    getParentRoute: () => AuthenticatedAdminRoute,
-  } as any)
-const AuthenticatedAdminAcademyRoute =
-  AuthenticatedAdminAcademyRouteImport.update({
-    id: '/academy',
-    path: '/academy',
-    getParentRoute: () => AuthenticatedAdminRoute,
-  } as any)
-const AuthenticatedAcademyCoursesRoute =
-  AuthenticatedAcademyCoursesRouteImport.update({
-    id: '/academy/courses',
-    path: '/academy/courses',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedAcademySlugRoute =
@@ -275,52 +125,160 @@ const AuthenticatedAcademySlugRoute =
     path: '/academy/$slug',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedAccountRequestsIndexRoute =
-  AuthenticatedAccountRequestsIndexRouteImport.update({
-    id: '/account/requests/',
-    path: '/account/requests/',
+const AuthenticatedAcademyCoursesRoute =
+  AuthenticatedAcademyCoursesRouteImport.update({
+    id: '/academy/courses',
+    path: '/academy/courses',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedServicesWebDevNewRoute =
-  AuthenticatedServicesWebDevNewRouteImport.update({
-    id: '/services/web-dev/new',
-    path: '/services/web-dev/new',
+const AuthenticatedAccountIndexRoute =
+  AuthenticatedAccountIndexRouteImport.update({
+    id: '/account/',
+    path: '/account/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedServicesGenericKindRoute =
-  AuthenticatedServicesGenericKindRouteImport.update({
-    id: '/services/generic/$kind',
-    path: '/services/generic/$kind',
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedAdminAcademyRoute =
+  AuthenticatedAdminAcademyRouteImport.update({
+    id: '/academy',
+    path: '/academy',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminAiSettingsRoute =
+  AuthenticatedAdminAiSettingsRouteImport.update({
+    id: '/ai-settings',
+    path: '/ai-settings',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminApiProjectsRoute =
+  AuthenticatedAdminApiProjectsRouteImport.update({
+    id: '/api-projects',
+    path: '/api-projects',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminCloudRoute = AuthenticatedAdminCloudRouteImport.update({
+  id: '/cloud',
+  path: '/cloud',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedAdminDownloaderRoute =
+  AuthenticatedAdminDownloaderRouteImport.update({
+    id: '/downloader',
+    path: '/downloader',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminPaymentsRoute =
+  AuthenticatedAdminPaymentsRouteImport.update({
+    id: '/payments',
+    path: '/payments',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminRequestsRoute =
+  AuthenticatedAdminRequestsRouteImport.update({
+    id: '/requests',
+    path: '/requests',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminRequestsWebsiteRoute =
+  AuthenticatedAdminRequestsWebsiteRouteImport.update({
+    id: '/requests-website',
+    path: '/requests-website',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminServicesRoute =
+  AuthenticatedAdminServicesRouteImport.update({
+    id: '/services',
+    path: '/services',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminSettingsRoute =
+  AuthenticatedAdminSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminSupportRoute =
+  AuthenticatedAdminSupportRouteImport.update({
+    id: '/support',
+    path: '/support',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminTokensRoute =
+  AuthenticatedAdminTokensRouteImport.update({
+    id: '/tokens',
+    path: '/tokens',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminUsersRoute = AuthenticatedAdminUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedBuildIndexRoute = AuthenticatedBuildIndexRouteImport.update({
+  id: '/build/',
+  path: '/build/',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedBuildProjectIdRoute =
+  AuthenticatedBuildProjectIdRouteImport.update({
+    id: '/build/$projectId',
+    path: '/build/$projectId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedServicesCampusApplyRoute =
-  AuthenticatedServicesCampusApplyRouteImport.update({
-    id: '/services/campus/apply',
-    path: '/services/campus/apply',
+const AuthenticatedCloudIndexRoute = AuthenticatedCloudIndexRouteImport.update({
+  id: '/cloud/',
+  path: '/cloud/',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedCloudNewRoute = AuthenticatedCloudNewRouteImport.update({
+  id: '/cloud/new',
+  path: '/cloud/new',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedDownloaderIndexRoute =
+  AuthenticatedDownloaderIndexRouteImport.update({
+    id: '/downloader/',
+    path: '/downloader/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedServicesApiDevNewRoute =
-  AuthenticatedServicesApiDevNewRouteImport.update({
-    id: '/services/api-dev/new',
-    path: '/services/api-dev/new',
+const AuthenticatedDownloaderHistoryRoute =
+  AuthenticatedDownloaderHistoryRouteImport.update({
+    id: '/downloader/history',
+    path: '/downloader/history',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedServicesApiDevProjectIdRoute =
-  AuthenticatedServicesApiDevProjectIdRouteImport.update({
-    id: '/services/api-dev/$projectId',
-    path: '/services/api-dev/$projectId',
+const AuthenticatedServicesIndexRoute =
+  AuthenticatedServicesIndexRouteImport.update({
+    id: '/services/',
+    path: '/services/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedCloudAppsAppIdRoute =
-  AuthenticatedCloudAppsAppIdRouteImport.update({
-    id: '/cloud/apps/$appId',
-    path: '/cloud/apps/$appId',
+const AuthenticatedServicesSlugRoute =
+  AuthenticatedServicesSlugRouteImport.update({
+    id: '/services/$slug',
+    path: '/services/$slug',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedAccountRequestsIdRoute =
-  AuthenticatedAccountRequestsIdRouteImport.update({
-    id: '/account/requests/$id',
-    path: '/account/requests/$id',
+const AuthenticatedSpikesIndexRoute =
+  AuthenticatedSpikesIndexRouteImport.update({
+    id: '/spikes/',
+    path: '/spikes/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSpikesConversationIdRoute =
+  AuthenticatedSpikesConversationIdRouteImport.update({
+    id: '/spikes/$conversationId',
+    path: '/spikes/$conversationId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAcademyCertificateCodeRoute =
+  AuthenticatedAcademyCertificateCodeRouteImport.update({
+    id: '/academy/certificate/$code',
+    path: '/academy/certificate/$code',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedAcademyLessonLessonIdRoute =
@@ -329,10 +287,52 @@ const AuthenticatedAcademyLessonLessonIdRoute =
     path: '/academy/lesson/$lessonId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedAcademyCertificateCodeRoute =
-  AuthenticatedAcademyCertificateCodeRouteImport.update({
-    id: '/academy/certificate/$code',
-    path: '/academy/certificate/$code',
+const AuthenticatedAccountRequestsIndexRoute =
+  AuthenticatedAccountRequestsIndexRouteImport.update({
+    id: '/account/requests/',
+    path: '/account/requests/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAccountRequestsIdRoute =
+  AuthenticatedAccountRequestsIdRouteImport.update({
+    id: '/account/requests/$id',
+    path: '/account/requests/$id',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedCloudAppsAppIdRoute =
+  AuthenticatedCloudAppsAppIdRouteImport.update({
+    id: '/cloud/apps/$appId',
+    path: '/cloud/apps/$appId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedServicesApiDevProjectIdRoute =
+  AuthenticatedServicesApiDevProjectIdRouteImport.update({
+    id: '/services/api-dev/$projectId',
+    path: '/services/api-dev/$projectId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedServicesApiDevNewRoute =
+  AuthenticatedServicesApiDevNewRouteImport.update({
+    id: '/services/api-dev/new',
+    path: '/services/api-dev/new',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedServicesCampusApplyRoute =
+  AuthenticatedServicesCampusApplyRouteImport.update({
+    id: '/services/campus/apply',
+    path: '/services/campus/apply',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedServicesGenericKindRoute =
+  AuthenticatedServicesGenericKindRouteImport.update({
+    id: '/services/generic/$kind',
+    path: '/services/generic/$kind',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedServicesWebDevNewRoute =
+  AuthenticatedServicesWebDevNewRouteImport.update({
+    id: '/services/web-dev/new',
+    path: '/services/web-dev/new',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 
@@ -652,11 +652,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/reset-password': {
-      id: '/reset-password'
-      path: '/reset-password'
-      fullPath: '/reset-password'
-      preLoaderRoute: typeof ResetPasswordRouteImport
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -666,11 +666,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated': {
-      id: '/_authenticated'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/': {
@@ -680,39 +680,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/pay/$token': {
-      id: '/pay/$token'
-      path: '/pay/$token'
-      fullPath: '/pay/$token'
-      preLoaderRoute: typeof PayTokenRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/tts': {
-      id: '/api/tts'
-      path: '/api/tts'
-      fullPath: '/api/tts'
-      preLoaderRoute: typeof ApiTtsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/transcribe': {
-      id: '/api/transcribe'
-      path: '/api/transcribe'
-      fullPath: '/api/transcribe'
-      preLoaderRoute: typeof ApiTranscribeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/chat': {
-      id: '/api/chat'
-      path: '/api/chat'
-      fullPath: '/api/chat'
-      preLoaderRoute: typeof ApiChatRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/terminal': {
-      id: '/_authenticated/terminal'
-      path: '/terminal'
-      fullPath: '/terminal'
-      preLoaderRoute: typeof AuthenticatedTerminalRouteImport
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/support': {
@@ -722,200 +694,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSupportRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/admin': {
-      id: '/_authenticated/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+    '/_authenticated/terminal': {
+      id: '/_authenticated/terminal'
+      path: '/terminal'
+      fullPath: '/terminal'
+      preLoaderRoute: typeof AuthenticatedTerminalRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/spikes/': {
-      id: '/_authenticated/spikes/'
-      path: '/spikes'
-      fullPath: '/spikes/'
-      preLoaderRoute: typeof AuthenticatedSpikesIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/services/': {
-      id: '/_authenticated/services/'
-      path: '/services'
-      fullPath: '/services/'
-      preLoaderRoute: typeof AuthenticatedServicesIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+    '/api/transcribe': {
+      id: '/api/transcribe'
+      path: '/api/transcribe'
+      fullPath: '/api/transcribe'
+      preLoaderRoute: typeof ApiTranscribeRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/downloader/': {
-      id: '/_authenticated/downloader/'
-      path: '/downloader'
-      fullPath: '/downloader/'
-      preLoaderRoute: typeof AuthenticatedDownloaderIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+    '/api/tts': {
+      id: '/api/tts'
+      path: '/api/tts'
+      fullPath: '/api/tts'
+      preLoaderRoute: typeof ApiTtsRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/cloud/': {
-      id: '/_authenticated/cloud/'
-      path: '/cloud'
-      fullPath: '/cloud/'
-      preLoaderRoute: typeof AuthenticatedCloudIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/build/': {
-      id: '/_authenticated/build/'
-      path: '/build'
-      fullPath: '/build/'
-      preLoaderRoute: typeof AuthenticatedBuildIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/admin/': {
-      id: '/_authenticated/admin/'
-      path: '/'
-      fullPath: '/admin/'
-      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/account/': {
-      id: '/_authenticated/account/'
-      path: '/account'
-      fullPath: '/account/'
-      preLoaderRoute: typeof AuthenticatedAccountIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+    '/pay/$token': {
+      id: '/pay/$token'
+      path: '/pay/$token'
+      fullPath: '/pay/$token'
+      preLoaderRoute: typeof PayTokenRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_authenticated/academy/': {
       id: '/_authenticated/academy/'
       path: '/academy'
       fullPath: '/academy/'
       preLoaderRoute: typeof AuthenticatedAcademyIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/spikes/$conversationId': {
-      id: '/_authenticated/spikes/$conversationId'
-      path: '/spikes/$conversationId'
-      fullPath: '/spikes/$conversationId'
-      preLoaderRoute: typeof AuthenticatedSpikesConversationIdRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/services/$slug': {
-      id: '/_authenticated/services/$slug'
-      path: '/services/$slug'
-      fullPath: '/services/$slug'
-      preLoaderRoute: typeof AuthenticatedServicesSlugRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/downloader/history': {
-      id: '/_authenticated/downloader/history'
-      path: '/downloader/history'
-      fullPath: '/downloader/history'
-      preLoaderRoute: typeof AuthenticatedDownloaderHistoryRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/cloud/new': {
-      id: '/_authenticated/cloud/new'
-      path: '/cloud/new'
-      fullPath: '/cloud/new'
-      preLoaderRoute: typeof AuthenticatedCloudNewRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/build/$projectId': {
-      id: '/_authenticated/build/$projectId'
-      path: '/build/$projectId'
-      fullPath: '/build/$projectId'
-      preLoaderRoute: typeof AuthenticatedBuildProjectIdRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/admin/users': {
-      id: '/_authenticated/admin/users'
-      path: '/users'
-      fullPath: '/admin/users'
-      preLoaderRoute: typeof AuthenticatedAdminUsersRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/admin/tokens': {
-      id: '/_authenticated/admin/tokens'
-      path: '/tokens'
-      fullPath: '/admin/tokens'
-      preLoaderRoute: typeof AuthenticatedAdminTokensRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/admin/support': {
-      id: '/_authenticated/admin/support'
-      path: '/support'
-      fullPath: '/admin/support'
-      preLoaderRoute: typeof AuthenticatedAdminSupportRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/admin/settings': {
-      id: '/_authenticated/admin/settings'
-      path: '/settings'
-      fullPath: '/admin/settings'
-      preLoaderRoute: typeof AuthenticatedAdminSettingsRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/admin/services': {
-      id: '/_authenticated/admin/services'
-      path: '/services'
-      fullPath: '/admin/services'
-      preLoaderRoute: typeof AuthenticatedAdminServicesRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/admin/requests-website': {
-      id: '/_authenticated/admin/requests-website'
-      path: '/requests-website'
-      fullPath: '/admin/requests-website'
-      preLoaderRoute: typeof AuthenticatedAdminRequestsWebsiteRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/admin/requests': {
-      id: '/_authenticated/admin/requests'
-      path: '/requests'
-      fullPath: '/admin/requests'
-      preLoaderRoute: typeof AuthenticatedAdminRequestsRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/admin/payments': {
-      id: '/_authenticated/admin/payments'
-      path: '/payments'
-      fullPath: '/admin/payments'
-      preLoaderRoute: typeof AuthenticatedAdminPaymentsRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/admin/downloader': {
-      id: '/_authenticated/admin/downloader'
-      path: '/downloader'
-      fullPath: '/admin/downloader'
-      preLoaderRoute: typeof AuthenticatedAdminDownloaderRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/admin/cloud': {
-      id: '/_authenticated/admin/cloud'
-      path: '/cloud'
-      fullPath: '/admin/cloud'
-      preLoaderRoute: typeof AuthenticatedAdminCloudRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/admin/api-projects': {
-      id: '/_authenticated/admin/api-projects'
-      path: '/api-projects'
-      fullPath: '/admin/api-projects'
-      preLoaderRoute: typeof AuthenticatedAdminApiProjectsRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/admin/ai-settings': {
-      id: '/_authenticated/admin/ai-settings'
-      path: '/ai-settings'
-      fullPath: '/admin/ai-settings'
-      preLoaderRoute: typeof AuthenticatedAdminAiSettingsRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/admin/academy': {
-      id: '/_authenticated/admin/academy'
-      path: '/academy'
-      fullPath: '/admin/academy'
-      preLoaderRoute: typeof AuthenticatedAdminAcademyRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/academy/courses': {
-      id: '/_authenticated/academy/courses'
-      path: '/academy/courses'
-      fullPath: '/academy/courses'
-      preLoaderRoute: typeof AuthenticatedAcademyCoursesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/academy/$slug': {
@@ -925,60 +743,193 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAcademySlugRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/account/requests/': {
-      id: '/_authenticated/account/requests/'
-      path: '/account/requests'
-      fullPath: '/account/requests/'
-      preLoaderRoute: typeof AuthenticatedAccountRequestsIndexRouteImport
+    '/_authenticated/academy/courses': {
+      id: '/_authenticated/academy/courses'
+      path: '/academy/courses'
+      fullPath: '/academy/courses'
+      preLoaderRoute: typeof AuthenticatedAcademyCoursesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/services/web-dev/new': {
-      id: '/_authenticated/services/web-dev/new'
-      path: '/services/web-dev/new'
-      fullPath: '/services/web-dev/new'
-      preLoaderRoute: typeof AuthenticatedServicesWebDevNewRouteImport
+    '/_authenticated/account/': {
+      id: '/_authenticated/account/'
+      path: '/account'
+      fullPath: '/account/'
+      preLoaderRoute: typeof AuthenticatedAccountIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/services/generic/$kind': {
-      id: '/_authenticated/services/generic/$kind'
-      path: '/services/generic/$kind'
-      fullPath: '/services/generic/$kind'
-      preLoaderRoute: typeof AuthenticatedServicesGenericKindRouteImport
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/academy': {
+      id: '/_authenticated/admin/academy'
+      path: '/academy'
+      fullPath: '/admin/academy'
+      preLoaderRoute: typeof AuthenticatedAdminAcademyRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/ai-settings': {
+      id: '/_authenticated/admin/ai-settings'
+      path: '/ai-settings'
+      fullPath: '/admin/ai-settings'
+      preLoaderRoute: typeof AuthenticatedAdminAiSettingsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/api-projects': {
+      id: '/_authenticated/admin/api-projects'
+      path: '/api-projects'
+      fullPath: '/admin/api-projects'
+      preLoaderRoute: typeof AuthenticatedAdminApiProjectsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/cloud': {
+      id: '/_authenticated/admin/cloud'
+      path: '/cloud'
+      fullPath: '/admin/cloud'
+      preLoaderRoute: typeof AuthenticatedAdminCloudRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/downloader': {
+      id: '/_authenticated/admin/downloader'
+      path: '/downloader'
+      fullPath: '/admin/downloader'
+      preLoaderRoute: typeof AuthenticatedAdminDownloaderRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/payments': {
+      id: '/_authenticated/admin/payments'
+      path: '/payments'
+      fullPath: '/admin/payments'
+      preLoaderRoute: typeof AuthenticatedAdminPaymentsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/requests': {
+      id: '/_authenticated/admin/requests'
+      path: '/requests'
+      fullPath: '/admin/requests'
+      preLoaderRoute: typeof AuthenticatedAdminRequestsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/requests-website': {
+      id: '/_authenticated/admin/requests-website'
+      path: '/requests-website'
+      fullPath: '/admin/requests-website'
+      preLoaderRoute: typeof AuthenticatedAdminRequestsWebsiteRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/services': {
+      id: '/_authenticated/admin/services'
+      path: '/services'
+      fullPath: '/admin/services'
+      preLoaderRoute: typeof AuthenticatedAdminServicesRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/settings': {
+      id: '/_authenticated/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AuthenticatedAdminSettingsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/support': {
+      id: '/_authenticated/admin/support'
+      path: '/support'
+      fullPath: '/admin/support'
+      preLoaderRoute: typeof AuthenticatedAdminSupportRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/tokens': {
+      id: '/_authenticated/admin/tokens'
+      path: '/tokens'
+      fullPath: '/admin/tokens'
+      preLoaderRoute: typeof AuthenticatedAdminTokensRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/users': {
+      id: '/_authenticated/admin/users'
+      path: '/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AuthenticatedAdminUsersRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/build/': {
+      id: '/_authenticated/build/'
+      path: '/build'
+      fullPath: '/build/'
+      preLoaderRoute: typeof AuthenticatedBuildIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/services/campus/apply': {
-      id: '/_authenticated/services/campus/apply'
-      path: '/services/campus/apply'
-      fullPath: '/services/campus/apply'
-      preLoaderRoute: typeof AuthenticatedServicesCampusApplyRouteImport
+    '/_authenticated/build/$projectId': {
+      id: '/_authenticated/build/$projectId'
+      path: '/build/$projectId'
+      fullPath: '/build/$projectId'
+      preLoaderRoute: typeof AuthenticatedBuildProjectIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/services/api-dev/new': {
-      id: '/_authenticated/services/api-dev/new'
-      path: '/services/api-dev/new'
-      fullPath: '/services/api-dev/new'
-      preLoaderRoute: typeof AuthenticatedServicesApiDevNewRouteImport
+    '/_authenticated/cloud/': {
+      id: '/_authenticated/cloud/'
+      path: '/cloud'
+      fullPath: '/cloud/'
+      preLoaderRoute: typeof AuthenticatedCloudIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/services/api-dev/$projectId': {
-      id: '/_authenticated/services/api-dev/$projectId'
-      path: '/services/api-dev/$projectId'
-      fullPath: '/services/api-dev/$projectId'
-      preLoaderRoute: typeof AuthenticatedServicesApiDevProjectIdRouteImport
+    '/_authenticated/cloud/new': {
+      id: '/_authenticated/cloud/new'
+      path: '/cloud/new'
+      fullPath: '/cloud/new'
+      preLoaderRoute: typeof AuthenticatedCloudNewRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/cloud/apps/$appId': {
-      id: '/_authenticated/cloud/apps/$appId'
-      path: '/cloud/apps/$appId'
-      fullPath: '/cloud/apps/$appId'
-      preLoaderRoute: typeof AuthenticatedCloudAppsAppIdRouteImport
+    '/_authenticated/downloader/': {
+      id: '/_authenticated/downloader/'
+      path: '/downloader'
+      fullPath: '/downloader/'
+      preLoaderRoute: typeof AuthenticatedDownloaderIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/account/requests/$id': {
-      id: '/_authenticated/account/requests/$id'
-      path: '/account/requests/$id'
-      fullPath: '/account/requests/$id'
-      preLoaderRoute: typeof AuthenticatedAccountRequestsIdRouteImport
+    '/_authenticated/downloader/history': {
+      id: '/_authenticated/downloader/history'
+      path: '/downloader/history'
+      fullPath: '/downloader/history'
+      preLoaderRoute: typeof AuthenticatedDownloaderHistoryRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/services/': {
+      id: '/_authenticated/services/'
+      path: '/services'
+      fullPath: '/services/'
+      preLoaderRoute: typeof AuthenticatedServicesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/services/$slug': {
+      id: '/_authenticated/services/$slug'
+      path: '/services/$slug'
+      fullPath: '/services/$slug'
+      preLoaderRoute: typeof AuthenticatedServicesSlugRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/spikes/': {
+      id: '/_authenticated/spikes/'
+      path: '/spikes'
+      fullPath: '/spikes/'
+      preLoaderRoute: typeof AuthenticatedSpikesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/spikes/$conversationId': {
+      id: '/_authenticated/spikes/$conversationId'
+      path: '/spikes/$conversationId'
+      fullPath: '/spikes/$conversationId'
+      preLoaderRoute: typeof AuthenticatedSpikesConversationIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/academy/certificate/$code': {
+      id: '/_authenticated/academy/certificate/$code'
+      path: '/academy/certificate/$code'
+      fullPath: '/academy/certificate/$code'
+      preLoaderRoute: typeof AuthenticatedAcademyCertificateCodeRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/academy/lesson/$lessonId': {
@@ -988,11 +939,60 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAcademyLessonLessonIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/academy/certificate/$code': {
-      id: '/_authenticated/academy/certificate/$code'
-      path: '/academy/certificate/$code'
-      fullPath: '/academy/certificate/$code'
-      preLoaderRoute: typeof AuthenticatedAcademyCertificateCodeRouteImport
+    '/_authenticated/account/requests/': {
+      id: '/_authenticated/account/requests/'
+      path: '/account/requests'
+      fullPath: '/account/requests/'
+      preLoaderRoute: typeof AuthenticatedAccountRequestsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/account/requests/$id': {
+      id: '/_authenticated/account/requests/$id'
+      path: '/account/requests/$id'
+      fullPath: '/account/requests/$id'
+      preLoaderRoute: typeof AuthenticatedAccountRequestsIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/cloud/apps/$appId': {
+      id: '/_authenticated/cloud/apps/$appId'
+      path: '/cloud/apps/$appId'
+      fullPath: '/cloud/apps/$appId'
+      preLoaderRoute: typeof AuthenticatedCloudAppsAppIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/services/api-dev/$projectId': {
+      id: '/_authenticated/services/api-dev/$projectId'
+      path: '/services/api-dev/$projectId'
+      fullPath: '/services/api-dev/$projectId'
+      preLoaderRoute: typeof AuthenticatedServicesApiDevProjectIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/services/api-dev/new': {
+      id: '/_authenticated/services/api-dev/new'
+      path: '/services/api-dev/new'
+      fullPath: '/services/api-dev/new'
+      preLoaderRoute: typeof AuthenticatedServicesApiDevNewRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/services/campus/apply': {
+      id: '/_authenticated/services/campus/apply'
+      path: '/services/campus/apply'
+      fullPath: '/services/campus/apply'
+      preLoaderRoute: typeof AuthenticatedServicesCampusApplyRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/services/generic/$kind': {
+      id: '/_authenticated/services/generic/$kind'
+      path: '/services/generic/$kind'
+      fullPath: '/services/generic/$kind'
+      preLoaderRoute: typeof AuthenticatedServicesGenericKindRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/services/web-dev/new': {
+      id: '/_authenticated/services/web-dev/new'
+      path: '/services/web-dev/new'
+      fullPath: '/services/web-dev/new'
+      preLoaderRoute: typeof AuthenticatedServicesWebDevNewRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
   }
