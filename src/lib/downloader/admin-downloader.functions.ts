@@ -125,14 +125,14 @@ export const adminJobAction = createServerFn({ method: "POST" })
       await syncJob(job);
     } else if (data.action === "cancel") {
       if (!isActive(job.status)) throw new Error("Only active jobs can be cancelled.");
-      if (job.worker_job_id) await workerClient.cancel(job.worker_job_id).catch(() => {});
+      if (job.worker_job_id) await workerClient.cancelJob(job.worker_job_id).catch(() => {});
       await db.from("download_jobs").update({ status: "cancelled", completed_at: new Date().toISOString() }).eq("id", job.id);
     } else if (data.action === "expire") {
       if (job.status !== "completed") throw new Error("Only completed jobs can be expired.");
       await db.from("download_jobs").update({ status: "expired", expires_at: new Date().toISOString() }).eq("id", job.id);
       await workerClient.cleanup().catch(() => {});
     } else {
-      if (isActive(job.status) && job.worker_job_id) await workerClient.cancel(job.worker_job_id).catch(() => {});
+      if (isActive(job.status) && job.worker_job_id) await workerClient.cancelJob(job.worker_job_id).catch(() => {});
       await db.from("analytics_events").update({ job_id: null }).eq("job_id", job.id);
       await db.from("download_jobs").delete().eq("id", job.id);
     }
