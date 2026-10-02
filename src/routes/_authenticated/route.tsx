@@ -9,6 +9,7 @@ import { recordLogin } from "@/lib/admin.functions";
 import { toast } from "sonner";
 import { CommandPalette } from "@/components/ghost/CommandPalette";
 import { QuickActions } from "@/components/ghost/QuickActions";
+import { AdminChatWatcher } from "@/components/ghost/AdminChatWatcher";
 import { BrandedLoader } from "@/components/ghost/BrandedLoader";
 
 export const Route = createFileRoute("/_authenticated")({
@@ -62,6 +63,7 @@ function AuthedLayout() {
       <Footer />
       <CommandPalette />
       <QuickActions />
+      <AdminChatWatcher />
     </div>
   );
 }

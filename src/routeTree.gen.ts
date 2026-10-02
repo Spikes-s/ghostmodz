@@ -41,6 +41,8 @@ import { Route as AuthenticatedAdminServicesRouteImport } from './routes/_authen
 import { Route as AuthenticatedAdminRequestsWebsiteRouteImport } from './routes/_authenticated/admin.requests-website'
 import { Route as AuthenticatedAdminRequestsRouteImport } from './routes/_authenticated/admin.requests'
 import { Route as AuthenticatedAdminPaymentsRouteImport } from './routes/_authenticated/admin.payments'
+import { Route as AuthenticatedAdminDownloaderRouteImport } from './routes/_authenticated/admin.downloader'
+import { Route as AuthenticatedAdminCloudRouteImport } from './routes/_authenticated/admin.cloud'
 import { Route as AuthenticatedAdminApiProjectsRouteImport } from './routes/_authenticated/admin.api-projects'
 import { Route as AuthenticatedAdminAiSettingsRouteImport } from './routes/_authenticated/admin.ai-settings'
 import { Route as AuthenticatedAdminAcademyRouteImport } from './routes/_authenticated/admin.academy'
@@ -232,6 +234,17 @@ const AuthenticatedAdminPaymentsRoute =
     path: '/payments',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminDownloaderRoute =
+  AuthenticatedAdminDownloaderRouteImport.update({
+    id: '/downloader',
+    path: '/downloader',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminCloudRoute = AuthenticatedAdminCloudRouteImport.update({
+  id: '/cloud',
+  path: '/cloud',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
 const AuthenticatedAdminApiProjectsRoute =
   AuthenticatedAdminApiProjectsRouteImport.update({
     id: '/api-projects',
@@ -339,6 +352,8 @@ export interface FileRoutesByFullPath {
   '/admin/academy': typeof AuthenticatedAdminAcademyRoute
   '/admin/ai-settings': typeof AuthenticatedAdminAiSettingsRoute
   '/admin/api-projects': typeof AuthenticatedAdminApiProjectsRoute
+  '/admin/cloud': typeof AuthenticatedAdminCloudRoute
+  '/admin/downloader': typeof AuthenticatedAdminDownloaderRoute
   '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
   '/admin/requests': typeof AuthenticatedAdminRequestsRoute
   '/admin/requests-website': typeof AuthenticatedAdminRequestsWebsiteRoute
@@ -386,6 +401,8 @@ export interface FileRoutesByTo {
   '/admin/academy': typeof AuthenticatedAdminAcademyRoute
   '/admin/ai-settings': typeof AuthenticatedAdminAiSettingsRoute
   '/admin/api-projects': typeof AuthenticatedAdminApiProjectsRoute
+  '/admin/cloud': typeof AuthenticatedAdminCloudRoute
+  '/admin/downloader': typeof AuthenticatedAdminDownloaderRoute
   '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
   '/admin/requests': typeof AuthenticatedAdminRequestsRoute
   '/admin/requests-website': typeof AuthenticatedAdminRequestsWebsiteRoute
@@ -436,6 +453,8 @@ export interface FileRoutesById {
   '/_authenticated/admin/academy': typeof AuthenticatedAdminAcademyRoute
   '/_authenticated/admin/ai-settings': typeof AuthenticatedAdminAiSettingsRoute
   '/_authenticated/admin/api-projects': typeof AuthenticatedAdminApiProjectsRoute
+  '/_authenticated/admin/cloud': typeof AuthenticatedAdminCloudRoute
+  '/_authenticated/admin/downloader': typeof AuthenticatedAdminDownloaderRoute
   '/_authenticated/admin/payments': typeof AuthenticatedAdminPaymentsRoute
   '/_authenticated/admin/requests': typeof AuthenticatedAdminRequestsRoute
   '/_authenticated/admin/requests-website': typeof AuthenticatedAdminRequestsWebsiteRoute
@@ -486,6 +505,8 @@ export interface FileRouteTypes {
     | '/admin/academy'
     | '/admin/ai-settings'
     | '/admin/api-projects'
+    | '/admin/cloud'
+    | '/admin/downloader'
     | '/admin/payments'
     | '/admin/requests'
     | '/admin/requests-website'
@@ -533,6 +554,8 @@ export interface FileRouteTypes {
     | '/admin/academy'
     | '/admin/ai-settings'
     | '/admin/api-projects'
+    | '/admin/cloud'
+    | '/admin/downloader'
     | '/admin/payments'
     | '/admin/requests'
     | '/admin/requests-website'
@@ -582,6 +605,8 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/academy'
     | '/_authenticated/admin/ai-settings'
     | '/_authenticated/admin/api-projects'
+    | '/_authenticated/admin/cloud'
+    | '/_authenticated/admin/downloader'
     | '/_authenticated/admin/payments'
     | '/_authenticated/admin/requests'
     | '/_authenticated/admin/requests-website'
@@ -851,6 +876,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminPaymentsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/downloader': {
+      id: '/_authenticated/admin/downloader'
+      path: '/downloader'
+      fullPath: '/admin/downloader'
+      preLoaderRoute: typeof AuthenticatedAdminDownloaderRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/cloud': {
+      id: '/_authenticated/admin/cloud'
+      path: '/cloud'
+      fullPath: '/admin/cloud'
+      preLoaderRoute: typeof AuthenticatedAdminCloudRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/api-projects': {
       id: '/_authenticated/admin/api-projects'
       path: '/api-projects'
@@ -963,6 +1002,8 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminAcademyRoute: typeof AuthenticatedAdminAcademyRoute
   AuthenticatedAdminAiSettingsRoute: typeof AuthenticatedAdminAiSettingsRoute
   AuthenticatedAdminApiProjectsRoute: typeof AuthenticatedAdminApiProjectsRoute
+  AuthenticatedAdminCloudRoute: typeof AuthenticatedAdminCloudRoute
+  AuthenticatedAdminDownloaderRoute: typeof AuthenticatedAdminDownloaderRoute
   AuthenticatedAdminPaymentsRoute: typeof AuthenticatedAdminPaymentsRoute
   AuthenticatedAdminRequestsRoute: typeof AuthenticatedAdminRequestsRoute
   AuthenticatedAdminRequestsWebsiteRoute: typeof AuthenticatedAdminRequestsWebsiteRoute
@@ -978,6 +1019,8 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminAcademyRoute: AuthenticatedAdminAcademyRoute,
   AuthenticatedAdminAiSettingsRoute: AuthenticatedAdminAiSettingsRoute,
   AuthenticatedAdminApiProjectsRoute: AuthenticatedAdminApiProjectsRoute,
+  AuthenticatedAdminCloudRoute: AuthenticatedAdminCloudRoute,
+  AuthenticatedAdminDownloaderRoute: AuthenticatedAdminDownloaderRoute,
   AuthenticatedAdminPaymentsRoute: AuthenticatedAdminPaymentsRoute,
   AuthenticatedAdminRequestsRoute: AuthenticatedAdminRequestsRoute,
   AuthenticatedAdminRequestsWebsiteRoute:

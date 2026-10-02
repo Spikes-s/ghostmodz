@@ -13,6 +13,7 @@ const NAV = [
   { href: "/downloader", label: "Downloader" },
   { href: "/downloader/history", label: "History" },
   { href: "/account", label: "Account" },
+  { href: "/cloud", label: "Cloud" },
   { href: "/spikes", label: "Spikes Bot" },
   { href: "/build", label: "Build Mode" },
   { href: "/support", label: "Support" },
