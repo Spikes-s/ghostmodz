@@ -136,7 +136,7 @@ export const adminJobAction = createServerFn({ method: "POST" })
       await db.from("analytics_events").update({ job_id: null }).eq("job_id", job.id);
       await db.from("download_jobs").delete().eq("id", job.id);
     }
-    await audit({ actorId: context.userId, action: `admin.job.${data.action}`, target: job.id } as any);
+    await audit({ actorId: context.userId, action: `admin.job.${data.action}`, target: job.id });
     return { ok: true };
   });
 
@@ -158,7 +158,7 @@ export const adminUpdatePlatform = createServerFn({ method: "POST" })
     const { id, ...patch } = data;
     const { error } = await db.from("platforms").update(patch).eq("id", id);
     if (error) throw new Error("Could not update platform.");
-    await audit({ actorId: context.userId, action: "admin.platform.update", target: id, metadata: patch } as any);
+    await audit({ actorId: context.userId, action: "admin.platform.update", target: id, metadata: patch });
     return { ok: true };
   });
 
@@ -190,7 +190,7 @@ export const adminUpdateDownloaderSettings = createServerFn({ method: "POST" })
     const db = await admin();
     const { error } = await db.from("downloader_settings").update(data).eq("id", 1);
     if (error) throw new Error("Could not save settings.");
-    await audit({ actorId: context.userId, action: "admin.settings.update", target: "downloader_settings", metadata: data } as any);
+    await audit({ actorId: context.userId, action: "admin.settings.update", target: "downloader_settings", metadata: data });
     return { ok: true };
   });
 
@@ -211,12 +211,12 @@ export const adminRunCleanup = createServerFn({ method: "POST" })
     if (isWorkerConfigured()) {
       try {
         const r: any = await workerClient.cleanup();
-        worker = `removed ${r?.removed ?? 0} file(s)`;
+        worker = `removed ${r?.deleted ?? 0} file(s)`;
       } catch {
         worker = "unreachable";
       }
     }
-    await audit({ actorId: context.userId, action: "admin.cleanup.run", metadata: { expired: expired?.length ?? 0, worker } } as any);
+    await audit({ actorId: context.userId, action: "admin.cleanup.run", metadata: { expired: expired?.length ?? 0, worker } });
     return { expiredJobs: expired?.length ?? 0, worker };
   });
 
@@ -313,10 +313,10 @@ export const adminRunDiagnostics = createServerFn({ method: "POST" })
     });
 
     // Heartbeat
-    const hb = await db.from("worker_heartbeats").select("*").order("created_at", { ascending: false }).limit(1).maybeSingle();
+    const hb = await db.from("worker_heartbeats").select("*").order("reported_at", { ascending: false }).limit(1).maybeSingle();
     if (h?.online) {
       await db.from("worker_heartbeats").insert({
-        status: "online",
+        worker_id: "primary",
         version: h.version ?? null,
         active_jobs: h.activeJobs ?? 0,
         queue_length: h.queueLength ?? 0,
@@ -329,7 +329,7 @@ export const adminRunDiagnostics = createServerFn({ method: "POST" })
       id: "heartbeat",
       label: "Worker heartbeat",
       status: h?.online ? "pass" : hb.data ? "warning" : "fail",
-      detail: h?.online ? "Heartbeat recorded now." : hb.data ? `Last seen ${hb.data.created_at}.` : "No heartbeat ever recorded.",
+      detail: h?.online ? "Heartbeat recorded now." : hb.data ? `Last seen ${hb.data.reported_at}.` : "No heartbeat ever recorded.",
     });
 
     // Stuck jobs
@@ -392,6 +392,6 @@ export const adminRunDiagnostics = createServerFn({ method: "POST" })
       detail: s?.maintenance_mode ? "Maintenance mode is ON." : s?.downloads_paused ? "New downloads are paused." : "Accepting downloads.",
     });
 
-    await audit({ actorId: context.userId, action: "admin.diagnostics.run", metadata: { fails: checks.filter((c) => c.status === "fail").length } } as any);
+    await audit({ actorId: context.userId, action: "admin.diagnostics.run", metadata: { fails: checks.filter((c) => c.status === "fail").length } });
     return { checks, ranAt: new Date().toISOString() };
   });
