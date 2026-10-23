@@ -97,6 +97,8 @@ function ProjectWorkspace() {
   const [device, setDevice] = useState<"desktop" | "mobile">("desktop");
   const [rightTab, setRightTab] = useState<RightTab>("files");
   const [split, setSplit] = useState(false);
+  const [fullscreen, setFullscreen] = useState(false);
+  const fsFrameRef = useRef<HTMLDivElement | null>(null);
 
 
   useEffect(() => {
@@ -159,6 +161,20 @@ function ProjectWorkspace() {
     return buildPreviewDoc(merged);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [files, drafts, previewKey]);
+
+  // ---------- Fullscreen preview (browser fullscreen + Escape to exit) ----------
+  useEffect(() => {
+    if (!fullscreen) return;
+    document.documentElement.requestFullscreen?.().catch(() => {});
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setFullscreen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      if (document.fullscreenElement) document.exitFullscreen?.().catch(() => {});
+    };
+  }, [fullscreen]);
 
   // ---------- Chat (continuous Spikes Build conversation) ----------
   const transport = useMemo(
@@ -262,6 +278,14 @@ function ProjectWorkspace() {
       if (cmd === "/preview") setPreviewKey((k) => k + 1);
       setInput("");
       toast.message(`Opened ${COMMANDS[cmd]}`);
+      return;
+    }
+    if (cmd === "/fullscreen") {
+      setRightTab("preview");
+      setPreviewKey((k) => k + 1);
+      setFullscreen(true);
+      setInput("");
+      toast.message("Fullscreen preview opened");
       return;
     }
     if (isChatLoading) return;
@@ -612,6 +636,9 @@ function ProjectWorkspace() {
                 <Button variant="ghost" size="icon" onClick={() => setPreviewKey((k) => k + 1)} title="Reload">
                   <Play className="h-3.5 w-3.5" />
                 </Button>
+                <Button variant="ghost" size="icon" onClick={() => setFullscreen(true)} title="Fullscreen preview">
+                  <Maximize2 className="h-3.5 w-3.5" />
+                </Button>
               </div>
             )}
           </div>
@@ -761,6 +788,51 @@ function ProjectWorkspace() {
           )}
         </section>
       </div>
+
+      {/* FULLSCREEN PREVIEW OVERLAY */}
+      {fullscreen && (
+        <div className="fixed inset-0 z-[100] flex flex-col bg-[#0a0a18]">
+          <div className="flex items-center justify-between border-b border-border/40 glass px-3 py-1.5 gap-2">
+            <div className="flex items-center gap-2 min-w-0">
+              <Hammer className="h-4 w-4 text-primary shrink-0" />
+              <span className="truncate text-xs font-display font-bold neon-text">
+                {project?.name ?? "Project"} · Live Preview
+              </span>
+            </div>
+            <div className="flex items-center gap-1 shrink-0">
+              <Button variant={device === "desktop" ? "secondary" : "ghost"} size="icon" onClick={() => setDevice("desktop")} title="Desktop">
+                <Monitor className="h-4 w-4" />
+              </Button>
+              <Button variant={device === "mobile" ? "secondary" : "ghost"} size="icon" onClick={() => setDevice("mobile")} title="Mobile">
+                <Smartphone className="h-4 w-4" />
+              </Button>
+              <Button variant="ghost" size="icon" onClick={() => setPreviewKey((k) => k + 1)} title="Reload">
+                <Play className="h-4 w-4" />
+              </Button>
+              <Button variant="ghost" size="icon" onClick={() => fsFrameRef.current?.requestFullscreen?.()} title="True fullscreen (hides toolbar)">
+                <Maximize className="h-4 w-4" />
+              </Button>
+              <Button variant="ghost" size="icon" onClick={() => setFullscreen(false)} title="Exit fullscreen">
+                <Minimize2 className="h-4 w-4" />
+              </Button>
+              <Button variant="ghost" size="icon" onClick={() => setFullscreen(false)} title="Close">
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+          <div ref={fsFrameRef} className="flex-1 min-h-0 overflow-auto bg-black/60 grid place-items-center p-2">
+            <iframe
+              key={`fs-${previewKey}`}
+              srcDoc={previewSrcDoc}
+              title="fullscreen preview"
+              sandbox="allow-scripts allow-forms allow-pointer-lock"
+              className={`bg-white shadow-2xl rounded-md ${
+                device === "mobile" ? "w-[390px] h-[700px]" : "w-full h-full"
+              }`}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
