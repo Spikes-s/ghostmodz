@@ -8,7 +8,7 @@ import JSZip from "jszip";
 import {
   FilePlus, FolderPlus, Trash2, Download, Upload, Play, Loader2, Sparkles,
   ArrowLeft, Smartphone, Monitor, Save, X, Send, Mic, MicOff, Files as FilesIcon,
-  Eye, Terminal as TerminalIcon, Code2, Hammer, Columns2, Maximize2, Minimize2, Maximize, Minimize,
+  Eye, Terminal as TerminalIcon, Code2, Hammer, Columns2, Maximize2, Minimize2, Maximize,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
