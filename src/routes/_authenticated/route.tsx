@@ -57,8 +57,8 @@ function AuthedLayout() {
   }, []);
 
   return (
-    <div className="relative min-h-screen flex flex-col">
-      <CyberBackground />
+    <div className={`relative min-h-svh flex flex-col ${theme.className}`}>
+      <PageAmbience variant={theme.ambience} />
       <Navbar />
       <main className="flex-1">
         <Outlet />

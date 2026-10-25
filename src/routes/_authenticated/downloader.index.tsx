@@ -104,7 +104,7 @@ function DownloaderPage() {
     <div className="mx-auto max-w-5xl px-4 sm:px-6 py-12 sm:py-16">
       <section className="text-center mb-10">
         <p className="text-xs font-mono tracking-[0.3em] text-primary mb-3">GHOST MODS TECH</p>
-        <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold mb-4">DOWNLOAD MEDIA. <span className="neon-text">SIMPLE. FAST. SECURE.</span></h1>
+        <h1 className="text-fluid-h1 font-bold mb-4">DOWNLOAD MEDIA. <span className="neon-text">SIMPLE. FAST. SECURE.</span></h1>
         <p className="text-muted-foreground max-w-2xl mx-auto">Paste a supported media URL and retrieve the available video, audio and image formats.</p>
       </section>
 
