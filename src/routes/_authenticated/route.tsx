@@ -1,9 +1,10 @@
-import { createFileRoute, Outlet, redirect, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Outlet, redirect, useLocation, useNavigate } from "@tanstack/react-router";
 import { useCallback, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Navbar } from "@/components/ghost/Navbar";
 import { Footer } from "@/components/ghost/Footer";
-import { CyberBackground } from "@/components/ghost/CyberBackground";
+import { PageAmbience } from "@/components/ghost/PageAmbience";
+import { pageTheme } from "@/lib/page-theme";
 import { useInactivityLogout } from "@/lib/inactivity";
 import { recordLogin } from "@/lib/admin.functions";
 import { toast } from "sonner";
@@ -38,6 +39,8 @@ export const Route = createFileRoute("/_authenticated")({
 
 function AuthedLayout() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const theme = pageTheme(location.pathname);
   const handleTimeout = useCallback(async () => {
     await supabase.auth.signOut();
     toast.info("Signed out after 20 minutes of inactivity.");
