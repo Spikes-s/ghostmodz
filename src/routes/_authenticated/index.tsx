@@ -65,7 +65,7 @@ function Home() {
               SYSTEM ONLINE — V1.0
             </div>
 
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 animate-fade-up" style={{ animationDelay: "60ms" }}>
+            <h1 className="text-fluid-hero font-bold mb-6 animate-fade-up" style={{ animationDelay: "60ms" }}>
               <span className="neon-text">{(settings as any)?.hero_title || "GHOST MODS"}</span>
               <br />
               <span className="text-foreground">TECH</span>
