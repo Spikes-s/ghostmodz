@@ -1207,6 +1207,39 @@ export type Database = {
         }
         Relationships: []
       }
+      enquiries: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          message: string
+          name: string
+          phone: string | null
+          service_slug: string | null
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          message: string
+          name: string
+          phone?: string | null
+          service_slug?: string | null
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+          phone?: string | null
+          service_slug?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
       hosting_plans: {
         Row: {
           active: boolean
