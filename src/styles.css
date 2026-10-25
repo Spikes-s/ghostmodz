@@ -210,3 +210,208 @@
 @utility animate-grid { animation: grid-scroll 20s linear infinite; }
 @utility animate-fade-up { animation: fade-up 0.6s ease-out both; }
 @utility animate-scan { animation: scan 4s linear infinite; }
+
+/* ============================================================
+   PAGE THEMES
+   Every major area gets its own hue identity while sharing the
+   same component system. PageAmbience supplies the background.
+   ============================================================ */
+
+.theme-gateway {
+  --ambience-a: oklch(0.68 0.28 305);
+  --ambience-b: oklch(0.7 0.22 240);
+}
+
+/* Media processing lab — graphite + cyan / electric blue */
+.theme-lab {
+  --primary: oklch(0.82 0.14 195);
+  --primary-foreground: oklch(0.12 0.03 220);
+  --accent: oklch(0.7 0.22 240);
+  --surface: oklch(0.17 0.02 230);
+  --surface-elevated: oklch(0.21 0.03 230);
+  --card: oklch(0.19 0.02 230 / 0.65);
+  --border: oklch(0.4 0.06 220 / 0.4);
+  --ambience-a: oklch(0.82 0.14 195);
+  --ambience-b: oklch(0.7 0.22 240);
+}
+
+/* Digital media studio — violet + icy blue */
+.theme-studio {
+  --primary: oklch(0.7 0.24 300);
+  --secondary: oklch(0.78 0.12 220);
+  --accent: oklch(0.78 0.12 220);
+  --surface: oklch(0.19 0.03 300);
+  --surface-elevated: oklch(0.23 0.04 300);
+  --card: oklch(0.22 0.04 300 / 0.6);
+  --ambience-a: oklch(0.7 0.24 300);
+  --ambience-b: oklch(0.78 0.12 220);
+}
+
+/* Personal command center — midnight navy, muted purple/blue */
+.theme-command {
+  --primary: oklch(0.68 0.2 285);
+  --secondary: oklch(0.66 0.16 250);
+  --accent: oklch(0.66 0.16 250);
+  --surface: oklch(0.17 0.04 265);
+  --surface-elevated: oklch(0.21 0.05 265);
+  --card: oklch(0.2 0.05 265 / 0.6);
+  --ambience-a: oklch(0.68 0.2 285);
+  --ambience-b: oklch(0.66 0.16 250);
+}
+
+/* Admin operations center — slate/graphite, muted indigo */
+.theme-ops {
+  --primary: oklch(0.65 0.15 265);
+  --secondary: oklch(0.6 0.1 280);
+  --accent: oklch(0.6 0.1 280);
+  --surface: oklch(0.16 0.02 260);
+  --surface-elevated: oklch(0.2 0.02 260);
+  --card: oklch(0.19 0.02 260 / 0.7);
+  --border: oklch(0.4 0.05 265 / 0.35);
+  --ambience-a: oklch(0.65 0.15 265);
+  --ambience-b: oklch(0.6 0.1 280);
+}
+
+/* Cybersecurity console — near-black, cyan signal + status colors */
+.theme-console {
+  --primary: oklch(0.85 0.16 190);
+  --primary-foreground: oklch(0.12 0.03 220);
+  --secondary: oklch(0.75 0.17 150);
+  --accent: oklch(0.75 0.17 150);
+  --surface: oklch(0.14 0.02 220);
+  --card: oklch(0.16 0.02 220 / 0.7);
+  --console-ok: oklch(0.75 0.17 150);
+  --console-warn: oklch(0.8 0.16 80);
+  --console-crit: oklch(0.6 0.24 25);
+  --ambience-a: oklch(0.85 0.16 190);
+  --ambience-b: oklch(0.75 0.17 150);
+}
+
+/* Secure access portal — deep purple + lavender */
+.theme-portal {
+  --primary: oklch(0.72 0.22 300);
+  --secondary: oklch(0.8 0.1 300);
+  --accent: oklch(0.8 0.1 300);
+  --ambience-a: oklch(0.72 0.22 300);
+  --ambience-b: oklch(0.8 0.1 300);
+}
+
+/* Editorial — charcoal, muted violet, comfortable reading */
+.theme-editorial {
+  --primary: oklch(0.62 0.18 305);
+  --secondary: oklch(0.65 0.08 280);
+  --accent: oklch(0.65 0.08 280);
+  --muted-foreground: oklch(0.75 0.02 280);
+  --ambience-a: oklch(0.62 0.18 305);
+  --ambience-b: oklch(0.65 0.08 280);
+}
+
+/* ============================================================
+   FLUID TYPOGRAPHY & READING
+   ============================================================ */
+
+@utility text-fluid-hero {
+  font-size: clamp(2.3rem, 5.2vw + 1rem, 6rem);
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+}
+
+@utility text-fluid-h1 {
+  font-size: clamp(1.9rem, 3.4vw + 0.8rem, 3.75rem);
+  line-height: 1.08;
+}
+
+@utility text-fluid-h2 {
+  font-size: clamp(1.5rem, 2.4vw + 0.6rem, 2.6rem);
+  line-height: 1.15;
+}
+
+@utility text-fluid-h3 {
+  font-size: clamp(1.2rem, 1.6vw + 0.5rem, 1.7rem);
+  line-height: 1.25;
+}
+
+@utility reading-width {
+  max-width: 68ch;
+  margin-inline: auto;
+}
+
+/* ============================================================
+   MOBILE, SAFE AREAS & TOUCH
+   ============================================================ */
+
+@utility pt-safe {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+@utility pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+@utility min-touch {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ============================================================
+   AMBIENCE KEYFRAMES
+   ============================================================ */
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.35); }
+}
+@keyframes drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  33% { transform: translate3d(4%, -6%, 0) scale(1.08); }
+  66% { transform: translate3d(-5%, 4%, 0) scale(0.94); }
+}
+@keyframes wave {
+  0%, 100% { transform: scaleY(0.3); }
+  50% { transform: scaleY(1); }
+}
+@keyframes crt {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 4px; }
+}
+
+/* Pause ambience when tab hidden or reduced motion */
+[data-ambience-paused="true"] .ambience-anim {
+  animation-play-state: paused !important;
+}
+
+/* ============================================================
+   BASE — overflow safety, viewport units, reduced motion
+   ============================================================ */
+
+@layer base {
+  html {
+    overflow-x: clip;
+    scrollbar-gutter: stable;
+  }
+  body {
+    min-height: 100svh;
+  }
+  /* Prevent iOS zoom-on-focus while keeping readable input text */
+  input, textarea, select {
+    font-size: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 const LINKS = [
   { to: "/", label: "Home" },
   { to: "/services", label: "Services" },
-  { to: "/#enquire", label: "Enquire", hash: "enquire" },
+  { to: "/", hash: "enquire", label: "Enquire" },
 ] as const;
 
 export function PublicHeader() {
