@@ -10,12 +10,14 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as PublicRouteRouteImport } from './routes/_public/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
-import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedSupportRouteImport } from './routes/_authenticated/support'
 import { Route as AuthenticatedTerminalRouteImport } from './routes/_authenticated/terminal'
+import { Route as PublicIndexRouteImport } from './routes/_public/index'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as ApiTranscribeRouteImport } from './routes/api/transcribe'
 import { Route as ApiTtsRouteImport } from './routes/api/tts'
@@ -44,10 +46,10 @@ import { Route as AuthenticatedCloudIndexRouteImport } from './routes/_authentic
 import { Route as AuthenticatedCloudNewRouteImport } from './routes/_authenticated/cloud.new'
 import { Route as AuthenticatedDownloaderIndexRouteImport } from './routes/_authenticated/downloader.index'
 import { Route as AuthenticatedDownloaderHistoryRouteImport } from './routes/_authenticated/downloader.history'
-import { Route as AuthenticatedServicesIndexRouteImport } from './routes/_authenticated/services.index'
-import { Route as AuthenticatedServicesSlugRouteImport } from './routes/_authenticated/services.$slug'
 import { Route as AuthenticatedSpikesIndexRouteImport } from './routes/_authenticated/spikes.index'
 import { Route as AuthenticatedSpikesConversationIdRouteImport } from './routes/_authenticated/spikes.$conversationId'
+import { Route as PublicServicesIndexRouteImport } from './routes/_public/services.index'
+import { Route as PublicServicesSlugRouteImport } from './routes/_public/services.$slug'
 import { Route as AuthenticatedAcademyCertificateCodeRouteImport } from './routes/_authenticated/academy.certificate.$code'
 import { Route as AuthenticatedAcademyLessonLessonIdRouteImport } from './routes/_authenticated/academy.lesson.$lessonId'
 import { Route as AuthenticatedAccountRequestsIndexRouteImport } from './routes/_authenticated/account.requests.index'
@@ -63,6 +65,10 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PublicRouteRoute = PublicRouteRouteImport.update({
+  id: '/_public',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
@@ -73,14 +79,14 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedSupportRoute = AuthenticatedSupportRouteImport.update({
@@ -92,6 +98,11 @@ const AuthenticatedTerminalRoute = AuthenticatedTerminalRouteImport.update({
   id: '/terminal',
   path: '/terminal',
   getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const PublicIndexRoute = PublicIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PublicRouteRoute,
 } as any)
 const ApiChatRoute = ApiChatRouteImport.update({
   id: '/api/chat',
@@ -251,18 +262,6 @@ const AuthenticatedDownloaderHistoryRoute =
     path: '/downloader/history',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedServicesIndexRoute =
-  AuthenticatedServicesIndexRouteImport.update({
-    id: '/services/',
-    path: '/services/',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedServicesSlugRoute =
-  AuthenticatedServicesSlugRouteImport.update({
-    id: '/services/$slug',
-    path: '/services/$slug',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
 const AuthenticatedSpikesIndexRoute =
   AuthenticatedSpikesIndexRouteImport.update({
     id: '/spikes/',
@@ -275,6 +274,16 @@ const AuthenticatedSpikesConversationIdRoute =
     path: '/spikes/$conversationId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const PublicServicesIndexRoute = PublicServicesIndexRouteImport.update({
+  id: '/services/',
+  path: '/services/',
+  getParentRoute: () => PublicRouteRoute,
+} as any)
+const PublicServicesSlugRoute = PublicServicesSlugRouteImport.update({
+  id: '/services/$slug',
+  path: '/services/$slug',
+  getParentRoute: () => PublicRouteRoute,
+} as any)
 const AuthenticatedAcademyCertificateCodeRoute =
   AuthenticatedAcademyCertificateCodeRouteImport.update({
     id: '/academy/certificate/$code',
@@ -337,10 +346,11 @@ const AuthenticatedServicesWebDevNewRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof AuthenticatedIndexRoute
+  '/': typeof PublicIndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/dashboard': typeof AuthenticatedDashboardRoute
   '/support': typeof AuthenticatedSupportRoute
   '/terminal': typeof AuthenticatedTerminalRoute
   '/api/chat': typeof ApiChatRoute
@@ -365,16 +375,16 @@ export interface FileRoutesByFullPath {
   '/build/$projectId': typeof AuthenticatedBuildProjectIdRoute
   '/cloud/new': typeof AuthenticatedCloudNewRoute
   '/downloader/history': typeof AuthenticatedDownloaderHistoryRoute
-  '/services/$slug': typeof AuthenticatedServicesSlugRoute
   '/spikes/$conversationId': typeof AuthenticatedSpikesConversationIdRoute
+  '/services/$slug': typeof PublicServicesSlugRoute
   '/academy/': typeof AuthenticatedAcademyIndexRoute
   '/account/': typeof AuthenticatedAccountIndexRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/build/': typeof AuthenticatedBuildIndexRoute
   '/cloud/': typeof AuthenticatedCloudIndexRoute
   '/downloader/': typeof AuthenticatedDownloaderIndexRoute
-  '/services/': typeof AuthenticatedServicesIndexRoute
   '/spikes/': typeof AuthenticatedSpikesIndexRoute
+  '/services/': typeof PublicServicesIndexRoute
   '/academy/certificate/$code': typeof AuthenticatedAcademyCertificateCodeRoute
   '/academy/lesson/$lessonId': typeof AuthenticatedAcademyLessonLessonIdRoute
   '/account/requests/$id': typeof AuthenticatedAccountRequestsIdRoute
@@ -387,15 +397,16 @@ export interface FileRoutesByFullPath {
   '/account/requests/': typeof AuthenticatedAccountRequestsIndexRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof PublicIndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
   '/support': typeof AuthenticatedSupportRoute
   '/terminal': typeof AuthenticatedTerminalRoute
   '/api/chat': typeof ApiChatRoute
   '/api/transcribe': typeof ApiTranscribeRoute
   '/api/tts': typeof ApiTtsRoute
   '/pay/$token': typeof PayTokenRoute
-  '/': typeof AuthenticatedIndexRoute
   '/academy/$slug': typeof AuthenticatedAcademySlugRoute
   '/academy/courses': typeof AuthenticatedAcademyCoursesRoute
   '/admin/academy': typeof AuthenticatedAdminAcademyRoute
@@ -414,16 +425,16 @@ export interface FileRoutesByTo {
   '/build/$projectId': typeof AuthenticatedBuildProjectIdRoute
   '/cloud/new': typeof AuthenticatedCloudNewRoute
   '/downloader/history': typeof AuthenticatedDownloaderHistoryRoute
-  '/services/$slug': typeof AuthenticatedServicesSlugRoute
   '/spikes/$conversationId': typeof AuthenticatedSpikesConversationIdRoute
+  '/services/$slug': typeof PublicServicesSlugRoute
   '/academy': typeof AuthenticatedAcademyIndexRoute
   '/account': typeof AuthenticatedAccountIndexRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/build': typeof AuthenticatedBuildIndexRoute
   '/cloud': typeof AuthenticatedCloudIndexRoute
   '/downloader': typeof AuthenticatedDownloaderIndexRoute
-  '/services': typeof AuthenticatedServicesIndexRoute
   '/spikes': typeof AuthenticatedSpikesIndexRoute
+  '/services': typeof PublicServicesIndexRoute
   '/academy/certificate/$code': typeof AuthenticatedAcademyCertificateCodeRoute
   '/academy/lesson/$lessonId': typeof AuthenticatedAcademyLessonLessonIdRoute
   '/account/requests/$id': typeof AuthenticatedAccountRequestsIdRoute
@@ -438,16 +449,18 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/_public': typeof PublicRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/support': typeof AuthenticatedSupportRoute
   '/_authenticated/terminal': typeof AuthenticatedTerminalRoute
   '/api/chat': typeof ApiChatRoute
   '/api/transcribe': typeof ApiTranscribeRoute
   '/api/tts': typeof ApiTtsRoute
   '/pay/$token': typeof PayTokenRoute
-  '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_public/': typeof PublicIndexRoute
   '/_authenticated/academy/$slug': typeof AuthenticatedAcademySlugRoute
   '/_authenticated/academy/courses': typeof AuthenticatedAcademyCoursesRoute
   '/_authenticated/admin/academy': typeof AuthenticatedAdminAcademyRoute
@@ -466,16 +479,16 @@ export interface FileRoutesById {
   '/_authenticated/build/$projectId': typeof AuthenticatedBuildProjectIdRoute
   '/_authenticated/cloud/new': typeof AuthenticatedCloudNewRoute
   '/_authenticated/downloader/history': typeof AuthenticatedDownloaderHistoryRoute
-  '/_authenticated/services/$slug': typeof AuthenticatedServicesSlugRoute
   '/_authenticated/spikes/$conversationId': typeof AuthenticatedSpikesConversationIdRoute
+  '/_public/services/$slug': typeof PublicServicesSlugRoute
   '/_authenticated/academy/': typeof AuthenticatedAcademyIndexRoute
   '/_authenticated/account/': typeof AuthenticatedAccountIndexRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/build/': typeof AuthenticatedBuildIndexRoute
   '/_authenticated/cloud/': typeof AuthenticatedCloudIndexRoute
   '/_authenticated/downloader/': typeof AuthenticatedDownloaderIndexRoute
-  '/_authenticated/services/': typeof AuthenticatedServicesIndexRoute
   '/_authenticated/spikes/': typeof AuthenticatedSpikesIndexRoute
+  '/_public/services/': typeof PublicServicesIndexRoute
   '/_authenticated/academy/certificate/$code': typeof AuthenticatedAcademyCertificateCodeRoute
   '/_authenticated/academy/lesson/$lessonId': typeof AuthenticatedAcademyLessonLessonIdRoute
   '/_authenticated/account/requests/$id': typeof AuthenticatedAccountRequestsIdRoute
@@ -494,6 +507,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/reset-password'
     | '/admin'
+    | '/dashboard'
     | '/support'
     | '/terminal'
     | '/api/chat'
@@ -518,16 +532,16 @@ export interface FileRouteTypes {
     | '/build/$projectId'
     | '/cloud/new'
     | '/downloader/history'
-    | '/services/$slug'
     | '/spikes/$conversationId'
+    | '/services/$slug'
     | '/academy/'
     | '/account/'
     | '/admin/'
     | '/build/'
     | '/cloud/'
     | '/downloader/'
-    | '/services/'
     | '/spikes/'
+    | '/services/'
     | '/academy/certificate/$code'
     | '/academy/lesson/$lessonId'
     | '/account/requests/$id'
@@ -540,15 +554,16 @@ export interface FileRouteTypes {
     | '/account/requests/'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/'
     | '/auth'
     | '/reset-password'
+    | '/dashboard'
     | '/support'
     | '/terminal'
     | '/api/chat'
     | '/api/transcribe'
     | '/api/tts'
     | '/pay/$token'
-    | '/'
     | '/academy/$slug'
     | '/academy/courses'
     | '/admin/academy'
@@ -567,16 +582,16 @@ export interface FileRouteTypes {
     | '/build/$projectId'
     | '/cloud/new'
     | '/downloader/history'
-    | '/services/$slug'
     | '/spikes/$conversationId'
+    | '/services/$slug'
     | '/academy'
     | '/account'
     | '/admin'
     | '/build'
     | '/cloud'
     | '/downloader'
-    | '/services'
     | '/spikes'
+    | '/services'
     | '/academy/certificate/$code'
     | '/academy/lesson/$lessonId'
     | '/account/requests/$id'
@@ -590,16 +605,18 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_authenticated'
+    | '/_public'
     | '/auth'
     | '/reset-password'
     | '/_authenticated/admin'
+    | '/_authenticated/dashboard'
     | '/_authenticated/support'
     | '/_authenticated/terminal'
     | '/api/chat'
     | '/api/transcribe'
     | '/api/tts'
     | '/pay/$token'
-    | '/_authenticated/'
+    | '/_public/'
     | '/_authenticated/academy/$slug'
     | '/_authenticated/academy/courses'
     | '/_authenticated/admin/academy'
@@ -618,16 +635,16 @@ export interface FileRouteTypes {
     | '/_authenticated/build/$projectId'
     | '/_authenticated/cloud/new'
     | '/_authenticated/downloader/history'
-    | '/_authenticated/services/$slug'
     | '/_authenticated/spikes/$conversationId'
+    | '/_public/services/$slug'
     | '/_authenticated/academy/'
     | '/_authenticated/account/'
     | '/_authenticated/admin/'
     | '/_authenticated/build/'
     | '/_authenticated/cloud/'
     | '/_authenticated/downloader/'
-    | '/_authenticated/services/'
     | '/_authenticated/spikes/'
+    | '/_public/services/'
     | '/_authenticated/academy/certificate/$code'
     | '/_authenticated/academy/lesson/$lessonId'
     | '/_authenticated/account/requests/$id'
@@ -642,6 +659,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  PublicRouteRoute: typeof PublicRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   ApiChatRoute: typeof ApiChatRoute
@@ -659,6 +677,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_public': {
+      id: '/_public'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof PublicRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth': {
       id: '/auth'
       path: '/auth'
@@ -673,18 +698,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/': {
-      id: '/_authenticated/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof AuthenticatedIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/admin': {
       id: '/_authenticated/admin'
       path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/support': {
@@ -700,6 +725,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/terminal'
       preLoaderRoute: typeof AuthenticatedTerminalRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_public/': {
+      id: '/_public/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof PublicIndexRouteImport
+      parentRoute: typeof PublicRouteRoute
     }
     '/api/chat': {
       id: '/api/chat'
@@ -897,20 +929,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDownloaderHistoryRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/services/': {
-      id: '/_authenticated/services/'
-      path: '/services'
-      fullPath: '/services/'
-      preLoaderRoute: typeof AuthenticatedServicesIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/services/$slug': {
-      id: '/_authenticated/services/$slug'
-      path: '/services/$slug'
-      fullPath: '/services/$slug'
-      preLoaderRoute: typeof AuthenticatedServicesSlugRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/spikes/': {
       id: '/_authenticated/spikes/'
       path: '/spikes'
@@ -924,6 +942,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/spikes/$conversationId'
       preLoaderRoute: typeof AuthenticatedSpikesConversationIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_public/services/': {
+      id: '/_public/services/'
+      path: '/services'
+      fullPath: '/services/'
+      preLoaderRoute: typeof PublicServicesIndexRouteImport
+      parentRoute: typeof PublicRouteRoute
+    }
+    '/_public/services/$slug': {
+      id: '/_public/services/$slug'
+      path: '/services/$slug'
+      fullPath: '/services/$slug'
+      preLoaderRoute: typeof PublicServicesSlugRouteImport
+      parentRoute: typeof PublicRouteRoute
     }
     '/_authenticated/academy/certificate/$code': {
       id: '/_authenticated/academy/certificate/$code'
@@ -1038,22 +1070,20 @@ const AuthenticatedAdminRouteWithChildren =
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedSupportRoute: typeof AuthenticatedSupportRoute
   AuthenticatedTerminalRoute: typeof AuthenticatedTerminalRoute
-  AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedAcademySlugRoute: typeof AuthenticatedAcademySlugRoute
   AuthenticatedAcademyCoursesRoute: typeof AuthenticatedAcademyCoursesRoute
   AuthenticatedBuildProjectIdRoute: typeof AuthenticatedBuildProjectIdRoute
   AuthenticatedCloudNewRoute: typeof AuthenticatedCloudNewRoute
   AuthenticatedDownloaderHistoryRoute: typeof AuthenticatedDownloaderHistoryRoute
-  AuthenticatedServicesSlugRoute: typeof AuthenticatedServicesSlugRoute
   AuthenticatedSpikesConversationIdRoute: typeof AuthenticatedSpikesConversationIdRoute
   AuthenticatedAcademyIndexRoute: typeof AuthenticatedAcademyIndexRoute
   AuthenticatedAccountIndexRoute: typeof AuthenticatedAccountIndexRoute
   AuthenticatedBuildIndexRoute: typeof AuthenticatedBuildIndexRoute
   AuthenticatedCloudIndexRoute: typeof AuthenticatedCloudIndexRoute
   AuthenticatedDownloaderIndexRoute: typeof AuthenticatedDownloaderIndexRoute
-  AuthenticatedServicesIndexRoute: typeof AuthenticatedServicesIndexRoute
   AuthenticatedSpikesIndexRoute: typeof AuthenticatedSpikesIndexRoute
   AuthenticatedAcademyCertificateCodeRoute: typeof AuthenticatedAcademyCertificateCodeRoute
   AuthenticatedAcademyLessonLessonIdRoute: typeof AuthenticatedAcademyLessonLessonIdRoute
@@ -1069,15 +1099,14 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedSupportRoute: AuthenticatedSupportRoute,
   AuthenticatedTerminalRoute: AuthenticatedTerminalRoute,
-  AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedAcademySlugRoute: AuthenticatedAcademySlugRoute,
   AuthenticatedAcademyCoursesRoute: AuthenticatedAcademyCoursesRoute,
   AuthenticatedBuildProjectIdRoute: AuthenticatedBuildProjectIdRoute,
   AuthenticatedCloudNewRoute: AuthenticatedCloudNewRoute,
   AuthenticatedDownloaderHistoryRoute: AuthenticatedDownloaderHistoryRoute,
-  AuthenticatedServicesSlugRoute: AuthenticatedServicesSlugRoute,
   AuthenticatedSpikesConversationIdRoute:
     AuthenticatedSpikesConversationIdRoute,
   AuthenticatedAcademyIndexRoute: AuthenticatedAcademyIndexRoute,
@@ -1085,7 +1114,6 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedBuildIndexRoute: AuthenticatedBuildIndexRoute,
   AuthenticatedCloudIndexRoute: AuthenticatedCloudIndexRoute,
   AuthenticatedDownloaderIndexRoute: AuthenticatedDownloaderIndexRoute,
-  AuthenticatedServicesIndexRoute: AuthenticatedServicesIndexRoute,
   AuthenticatedSpikesIndexRoute: AuthenticatedSpikesIndexRoute,
   AuthenticatedAcademyCertificateCodeRoute:
     AuthenticatedAcademyCertificateCodeRoute,
@@ -1106,8 +1134,25 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface PublicRouteRouteChildren {
+  PublicIndexRoute: typeof PublicIndexRoute
+  PublicServicesSlugRoute: typeof PublicServicesSlugRoute
+  PublicServicesIndexRoute: typeof PublicServicesIndexRoute
+}
+
+const PublicRouteRouteChildren: PublicRouteRouteChildren = {
+  PublicIndexRoute: PublicIndexRoute,
+  PublicServicesSlugRoute: PublicServicesSlugRoute,
+  PublicServicesIndexRoute: PublicServicesIndexRoute,
+}
+
+const PublicRouteRouteWithChildren = PublicRouteRoute._addFileChildren(
+  PublicRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  PublicRouteRoute: PublicRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   ApiChatRoute: ApiChatRoute,
