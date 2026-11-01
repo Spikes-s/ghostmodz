@@ -103,8 +103,9 @@ export function PublicHeader() {
         <div className="lg:hidden glass border-t border-border/40 px-6 py-4 space-y-1 animate-fade-up">
           {LINKS.map((l) => (
             <Link
-              key={l.to}
+              key={l.label}
               to={l.to}
+              hash={"hash" in l ? l.hash : undefined}
               onClick={() => setOpen(false)}
               className="block px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground rounded-md"
             >
