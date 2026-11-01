@@ -50,8 +50,9 @@ export function PublicHeader() {
         <nav className="hidden lg:flex items-center gap-1">
           {LINKS.map((l) => (
             <Link
-              key={l.to}
+              key={l.label}
               to={l.to}
+              hash={"hash" in l ? l.hash : undefined}
               className="px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground rounded-md"
             >
               {l.label}
