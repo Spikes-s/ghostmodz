@@ -32,6 +32,7 @@ import { Route as AuthenticatedAdminAiSettingsRouteImport } from './routes/_auth
 import { Route as AuthenticatedAdminApiProjectsRouteImport } from './routes/_authenticated/admin.api-projects'
 import { Route as AuthenticatedAdminCloudRouteImport } from './routes/_authenticated/admin.cloud'
 import { Route as AuthenticatedAdminDownloaderRouteImport } from './routes/_authenticated/admin.downloader'
+import { Route as AuthenticatedAdminEnquiriesRouteImport } from './routes/_authenticated/admin.enquiries'
 import { Route as AuthenticatedAdminPaymentsRouteImport } from './routes/_authenticated/admin.payments'
 import { Route as AuthenticatedAdminRequestsRouteImport } from './routes/_authenticated/admin.requests'
 import { Route as AuthenticatedAdminRequestsWebsiteRouteImport } from './routes/_authenticated/admin.requests-website'
@@ -180,6 +181,12 @@ const AuthenticatedAdminDownloaderRoute =
   AuthenticatedAdminDownloaderRouteImport.update({
     id: '/downloader',
     path: '/downloader',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminEnquiriesRoute =
+  AuthenticatedAdminEnquiriesRouteImport.update({
+    id: '/enquiries',
+    path: '/enquiries',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
 const AuthenticatedAdminPaymentsRoute =
@@ -364,6 +371,7 @@ export interface FileRoutesByFullPath {
   '/admin/api-projects': typeof AuthenticatedAdminApiProjectsRoute
   '/admin/cloud': typeof AuthenticatedAdminCloudRoute
   '/admin/downloader': typeof AuthenticatedAdminDownloaderRoute
+  '/admin/enquiries': typeof AuthenticatedAdminEnquiriesRoute
   '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
   '/admin/requests': typeof AuthenticatedAdminRequestsRoute
   '/admin/requests-website': typeof AuthenticatedAdminRequestsWebsiteRoute
@@ -414,6 +422,7 @@ export interface FileRoutesByTo {
   '/admin/api-projects': typeof AuthenticatedAdminApiProjectsRoute
   '/admin/cloud': typeof AuthenticatedAdminCloudRoute
   '/admin/downloader': typeof AuthenticatedAdminDownloaderRoute
+  '/admin/enquiries': typeof AuthenticatedAdminEnquiriesRoute
   '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
   '/admin/requests': typeof AuthenticatedAdminRequestsRoute
   '/admin/requests-website': typeof AuthenticatedAdminRequestsWebsiteRoute
@@ -468,6 +477,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/api-projects': typeof AuthenticatedAdminApiProjectsRoute
   '/_authenticated/admin/cloud': typeof AuthenticatedAdminCloudRoute
   '/_authenticated/admin/downloader': typeof AuthenticatedAdminDownloaderRoute
+  '/_authenticated/admin/enquiries': typeof AuthenticatedAdminEnquiriesRoute
   '/_authenticated/admin/payments': typeof AuthenticatedAdminPaymentsRoute
   '/_authenticated/admin/requests': typeof AuthenticatedAdminRequestsRoute
   '/_authenticated/admin/requests-website': typeof AuthenticatedAdminRequestsWebsiteRoute
@@ -521,6 +531,7 @@ export interface FileRouteTypes {
     | '/admin/api-projects'
     | '/admin/cloud'
     | '/admin/downloader'
+    | '/admin/enquiries'
     | '/admin/payments'
     | '/admin/requests'
     | '/admin/requests-website'
@@ -571,6 +582,7 @@ export interface FileRouteTypes {
     | '/admin/api-projects'
     | '/admin/cloud'
     | '/admin/downloader'
+    | '/admin/enquiries'
     | '/admin/payments'
     | '/admin/requests'
     | '/admin/requests-website'
@@ -624,6 +636,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/api-projects'
     | '/_authenticated/admin/cloud'
     | '/_authenticated/admin/downloader'
+    | '/_authenticated/admin/enquiries'
     | '/_authenticated/admin/payments'
     | '/_authenticated/admin/requests'
     | '/_authenticated/admin/requests-website'
@@ -831,6 +844,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminDownloaderRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/enquiries': {
+      id: '/_authenticated/admin/enquiries'
+      path: '/enquiries'
+      fullPath: '/admin/enquiries'
+      preLoaderRoute: typeof AuthenticatedAdminEnquiriesRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/payments': {
       id: '/_authenticated/admin/payments'
       path: '/payments'
@@ -1036,6 +1056,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminApiProjectsRoute: typeof AuthenticatedAdminApiProjectsRoute
   AuthenticatedAdminCloudRoute: typeof AuthenticatedAdminCloudRoute
   AuthenticatedAdminDownloaderRoute: typeof AuthenticatedAdminDownloaderRoute
+  AuthenticatedAdminEnquiriesRoute: typeof AuthenticatedAdminEnquiriesRoute
   AuthenticatedAdminPaymentsRoute: typeof AuthenticatedAdminPaymentsRoute
   AuthenticatedAdminRequestsRoute: typeof AuthenticatedAdminRequestsRoute
   AuthenticatedAdminRequestsWebsiteRoute: typeof AuthenticatedAdminRequestsWebsiteRoute
@@ -1053,6 +1074,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminApiProjectsRoute: AuthenticatedAdminApiProjectsRoute,
   AuthenticatedAdminCloudRoute: AuthenticatedAdminCloudRoute,
   AuthenticatedAdminDownloaderRoute: AuthenticatedAdminDownloaderRoute,
+  AuthenticatedAdminEnquiriesRoute: AuthenticatedAdminEnquiriesRoute,
   AuthenticatedAdminPaymentsRoute: AuthenticatedAdminPaymentsRoute,
   AuthenticatedAdminRequestsRoute: AuthenticatedAdminRequestsRoute,
   AuthenticatedAdminRequestsWebsiteRoute:
