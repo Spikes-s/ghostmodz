@@ -9,6 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 const LINKS = [
   { to: "/", label: "Home" },
   { to: "/services", label: "Services" },
+  { to: "/", label: "Enquire", hash: "enquire" },
 ] as const;
 
 export function PublicHeader() {
