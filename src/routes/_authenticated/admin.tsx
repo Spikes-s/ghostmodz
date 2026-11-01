@@ -24,6 +24,7 @@ function AdminLayout() {
   const tabs = [
     { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
     { to: "/admin/requests-website", label: "Website Requests", icon: ClipboardList, exact: false },
+    { to: "/admin/enquiries", label: "Enquiries", icon: Inbox, exact: false },
     { to: "/admin/support", label: "Support Chat", icon: MessageCircle, exact: false },
     { to: "/admin/ai-settings", label: "AI Assistant", icon: Bot, exact: false },
     { to: "/admin/academy", label: "Academy", icon: GraduationCap, exact: false },
