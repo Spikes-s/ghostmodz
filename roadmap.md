@@ -1,5 +1,8 @@
 # Roadmap
 
+## Spikes Bot WhatsApp automation (new briefs)
+- [ ] Review the complete Spikes Bot requirements and implement only supported, verified WhatsApp command workflows
+
 ## Immersive UI redesign & responsive optimization (current)
 - [x] Fix PublicHeader build errors (hash link typing)
 - [x] Page theme system (page-theme.ts + theme classes in styles.css)
