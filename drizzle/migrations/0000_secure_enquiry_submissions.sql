@@ -1,0 +1,1 @@
+DROP POLICY IF EXISTS "Visitors can submit enquiries" ON public.enquiries;
