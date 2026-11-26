@@ -3,6 +3,20 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { z } from "zod";
 
 type EngineReply<T> = { ok: true; data: T } | { ok: false; status: number; message: string };
+export type SpikesEngineCommand = {
+  name: string;
+  description: string;
+  category: string;
+  enabled: boolean;
+  readiness: "ready" | "missing_configuration";
+  missingConfiguration: string[];
+};
+export type SpikesEngineActivity = {
+  at: string;
+  command: string;
+  result: "success" | "failed";
+  chatType: "group" | "direct";
+};
 
 async function assertBotAdmin(context: { supabase: any; userId: string }) {
   const { data, error } = await context.supabase
@@ -60,7 +74,7 @@ export const getSpikesEngineCommands = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await assertBotAdmin(context);
-    const result = await engineRequest<{ commands: unknown[] }>("/api/commands");
+    const result = await engineRequest<{ commands: SpikesEngineCommand[] }>("/api/commands");
     if (!result.ok) throw new Error(result.message);
     return result.data.commands;
   });
@@ -69,7 +83,7 @@ export const getSpikesEngineActivity = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await assertBotAdmin(context);
-    const result = await engineRequest<{ activity: unknown[] }>("/api/activity");
+    const result = await engineRequest<{ activity: SpikesEngineActivity[] }>("/api/activity");
     if (!result.ok) throw new Error(result.message);
     return result.data.activity;
   });

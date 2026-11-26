@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { getSpikesEngineActivity, getSpikesEngineCommands, getSpikesEngineStatus, pairSpikesWhatsApp, reconnectSpikesEngine, disconnectSpikesEngine, setSpikesCommandState } from "@/lib/spikes-engine.functions";
+import { getSpikesEngineActivity, getSpikesEngineCommands, getSpikesEngineStatus, pairSpikesWhatsApp, reconnectSpikesEngine, disconnectSpikesEngine, setSpikesCommandState, type SpikesEngineActivity, type SpikesEngineCommand } from "@/lib/spikes-engine.functions";
 
 export const Route = createFileRoute("/_authenticated/admin/spikes-bot")({
   head: () => ({ meta: [{ title: "Spikes Bot Control — Ghost Mods Tech" }, { name: "description", content: "Owner controls and live status for the Spikes WhatsApp bot service." }, { property: "og:title", content: "Spikes Bot Control — Ghost Mods Tech" }, { property: "og:description", content: "Manage the linked WhatsApp service and verified bot commands." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
@@ -16,8 +16,8 @@ export const Route = createFileRoute("/_authenticated/admin/spikes-bot")({
 });
 
 type Status = { configured: boolean; state: string; message?: string; linkedNumber?: string | null; connectedAt?: string | null; uptimeSeconds?: number; ownerConfigured?: boolean; prefix?: string };
-type Command = { name: string; description: string; category: string; enabled: boolean; readiness: "ready" | "missing_configuration"; missingConfiguration?: string[] };
-type ActivityRow = { at: string; command: string; result: "success" | "failed"; chatType: "group" | "direct" };
+type Command = SpikesEngineCommand;
+type ActivityRow = SpikesEngineActivity;
 
 const stateLabels: Record<string, string> = { not_configured: "Setup needed", unreachable: "Service offline", disconnected: "Disconnected", connecting: "Connecting", pairing: "Pairing pending", connected: "Connected", logged_out: "Logged out", error: "Service error" };
 
@@ -36,8 +36,8 @@ function SpikesBotAdmin() {
   const [pendingAction, setPendingAction] = useState("");
 
   const status = useQuery({ queryKey: ["spikes-engine-status"], queryFn: () => statusFn(), refetchInterval: 10000, retry: 1 });
-  const commands = useQuery({ queryKey: ["spikes-engine-commands"], queryFn: () => commandsFn(), enabled: status.data?.configured === true, retry: 1 });
-  const activity = useQuery({ queryKey: ["spikes-engine-activity"], queryFn: () => activityFn(), enabled: status.data?.configured === true, refetchInterval: 15000, retry: 1 });
+  const commands = useQuery<Command[]>({ queryKey: ["spikes-engine-commands"], queryFn: () => commandsFn(), enabled: status.data?.configured === true, retry: 1 });
+  const activity = useQuery<ActivityRow[]>({ queryKey: ["spikes-engine-activity"], queryFn: () => activityFn(), enabled: status.data?.configured === true, refetchInterval: 15000, retry: 1 });
   const codeRemaining = useMemo(() => pairCode ? Math.max(0, Math.ceil((Date.parse(pairCode.expiresAt) - now) / 1000)) : 0, [pairCode, now]);
 
   useEffect(() => {
