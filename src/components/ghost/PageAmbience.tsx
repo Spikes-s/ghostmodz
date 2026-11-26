@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { AmbienceVariant } from "@/lib/page-theme";
+import { CircuitScene } from "@/components/ghost/CircuitScene";
 
 /**
  * PageAmbience — page-specific background environment.
@@ -180,6 +181,7 @@ export function PageAmbience({ variant }: { variant: AmbienceVariant }) {
     >
       {/* Theme tint */}
       <div className="absolute inset-0" style={{ background: TINTS[variant] }} />
+      {variant !== "portal" && variant !== "editorial" && <CircuitScene />}
 
       {variant === "gateway" && animate && (
         <>

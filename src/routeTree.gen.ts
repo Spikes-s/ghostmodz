@@ -38,6 +38,7 @@ import { Route as AuthenticatedAdminRequestsRouteImport } from './routes/_authen
 import { Route as AuthenticatedAdminRequestsWebsiteRouteImport } from './routes/_authenticated/admin.requests-website'
 import { Route as AuthenticatedAdminServicesRouteImport } from './routes/_authenticated/admin.services'
 import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
+import { Route as AuthenticatedAdminSpikesBotRouteImport } from './routes/_authenticated/admin.spikes-bot'
 import { Route as AuthenticatedAdminSupportRouteImport } from './routes/_authenticated/admin.support'
 import { Route as AuthenticatedAdminTokensRouteImport } from './routes/_authenticated/admin.tokens'
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
@@ -219,6 +220,12 @@ const AuthenticatedAdminSettingsRoute =
     path: '/settings',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminSpikesBotRoute =
+  AuthenticatedAdminSpikesBotRouteImport.update({
+    id: '/spikes-bot',
+    path: '/spikes-bot',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminSupportRoute =
   AuthenticatedAdminSupportRouteImport.update({
     id: '/support',
@@ -377,6 +384,7 @@ export interface FileRoutesByFullPath {
   '/admin/requests-website': typeof AuthenticatedAdminRequestsWebsiteRoute
   '/admin/services': typeof AuthenticatedAdminServicesRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/admin/spikes-bot': typeof AuthenticatedAdminSpikesBotRoute
   '/admin/support': typeof AuthenticatedAdminSupportRoute
   '/admin/tokens': typeof AuthenticatedAdminTokensRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
@@ -428,6 +436,7 @@ export interface FileRoutesByTo {
   '/admin/requests-website': typeof AuthenticatedAdminRequestsWebsiteRoute
   '/admin/services': typeof AuthenticatedAdminServicesRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/admin/spikes-bot': typeof AuthenticatedAdminSpikesBotRoute
   '/admin/support': typeof AuthenticatedAdminSupportRoute
   '/admin/tokens': typeof AuthenticatedAdminTokensRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
@@ -483,6 +492,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/requests-website': typeof AuthenticatedAdminRequestsWebsiteRoute
   '/_authenticated/admin/services': typeof AuthenticatedAdminServicesRoute
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/_authenticated/admin/spikes-bot': typeof AuthenticatedAdminSpikesBotRoute
   '/_authenticated/admin/support': typeof AuthenticatedAdminSupportRoute
   '/_authenticated/admin/tokens': typeof AuthenticatedAdminTokensRoute
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
@@ -537,6 +547,7 @@ export interface FileRouteTypes {
     | '/admin/requests-website'
     | '/admin/services'
     | '/admin/settings'
+    | '/admin/spikes-bot'
     | '/admin/support'
     | '/admin/tokens'
     | '/admin/users'
@@ -588,6 +599,7 @@ export interface FileRouteTypes {
     | '/admin/requests-website'
     | '/admin/services'
     | '/admin/settings'
+    | '/admin/spikes-bot'
     | '/admin/support'
     | '/admin/tokens'
     | '/admin/users'
@@ -642,6 +654,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/requests-website'
     | '/_authenticated/admin/services'
     | '/_authenticated/admin/settings'
+    | '/_authenticated/admin/spikes-bot'
     | '/_authenticated/admin/support'
     | '/_authenticated/admin/tokens'
     | '/_authenticated/admin/users'
@@ -886,6 +899,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminSettingsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/spikes-bot': {
+      id: '/_authenticated/admin/spikes-bot'
+      path: '/spikes-bot'
+      fullPath: '/admin/spikes-bot'
+      preLoaderRoute: typeof AuthenticatedAdminSpikesBotRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/support': {
       id: '/_authenticated/admin/support'
       path: '/support'
@@ -1062,6 +1082,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminRequestsWebsiteRoute: typeof AuthenticatedAdminRequestsWebsiteRoute
   AuthenticatedAdminServicesRoute: typeof AuthenticatedAdminServicesRoute
   AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
+  AuthenticatedAdminSpikesBotRoute: typeof AuthenticatedAdminSpikesBotRoute
   AuthenticatedAdminSupportRoute: typeof AuthenticatedAdminSupportRoute
   AuthenticatedAdminTokensRoute: typeof AuthenticatedAdminTokensRoute
   AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
@@ -1081,6 +1102,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
     AuthenticatedAdminRequestsWebsiteRoute,
   AuthenticatedAdminServicesRoute: AuthenticatedAdminServicesRoute,
   AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
+  AuthenticatedAdminSpikesBotRoute: AuthenticatedAdminSpikesBotRoute,
   AuthenticatedAdminSupportRoute: AuthenticatedAdminSupportRoute,
   AuthenticatedAdminTokensRoute: AuthenticatedAdminTokensRoute,
   AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,

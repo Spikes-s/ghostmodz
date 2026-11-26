@@ -31,6 +31,7 @@ function AdminLayout() {
 
     { to: "/admin/downloader", label: "Downloader", icon: Download, exact: false },
     { to: "/admin/cloud", label: "Cloud", icon: Cloud, exact: false },
+    { to: "/admin/spikes-bot", label: "Spikes Bot", icon: Bot, exact: false },
     { to: "/admin/api-projects", label: "API Projects", icon: Code2, exact: false },
     { to: "/admin/users", label: "Users", icon: Users, exact: false },
     { to: "/admin/tokens", label: "Access Tokens", icon: KeyRound, exact: false },

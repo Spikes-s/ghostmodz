@@ -1,7 +1,13 @@
 # Roadmap
 
 ## Spikes Bot WhatsApp automation (new briefs)
-- [ ] Review the complete Spikes Bot requirements and implement only supported, verified WhatsApp command workflows
+- [x] Audit the uploaded requirements and keep unsupported workflows explicitly unavailable
+- [x] Build a separately deployable linked-device engine with encrypted session storage and authenticated controls
+- [x] Implement a tested, limited set of working WhatsApp commands and truthful readiness reporting
+- [x] Connect owner-only dashboard controls, pairing flow, command states, and activity to the live engine API
+- [ ] Deploy the engine, configure its shared control token and encryption key, then verify pairing and live WhatsApp messages (blocked: owner hosting and WhatsApp account access)
+- [x] Add a subtle animated 3D circuit background with reduced-motion and low-power handling
+- [ ] Configure the engine URL and generated shared control token in the app after deployment
 
 ## Immersive UI redesign & responsive optimization (current)
 - [x] Fix PublicHeader build errors (hash link typing)

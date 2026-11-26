@@ -1,0 +1,22 @@
+{
+  "name": "ghost-mods-spikes-bot-engine",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/server.js",
+    "test": "tsx --test src/*.test.ts"
+  },
+  "dependencies": {
+    "@whiskeysockets/baileys": "6.7.24",
+    "@hapi/boom": "^10.0.1",
+    "pino": "^9.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.16.5",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.3"
+  }
+}
